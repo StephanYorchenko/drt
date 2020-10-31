@@ -1,6 +1,6 @@
 from abc import ABC
 
-from domain.serializable import Serializable
+from infrastructure.serializable import Serializable
 from .roles import Role
 
 

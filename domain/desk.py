@@ -1,5 +1,5 @@
 import abc
-from domain.serializable import Serializable
+from infrastructure.serializable import Serializable
 
 
 class Desk(abc.ABC):
