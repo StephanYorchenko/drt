@@ -3,7 +3,7 @@ from . import main, announcement, requests
 
 Routes = Blueprint('routes', __name__, template_folder='templates')
 
-Routes.add_url_rule('/', 'main', view_func=main.main)
+Routes.add_url_rule('/', 'main', view_func=main.main, methods=["GET"])
 
 Routes.add_url_rule(
     '/get_count',
@@ -15,5 +15,6 @@ Routes.add_url_rule(
 Routes.add_url_rule(
     '/anouncements',
     'announcements',
-    view_func=announcement.render_page
+    view_func=announcement.render_page,
+    methods=["GET"]
 )

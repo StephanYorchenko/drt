@@ -11,6 +11,8 @@ class DBConn:
         return self.db.connect
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        print("AAAAAAAAAAA")
+        print(dir(self.db))
         self.db.close()
 
 
