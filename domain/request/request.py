@@ -1,8 +1,8 @@
-from .HostessRequestType import HostessRequestType
-from Domain.Users.User import User
+from .requestType import HostessRequestType
+from domain.users.user import User
 
 
-class HostessRequest:
+class Request:
     def __init__(self,
                  request_id: int,
                  request_type: HostessRequestType,
@@ -26,7 +26,7 @@ class HostessRequest:
         return self._type
 
     def __eq__(self, other):
-        if other is not HostessRequest:
+        if other is not Request:
             return False
 
         return self.request_id == other.id

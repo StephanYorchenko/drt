@@ -1,5 +1,5 @@
 import typing
-from .TableReservation import Reservation
+from .tableReservation import Reservation
 
 
 class Table:

@@ -1,7 +1,7 @@
 from abc import ABC
 
-from Domain.Serializable import Serializable
-from .Roles import Role
+from domain.Serializable import Serializable
+from .roles import Role
 
 
 class User(ABC, Serializable):
