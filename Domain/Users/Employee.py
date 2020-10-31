@@ -1,6 +1,6 @@
 from Domain.Users import User
 from Domain.Users.Roles import Role
-from Infrastructure.DBRequests import Request
+from infrastructure.DBRequests import Request
 
 
 class Employee(User):

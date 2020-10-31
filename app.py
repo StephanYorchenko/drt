@@ -13,10 +13,12 @@ login = LoginManager(app)
 login.login_view = 'routes.login'
 login.login_message = ':('
 
+
 @login.user_loader
 def load_user(id):
 	user = DBUser.get_user(id=int(id))
 	return user
+
 
 bootstrap = Bootstrap(app)
 

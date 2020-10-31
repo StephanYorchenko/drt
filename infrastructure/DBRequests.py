@@ -1,11 +1,11 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, String
-from Infrastructure import Base
+from infrastructure import Base
 
 
-class DBAnnouncement(Base):
-    __tablename__ = 'announcement'
+class Request(Base):
+    __table_name__ = 'request'
 
     id = Column(Integer, primary_key=True)
-    text = Column(Text, nullable=True)
-    topic = Column(String, nullable=True)
+    comment = Column(Text, nullable=True)
+    type = Column(String, nullable=True)
     user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
