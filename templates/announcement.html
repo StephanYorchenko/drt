@@ -86,19 +86,13 @@
             if (page === undefined) page = 1;
             let xmlHttp = getXmlHttp();
             xmlHttp.onload = function () {
-                console.log('here');
                 const data = JSON.parse(xmlHttp.responseText);
-                console.log('here');
+                globalThis.MAX_COUNT = +data.count;
+                console.log(data.count);
                 update_card_container(data.announcements);
              }
             xmlHttp.open("GET", '/get_count?page_number=' + page, false);
             xmlHttp.send();
-        }
-
-        function update_announcement_nav(element){
-
-            let next_page = parseInt(element.innerText);
-
         }
 
         window.onload = () => {
