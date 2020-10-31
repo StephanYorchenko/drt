@@ -1,16 +1,23 @@
-import typing
-from .Roles import Role
-from .Request import Request
+from abc import ABC
+
+from .Serializable import Serializable
 from .Table import Table
 
 
-class User:
-    def __init__(self, user_id: int, role: Role):
+class User(ABC, Serializable):
+    def __init__(self, user_id: int, username: str, password):
         self.id = user_id
-        self.role = role
+        self.username = username
+        self.password = password
+
+    def set_username(self, username: str) -> None:
+        self.username = username
+
+    def set_password(self, password) -> None:
+        self.password = password
 
     def make_request(self, topic: str, description: str):
         pass
 
-    def try_book_table(self, table: Table):
+    def try_book_table(self, table: Table) -> bool:
         pass
