@@ -19,3 +19,13 @@ class DBAnnouncement(Base):
             announcements = s.query(DBAnnouncement).all()
 
         return announcements
+
+    @staticmethod
+    def add(**kwargs):
+        with dbconn as s:
+            announcement = DBAnnouncement(text=kwargs['text'],
+                                          topic=kwargs['topic'],
+                                          user_id=kwargs['user_id'])
+            s.add(announcement)
+
+        return announcement
