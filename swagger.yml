@@ -60,7 +60,95 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  /requests:
+    get:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequests'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topic:
+                  type: string
+                comment:
+                  type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequest'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                is_wathced:
+                  type: boolean
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequest'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     ErrorResponse:
@@ -92,8 +180,6 @@ components:
           type: array
           items:
             properties:
-              id:
-                type: integer
               title:
                 type: string
               text:
@@ -101,3 +187,25 @@ components:
               date:
                 type: string
                 example: "2020-20-20"
+    GetRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        topic:
+          type: string
+        comment:
+          type: string
+        is_watched:
+          type: boolean
+          default:  false
+    GetRequests:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 15
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetRequest'
