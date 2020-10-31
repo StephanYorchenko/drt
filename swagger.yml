@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: ''
   version: '1.0'
@@ -31,6 +31,81 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthResponse'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users:
+    get:
+      tags:
+        - admin
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsers'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum:  [EMPLOYEE, ADMIN, HOSTESS]
+              required:
+                - username
+                - password
+                - role
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user_by_id:
+    get:
+      tags:
+        - admin
+      parameters:
+        - in: header
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
         400:
           description: error
           content:
@@ -209,3 +284,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GetRequest'
+    GetUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum:  [EMPLOYEE, ADMIN, HOSTESS]
+    GetUsers:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 15
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetUser'
