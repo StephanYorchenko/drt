@@ -7,6 +7,6 @@ Routes = Blueprint('routes', __name__,
 
 Routes.add_url_rule('/', 'main', view_func=main.main)
 Routes.add_url_rule(
-	'/get_count',
+	'/page',
 	'get_count',
 	view_func=announcement.get_announcements)

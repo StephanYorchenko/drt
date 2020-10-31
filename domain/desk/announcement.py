@@ -1,9 +1,14 @@
-from domain.Serializable import Serializable
+import typing
+
+from domain.serializable import Serializable
 
 
 class Announcement(Serializable):
-    def __init__(self, ann_id: int, topic: str, text: str, user_id: int):
-        self.id = ann_id
-        self.topic = topic
+    def __init__(self, title: str, text: str, user_id: int):
+        self.topic = title
         self.text = text
         self.user_id = user_id
+
+    @staticmethod
+    def from_json(data: typing.Dict[str]):
+        return Announcement(data['title'], data['text'], data['user_id'])
