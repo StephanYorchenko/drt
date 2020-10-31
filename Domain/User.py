@@ -1,10 +1,7 @@
-import typing
-import json
-from .Roles import Role
-from .HostessRequest import HostessRequest
+from abc import ABC
+
 from .Serializable import Serializable
 from .Table import Table
-from abc import ABC
 
 
 class User(ABC, Serializable):
