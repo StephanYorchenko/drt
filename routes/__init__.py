@@ -9,8 +9,11 @@ Routes.add_url_rule('/', 'main', view_func=main.main)
 Routes.add_url_rule(
     '/announcement',
     'get_count',
-    view_func=announcement.get_announcements)
+    view_func=announcement.get_announcements,
+    methods=["GET"])
 
-Routes.add_url_rule('/requests',
-                    'requests',
-                    view_func=requests.get_announcements)
+Routes.add_url_rule(
+    '/requests',
+    'requests',
+    view_func=requests.get_announcements,
+    methods=["GET"])
