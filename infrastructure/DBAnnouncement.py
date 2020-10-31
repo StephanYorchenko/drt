@@ -15,7 +15,7 @@ class DBAnnouncement(Base):
     #                  nullable=False)
 
     @staticmethod
-    def get_announcements():
+    def get():
         with dbconn as s:
             announcements = s.query(DBAnnouncement).all()
 

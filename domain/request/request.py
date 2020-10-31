@@ -7,11 +7,11 @@ class Request:
                  request_id: int,
                  request_type: HostessRequestType,
                  comment: str,
-                 user: User):
+                 user_id: int):
         self._type = request_type
         self._comment = comment
         self._id = request_id
-        self._user = user
+        self._user = user_id
 
     @property
     def request_id(self) -> int:
@@ -24,6 +24,10 @@ class Request:
     @property
     def request_type(self) -> HostessRequestType:
         return self._type
+
+    @property
+    def user_id(self) -> int:
+        return self._user
 
     def __eq__(self, other):
         if other is not Request:
