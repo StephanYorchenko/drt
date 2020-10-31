@@ -85,12 +85,19 @@ components:
     GetAnnouncements:
       type: object
       properties:
-        id:
+        count:
           type: integer
-        title:
-          type: string
-        text:
-          type: string
-        date:
-          type: string
-          example: "2020-20-20"
+          example: 15
+        announcements:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+              title:
+                type: string
+              text:
+                type: string
+              date:
+                type: string
+                example: "2020-20-20"
