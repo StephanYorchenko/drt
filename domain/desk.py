@@ -3,7 +3,7 @@ from domain.serializable import Serializable
 
 
 class Desk(abc.ABC):
-    def __init__(self, entry_type: Serializable, db_entry_type,
+    def __init__(self, entry_type, db_entry_type,
                  entry_count: int):
         self._entry_type = entry_type
         self._entry_count = entry_count
