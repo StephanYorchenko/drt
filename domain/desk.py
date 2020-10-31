@@ -17,10 +17,10 @@ class Desk(abc.ABC):
         jsons = self._db_entry_type.get()
         try:
             return (list(map(lambda data: self._entry_type.from_json(data),
-                            jsons[(page - 1) * self._entry_count:
-                                  min(page * self._entry_count,
-                                      len(jsons))])),
-                    len(jsons) // self._entry_count)
+                             jsons[(page - 1) * self._entry_count:
+                                   min(page * self._entry_count,
+                                       len(jsons))])),
+                    (len(jsons) + self._entry_count - 1) // self._entry_count)
         except IndexError:
             return [], len(jsons) // self._entry_count
 
