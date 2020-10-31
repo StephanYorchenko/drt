@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from Infrastructure import Base
 from sqlalchemy import Column, Integer, String, Enum
-from Domain.Roles import Role
+from Domain.Users.Roles import Role
 from api import db_session
 
 

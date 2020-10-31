@@ -1,6 +1,5 @@
-import typing
 from .HostessRequestType import HostessRequestType
-from .User import User
+from Domain.Users.User import User
 
 
 class HostessRequest:
