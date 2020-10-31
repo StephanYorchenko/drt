@@ -1,9 +1,8 @@
 from flask_login import UserMixin
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, Text, String, Boolean
+from Infrastructure import Base
+from sqlalchemy import Column, Integer, String, Enum
+from Domain.Roles import Role
 from api import db_session
-
-Base = declarative_base()
 
 
 class DBUser(UserMixin, Base):
@@ -12,9 +11,7 @@ class DBUser(UserMixin, Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
     password = Column(String(30), unique=False, nullable=False)
-    educated = Column(Boolean)
-    admin = Column(Boolean)
-    task = Column(Integer)
+    role = Column(Enum(Role), nullable=False)
 
     @staticmethod
     def check_user(i_username, i_password) -> bool:
