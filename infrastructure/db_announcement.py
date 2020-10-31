@@ -22,7 +22,13 @@ class DBAnnouncement(Base):
         announcements = s.query(DBAnnouncement).all()
         s.close()
 
-        return announcements
+        # return announcements
+        return [dict(
+            id=announcement.id,
+            text=announcement.text,
+            title=announcement.title,
+            date=announcement.date,
+        ) for announcement in announcements]
 
     @staticmethod
     def add(**kwargs):
