@@ -10,5 +10,5 @@ class Announcement(Serializable):
         self.user_id = user_id
 
     @staticmethod
-    def from_json(data: typing.Dict[str]):
-        return Announcement(data['title'], data['text'], data['user_id'])
+    def from_json(data: typing.Dict[str, str]):
+        return Announcement(data['title'], data['text'], int(data['user_id']))

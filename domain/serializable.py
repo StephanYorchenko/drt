@@ -3,7 +3,7 @@ import typing
 
 
 class Serializable(abc.ABC):
-    def to_json(self) -> typing.Dict[str]:
+    def to_json(self) -> typing.Dict[str, str]:
         res = {}
         for name, value in self.__dict__.items():
             if name[0] != '_':
@@ -12,5 +12,5 @@ class Serializable(abc.ABC):
 
     @staticmethod
     @abc.abstractmethod
-    def from_json(data: typing.Dict[str]):
+    def from_json(data: typing.Dict[str, str]):
         pass
