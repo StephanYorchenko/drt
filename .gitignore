@@ -92,5 +92,9 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
+<<<<<<< HEAD
 # .idea
 ./.idea/
+=======
+.idea/
+>>>>>>> 6b694aabe69b9f3e8d9a3c5e32b61ea9bfd9533a
