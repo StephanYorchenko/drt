@@ -9,7 +9,7 @@ class DBAnnouncement(Base):
 
     id = Column(Integer, primary_key=True)
     text = Column(Text, nullable=True)
-    topic = Column(String, nullable=True)
+    title = Column(String, nullable=True)
     date = Column(DateTime, default=datetime.now)
     # user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
     #                  nullable=False)

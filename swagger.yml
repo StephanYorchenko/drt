@@ -1,0 +1,96 @@
+openapi: 3.0.0
+info:
+  description: ''
+  version: '1.0'
+  title: drt API
+servers:
+  - url: http://lol.kek
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /announcements:
+    get:
+      tags:
+        - announcement
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAnnouncements'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              message:
+                type: string
+    AuthResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+    GetAnnouncements:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        text:
+          type: string
+        date:
+          type: string
+          example: "2020-20-20"
