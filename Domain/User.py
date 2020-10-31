@@ -1,7 +1,7 @@
 import typing
 import json
 from .Roles import Role
-from .HostessRequest import Request
+from .HostessRequest import HostessRequest
 from .Table import Table
 
 
