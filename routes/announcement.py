@@ -3,7 +3,7 @@ from domain.desk.desk import Desk
 
 
 def get_announcements():
-    page_number = request.args.get('page_number')
+    page_number = request.args.get('page')
     announcements = Desk.get_announcements(page_number)
     ans_dict = {
         "count": len(announcements),
