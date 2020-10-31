@@ -1,7 +1,7 @@
 import typing
 
 from .requestType import HostessRequestType
-from domain.serializable import Serializable
+from infrastructure.serializable import Serializable
 
 
 class Request(Serializable):
