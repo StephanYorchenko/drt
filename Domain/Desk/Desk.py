@@ -13,5 +13,7 @@ class Desk:
         jsons = DBAnnouncement.get_announcements()[:n]
         return list(map(lambda data: Announcement.from_json(data), jsons))
 
-    def add_announcement(self):
-        pass
+    def add_announcement(self, announcement):
+        ann = DBAnnouncement(announcement.id, announcement.text,
+                             announcement.topic)
+        ann.add()
