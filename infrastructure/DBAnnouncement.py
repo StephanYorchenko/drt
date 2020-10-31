@@ -15,7 +15,7 @@ class DBAnnouncement(Base):
 
     @staticmethod
     def get_announcements():
-        with open(dbconn) as s:
+        with dbconn as s:
             announcements = s.query(DBAnnouncement).all()
 
         return announcements
