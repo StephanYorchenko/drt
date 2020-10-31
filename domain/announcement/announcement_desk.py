@@ -23,5 +23,4 @@ class AnnouncementDesk(Desk):
 
     @staticmethod
     def add(announcement):
-        DBAnnouncement.add(topic=announcement.topic, text=announcement.text,
-                           user_id=announcement.user_id)
+        DBAnnouncement.add(**announcement.to_json())

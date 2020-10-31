@@ -13,9 +13,7 @@ class RequestDesk(Desk):
             raise ValueError("Incorrect page number")
         jsons = DBRequest.get()
         try:
-            return list(map(lambda data: Request(data['id'], data['type'],
-                                                 data['comment'],
-                                                 data['user_id']),
+            return list(map(lambda data: Request.from_json(),
                             jsons[(page - 1) * REQUEST_COUNT:
                                   min(page * REQUEST_COUNT,
                                       len(jsons))]))
@@ -24,5 +22,4 @@ class RequestDesk(Desk):
 
     @staticmethod
     def add(request):
-        DBRequest.add(id=request.request_id, comment=request.comment,
-                      user_id=request.user_id, type=request.request_type)
+        DBRequest.add(**request.to_json())

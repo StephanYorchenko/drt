@@ -1,8 +1,10 @@
+import typing
+
 from .requestType import HostessRequestType
-from domain.users.user import User
+from domain.serializable import Serializable
 
 
-class Request:
+class Request(Serializable):
     def __init__(self,
                  request_id: int,
                  request_type: HostessRequestType,
@@ -34,3 +36,12 @@ class Request:
             return False
 
         return self.request_id == other.id
+
+    def to_json(self) -> typing.Dict[str]:
+        return {'id': self._id, 'request_type': self._type,
+                'comment': self._comment, 'user_id': self._user}
+
+    @staticmethod
+    def from_json(data: typing.Dict[str]):
+        return Request(data['id'], data['request_type'], data['comment'],
+                       data['user_id'])
