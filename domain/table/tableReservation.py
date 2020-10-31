@@ -1,5 +1,5 @@
 import datetime
-from Domain.Users.User import User
+from domain.users.user import User
 
 
 class Reservation:

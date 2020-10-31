@@ -1,4 +1,4 @@
-from Domain.Serializable import Serializable
+from domain.Serializable import Serializable
 
 
 class Announcement(Serializable):

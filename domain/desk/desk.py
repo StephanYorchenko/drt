@@ -1,5 +1,5 @@
 import typing
-from Domain.Desk.Announcement import Announcement
+from domain.desk.announcement import Announcement
 
 
 class Desk:
