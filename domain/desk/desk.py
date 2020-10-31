@@ -8,7 +8,7 @@ ANNOUNCEMENT_COUNT = 15
 
 class Desk:
     @staticmethod
-    def get_announcements(page) -> typing.List[Announcement]:
+    def get_announcements(page: int) -> typing.List[Announcement]:
         if page < 1:
             raise ValueError("Incorrect page number")
         jsons = DBAnnouncement.get_announcements()
