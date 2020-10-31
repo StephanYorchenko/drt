@@ -1,7 +1,5 @@
-import typing
 import datetime
-from .User import User
-from .Table import Table
+from Domain.Users.User import User
 
 
 class Reservation:
