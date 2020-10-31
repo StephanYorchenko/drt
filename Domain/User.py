@@ -1,6 +1,6 @@
 import typing
 from .Roles import Role
-from .Request import Request
+from .HostessRequest import Request
 from .Table import Table
 
 
