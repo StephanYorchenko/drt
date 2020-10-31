@@ -92,7 +92,5 @@ dmypy.json
 # pytype static type analyzer
 .pytype/
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # .idea
 .idea/
