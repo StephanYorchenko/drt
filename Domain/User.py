@@ -9,15 +9,10 @@ class User(ABC, Serializable):
         self.id = user_id
         self.username = username
         self.password = password
+        self.role = None
 
     def set_username(self, username: str) -> None:
         self.username = username
 
     def set_password(self, password) -> None:
         self.password = password
-
-    def make_request(self, topic: str, description: str):
-        pass
-
-    def try_book_table(self, table: Table) -> bool:
-        pass
