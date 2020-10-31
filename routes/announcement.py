@@ -13,7 +13,7 @@ def get_announcements():
         'announcements':
             [
                 {'title': 'Hello',
-                 'text': 'World',
+                 'text': f'World {page_number}',
                  'date': '2020-12-20'}
             ] * 10
     })

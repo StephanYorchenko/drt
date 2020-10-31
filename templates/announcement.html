@@ -7,16 +7,32 @@
     <footer>
         <nav class="horizontal-centered">
             <ul class="pagination announcement-nav">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li class="page-item"><a class="page-link" onclick="previous_page()">Previous</a></li>
+                <li class="page-item"><a class="page-link" id="current">1</a></li>
+                <li class="page-item"><a class="page-link" onclick="next_page()">Next</a></li>
             </ul>
         </nav>
     </footer>
 
     <script>
+        const MAX_COUNT = 0;
+
+        function previous_page() {
+            let current = document.getElementById('current');
+            if (+current.innerText !== 1){
+                current.innerText = +current.innerText - 1 + '';
+                get_count(+current.innerText);
+            }
+        }
+
+        function next_page() {
+            let current = document.getElementById('current');
+            if (+current.innerText !== globalThis.MAX_COUNT){
+                current.innerText = +current.innerText + 1 + '';
+                get_count(+current.innerText);
+            }
+        }
+
         function getXmlHttp() {
             let xmlhttp;
             try {
@@ -70,19 +86,12 @@
             if (page === undefined) page = 1;
             let xmlHttp = getXmlHttp();
             xmlHttp.onload = function () {
-                console.log('here');
                 const data = JSON.parse(xmlHttp.responseText);
-                console.log('here');
+                globalThis.MAX_COUNT = data.count;
                 update_card_container(data.announcements);
              }
             xmlHttp.open("GET", '/get_count?page_number=' + page, false);
             xmlHttp.send();
-        }
-
-        function update_announcement_nav(element){
-
-            let next_page = parseInt(element.innerText);
-
         }
 
         window.onload = () => {
