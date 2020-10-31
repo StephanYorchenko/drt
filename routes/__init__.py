@@ -10,3 +10,5 @@ Routes.add_url_rule(
 	'/get_count',
 	'get_count',
 	view_func=announcement.get_announcements)
+
+Routes.add_url_rule('/anouncements', 'announcement', view_func=announcement.render_page)

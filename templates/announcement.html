@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div id="card-container">
+
+    </div>
+    <footer>
+        <nav class="horizontal-centered">
+            <ul class="pagination announcement-nav">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <script>
+        function getXmlHttp() {
+            let xmlhttp;
+            try {
+              xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+            try {
+              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (E) {
+              xmlhttp = false;
+            }
+            }
+            if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+              xmlhttp = new XMLHttpRequest();
+            }
+            return xmlhttp;
+        }
+
+
+        function create_announcement_card(an) {
+            let card = document.createElement('div');
+            card.className = 'card announcement';
+            let body = document.createElement('div');
+            body.className = 'card-body';
+            let title = document.createElement('h4');
+            title.className = 'card-title';
+            title.innerText = an['title'];
+            let content = document.createElement('p');
+            content.className = 'card-text';
+            content.innerText = an['text'];
+            let footer = document.createElement('div');
+            footer.className = "card-footer text-muted";
+            footer.innerText = an['date'];
+
+            card.append(body);
+            body.append(title);
+            body.append(content);
+            body.append(footer);
+
+            return card;
+        }
+
+        function update_card_container(announcements) {
+            let container = document.getElementById("card-container");
+            container.innerHTML = '';
+            for (let an of announcements){
+                container.append(create_announcement_card(an))
+            }
+        }
+
+        function get_count(page) {
+            if (page === undefined) page = 1;
+            let xmlHttp = getXmlHttp();
+            xmlHttp.onload = function () {
+                console.log('here');
+                const data = JSON.parse(xmlHttp.responseText);
+                console.log('here');
+                update_card_container(data.announcements);
+             }
+            xmlHttp.open("GET", '/get_count?page_number=' + page, false);
+            xmlHttp.send();
+        }
+
+        function update_announcement_nav(element){
+
+            let next_page = parseInt(element.innerText);
+
+        }
+
+        window.onload = () => {
+            get_count();
+         }
+    </script>
+{% endblock %}
