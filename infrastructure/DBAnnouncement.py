@@ -3,6 +3,7 @@ from infrastructure import Base
 from api import dbconn
 from datetime import datetime
 
+
 class DBAnnouncement(Base):
     __tablename__ = 'announcement'
 
