@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class RequestType(Enum):
+class HostessRequestType(Enum):
     WATER = 'water',
     FOOD = 'food',
     MEDICINE = 'medicine',
