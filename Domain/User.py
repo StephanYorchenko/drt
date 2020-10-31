@@ -2,13 +2,14 @@ import typing
 import json
 from .Roles import Role
 from .HostessRequest import HostessRequest
+from .Serializable import Serializable
 from .Table import Table
+from abc import ABC
 
 
-class User:
-    def __init__(self, user_id: int, role: Role, username: str, password):
+class User(ABC, Serializable):
+    def __init__(self, user_id: int, username: str, password):
         self.id = user_id
-        self.role = role
         self.username = username
         self.password = password
 
@@ -23,17 +24,3 @@ class User:
 
     def try_book_table(self, table: Table) -> bool:
         pass
-
-    def to_json(self) -> bytes:
-        return bytes(json.dumps({'id': self.id,
-                                 'role': self.role,
-                                 'username': self.username,
-                                 'password': self.password}))
-
-    @staticmethod
-    def from_json(data: bytes):
-        dictionary = json.loads(data)
-        return User(dictionary['id'],
-                    dictionary['role'],
-                    dictionary['username'],
-                    dictionary['password'])
