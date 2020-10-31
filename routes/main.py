@@ -5,4 +5,4 @@ from infrastructure import DBUser
 
 
 def main():
-	return render_template('main.html')
+	return render_template('main.html', is_admin=True, is_hostes=False)
