@@ -1,15 +1,7 @@
-from flask import request, jsonify
-from domain.desk.desk import Desk
+from domain.desk.announcement_desk import AnnouncementDesk
+from .get_items_from_desk import jsonify_n_serialized_objects_from_desk
 
 
 def get_announcements():
-    page_number = request.args.get('page')
-    announcements = Desk.get_announcements(page_number)
-    ans_dict = {
-        "count": len(announcements),
-        "announcements": [
-            announcement.to_json() for announcement in announcements
-        ]
-    }
-
-    return jsonify(ans_dict)
+    return jsonify_n_serialized_objects_from_desk(AnnouncementDesk,
+                                                  'announcements')
