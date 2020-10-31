@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Text, ForeignKey, String
+from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
 from infrastructure import Base
 from api import dbconn
 
@@ -8,9 +8,9 @@ class DBRequest(Base):
 
     id = Column(Integer, primary_key=True)
     comment = Column(Text, nullable=True)
-    type = Column(String, nullable=True)
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
-                     nullable=False)
+    topic = Column(String, nullable=True)
+    is_watched = Column(Boolean, default=False)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
 
     @staticmethod
     def get():

@@ -1,4 +1,4 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   description: ''
   version: '1.0'
@@ -37,6 +37,81 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /users:
+    get:
+      tags:
+        - admin
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsers'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum:  [EMPLOYEE, ADMIN, HOSTESS]
+              required:
+                - username
+                - password
+                - role
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /user_by_id:
+    get:
+      tags:
+        - admin
+      parameters:
+        - in: header
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /announcements:
     get:
       tags:
@@ -60,7 +135,95 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  /requests:
+    get:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequests'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topic:
+                  type: string
+                comment:
+                  type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequest'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                is_wathced:
+                  type: boolean
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequest'
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     ErrorResponse:
@@ -99,3 +262,47 @@ components:
               date:
                 type: string
                 example: "2020-20-20"
+    GetRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        topic:
+          type: string
+        comment:
+          type: string
+        is_watched:
+          type: boolean
+          default:  false
+    GetRequests:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 15
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetRequest'
+    GetUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+          enum:  [EMPLOYEE, ADMIN, HOSTESS]
+    GetUsers:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 15
+        requests:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetUser'

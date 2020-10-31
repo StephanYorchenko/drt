@@ -1,15 +1,27 @@
-from flask import request, jsonify
-from domain.desk.desk import Desk
+from flask import request, render_template, jsonify
+
+
+def render_page():
+	return render_template('announcement.html', is_admin=True, is_hostes=True)
 
 
 def get_announcements():
-    page_number = request.args.get('page')
-    announcements = Desk.get_announcements(page_number)
-    ans_dict = {
-        "count": len(announcements),
-        "announcements": [
-            announcement.to_json() for announcement in announcements
-        ]
-    }
+	page_number = request.args.get('page_number')
+	print(page_number)
+	return jsonify({
+			'count': 15,
+			'announcements':
+				[
+						{'title': 'Hello',
+						 'text': 'World',
+						 'date': '2020-12-20'}
+				] * 10
+	})
 
-    return jsonify(ans_dict)
+# from domain.desk.announcement_desk import AnnouncementDesk
+# from .get_items_from_desk import jsonify_n_serialized_objects_from_desk
+#
+#
+# def get_announcements():
+#     return jsonify_n_serialized_objects_from_desk(AnnouncementDesk,
+#                                                   'announcements')

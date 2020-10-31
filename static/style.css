@@ -1,0 +1,15 @@
+#card-container{
+    margin-top: 10px;
+    max-width: 70%;
+    margin-left: 15%;
+}
+
+.announcement{
+    margin-bottom: 2px;
+}
+
+.horizontal-centered{
+    width: 30%;
+    margin: auto;
+}
+
