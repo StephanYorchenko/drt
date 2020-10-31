@@ -1,6 +1,6 @@
 import typing
 from domain.announcement.announcement import Announcement
-from infrastructure.DBAnnouncement import DBAnnouncement
+from infrastructure.db_announcement import DBAnnouncement
 from domain.desk import Desk
 
 

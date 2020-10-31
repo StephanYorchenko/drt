@@ -1,6 +1,6 @@
 from domain.desk import Desk
 from .request import Request
-from infrastructure.DBRequests import DBRequest
+from infrastructure.db_request import DBRequest
 
 
 REQUEST_COUNT = 10
