@@ -11,8 +11,8 @@ class DBAnnouncement(Base):
     text = Column(Text, nullable=True)
     topic = Column(String, nullable=True)
     date = Column(DateTime, default=datetime.now)
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
-                     nullable=False)
+    # user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
+    #                  nullable=False)
 
     @staticmethod
     def get_announcements():
