@@ -1,5 +1,5 @@
-шfrom flask import Blueprint
-from . import auth, main, labeling, admin, next_case, task, learning
+from flask import Blueprint
+from . import main
 
 Routes = Blueprint('routes', __name__,
 				   template_folder='templates')
