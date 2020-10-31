@@ -1,6 +1,6 @@
 from abc import ABC
 
-from domain.Serializable import Serializable
+from domain.serializable import Serializable
 from .roles import Role
 
 
@@ -16,3 +16,8 @@ class User(ABC, Serializable):
 
     def set_password(self, password) -> None:
         self.password = password
+
+    @staticmethod
+    def from_json(data):
+        return User(data['id'], data['username'], data['password'],
+                    data['role'])

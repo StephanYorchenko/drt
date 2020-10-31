@@ -3,14 +3,21 @@ from domain.desk.announcement import Announcement
 from infrastructure.DBAnnouncement import DBAnnouncement
 
 
-class Desk:
-    def __init__(self):
-        pass
+ANNOUNCEMENT_COUNT = 15
 
+
+class Desk:
     @staticmethod
-    def get_announcements(n) -> typing.List[Announcement]:
-        jsons = DBAnnouncement.get_announcements()[:n]
-        return list(map(lambda data: Announcement.from_json(data), jsons))
+    def get_announcements(page: int) -> typing.List[Announcement]:
+        if page < 1:
+            raise ValueError("Incorrect page number")
+        jsons = DBAnnouncement.get_announcements()
+        try:
+            return list(map(lambda data: Announcement.from_json(data),
+                            jsons[(page - 1) * ANNOUNCEMENT_COUNT:
+                                  min(page * ANNOUNCEMENT_COUNT, len(jsons))]))
+        except IndexError:
+            return []
 
     @staticmethod
     def add_announcement(announcement):
