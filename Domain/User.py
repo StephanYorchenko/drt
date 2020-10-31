@@ -12,21 +12,21 @@ class User:
         self.username = username
         self.password = password
 
-    def set_username(self, username: str):
+    def set_username(self, username: str) -> None:
         self.username = username
 
-    def set_password(self, password):
+    def set_password(self, password) -> None:
         self.password = password
 
     def make_request(self, topic: str, description: str):
         pass
 
-    def try_book_table(self, table: Table):
+    def try_book_table(self, table: Table) -> bool:
         pass
 
-    def to_json(self):
+    def to_json(self) -> bytes:
         return bytes(json.dumps({'id': self.id,
-                                'role': self.role,
+                                 'role': self.role,
                                  'username': self.username,
                                  'password': self.password}))
 
