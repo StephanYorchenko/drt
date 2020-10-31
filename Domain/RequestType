@@ -1,0 +1,8 @@
+from enum import Enum
+
+
+class RequestType(Enum):
+    WATER = 'water',
+    FOOD = 'food',
+    MEDICINE = 'medicine',
+    OTHER = 'other'
