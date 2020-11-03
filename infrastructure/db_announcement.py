@@ -34,7 +34,8 @@ class DBAnnouncement(Base, ):
     @staticmethod
     def add(**kwargs):
         with dbconn as conn:
-            announcement = DBAnnouncement(kwargs['user_id'], kwargs['text'],
+            announcement = DBAnnouncement(kwargs['user_id'],
+                                          kwargs['text'],
                                           kwargs['title'])
             conn.add(announcement)
 

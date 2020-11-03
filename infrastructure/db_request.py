@@ -23,5 +23,7 @@ class DBRequest(Base):
     @staticmethod
     def add(**kwargs):
         with dbconn as conn:
-            conn.add(DBRequest(kwargs['id'], kwargs['comment'], kwargs['type'],
-                            kwargs['user_id']))
+            conn.add(DBRequest(kwargs['id'],
+                               kwargs['comment'],
+                               kwargs['type'],
+                               kwargs['user_id']))

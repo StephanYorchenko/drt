@@ -20,7 +20,7 @@ class DBUser(UserMixin, Base):
 
     @staticmethod
     def get_user(**kwargs):
-        with open(dbconn) as s:
-            user = s.query(DBUser).filter_by(**kwargs).first()
+        with open(dbconn) as conn:
+            user = conn.query(DBUser).filter_by(**kwargs).first()
 
         return user
