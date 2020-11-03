@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
 from infrastructure import Base
-from api import dbconn
+from application.api import dbconn
 
 
 class DBRequest(Base):
@@ -22,6 +22,8 @@ class DBRequest(Base):
 
     @staticmethod
     def add(**kwargs):
-        with dbconn as c:
-            c.add(DBRequest(kwargs['id'], kwargs['comment'], kwargs['type'],
-                            kwargs['user_id']))
+        with dbconn as conn:
+            conn.add(DBRequest(kwargs['id'],
+                               kwargs['comment'],
+                               kwargs['type'],
+                               kwargs['user_id']))

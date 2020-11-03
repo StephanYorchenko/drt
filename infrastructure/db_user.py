@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from . import Base
 from sqlalchemy import Column, Integer, String, Enum
 from domain.users.roles import Role
-from api import dbconn
+from application.api import dbconn
 
 
 class DBUser(UserMixin, Base):
@@ -20,7 +20,7 @@ class DBUser(UserMixin, Base):
 
     @staticmethod
     def get_user(**kwargs):
-        with open(dbconn) as s:
-            user = s.query(DBUser).filter_by(**kwargs).first()
+        with open(dbconn) as conn:
+            user = conn.query(DBUser).filter_by(**kwargs).first()
 
         return user

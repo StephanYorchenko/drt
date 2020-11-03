@@ -1,5 +1,5 @@
-import typing
-
+from __future__ import annotations
+from typing import Dict
 from infrastructure.serializable import Serializable
 
 
@@ -11,5 +11,6 @@ class Announcement(Serializable):
         self.date = date
 
     @staticmethod
-    def from_json(data: typing.Dict[str, str]):
-        return Announcement(data['title'], data['text'], int(data['id']), data['date'])
+    def from_json(data: Dict[str, str]) -> Announcement:
+        return Announcement(data['title'], data['text'], int(data['id']),
+                            data['date'])

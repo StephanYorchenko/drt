@@ -1,9 +1,9 @@
-from flask import Flask, session
-from flask_login import LoginManager, current_user
+from flask import Flask
+from flask_login import LoginManager
 
-from api import Config
+from application.api import Config
 from infrastructure import DBUser
-from routes import Routes as RFront
+from application.routes import Routes as RFront
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
