@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import Dict
 from abc import ABC
 
 from infrastructure.serializable import Serializable
@@ -18,6 +20,6 @@ class User(ABC, Serializable):
         self.password = password
 
     @staticmethod
-    def from_json(data):
-        return User(data['id'], data['username'], data['password'],
-                    data['role'])
+    def from_json(data: Dict[str, str]) -> User:
+        return User(int(data['id']), data['username'], data['password'],
+                    Role(data['role']))
