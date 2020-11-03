@@ -1,6 +1,6 @@
-from sqlalchemy import Column, Integer, Text, ForeignKey, String, DateTime
+from sqlalchemy import Column, Integer, Text, String
 from infrastructure import Base
-from api import dbconn, db_session
+from application.api import dbconn, db_session
 from datetime import datetime
 
 
