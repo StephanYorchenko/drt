@@ -4,7 +4,7 @@ from infrastructure.db_announcement import DBAnnouncement
 from domain.desk import Desk
 
 
-ANNOUNCEMENT_COUNT = 15
+ANNOUNCEMENT_COUNT = 7
 
 
 class AnnouncementDesk(Desk):
