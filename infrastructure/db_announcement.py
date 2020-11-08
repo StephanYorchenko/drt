@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, String
 from infrastructure import Base
-from application.api import dbconn, db_session
+from ui.api import dbconn, db_session
 from datetime import datetime
 
 
