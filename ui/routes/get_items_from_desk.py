@@ -8,7 +8,7 @@ def jsonify_n_serialized_objects_from_desk(desk: Desk, name: str):
     ans_dict = {
         "count": page_count,
         name: [
-            item.to_json() for item in items
+            item.to_json() for item in items    
         ]
     }
 
