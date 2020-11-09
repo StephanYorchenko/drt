@@ -17,22 +17,6 @@ function getCookie(c_name) {
     return c_value;
 }
 
-function previous_page() {
-    let current = document.getElementById('current');
-    if (+current.innerText !== 1){
-        current.innerText = +current.innerText - 1 + '';
-        get_count(+current.innerText);
-    }
-}
-
-function next_page() {
-    let current = document.getElementById('current');
-    if (+current.innerText !== globalThis.MAX_COUNT){
-        current.innerText = +current.innerText + 1 + '';
-        get_count(+current.innerText);
-    }
-}
-
 function getXmlHttp() {
     let xmlhttp;
     try {
@@ -51,58 +35,18 @@ function getXmlHttp() {
 }
 
 
-function create_announcement_card(an) {
-    let card = document.createElement('div');
-    card.className = 'card announcement';
-    let body = document.createElement('div');
-    body.className = 'card-body';
-    let title = document.createElement('h4');
-    title.className = 'card-title';
-    title.innerText = an['title'];
-    let content = document.createElement('p');
-    content.className = 'card-text';
-    content.innerText = an['text'];
-    let footer = document.createElement('div');
-    footer.className = "card-footer text-muted";
-    footer.innerText = an['date'];
-
-    card.append(body);
-    body.append(title);
-    body.append(content);
-    body.append(footer);
-
-    return card;
-}
-
-function update_card_container(announcements) {
-    let container = document.getElementById("card-container");
-    container.innerHTML = '';
-    for (let an of announcements){
-        container.append(create_announcement_card(an))
-    }
-}
-
-function get_count(page) {
-    if (page === undefined) page = 1;
-    let xmlHttp = getXmlHttp();
-    xmlHttp.onload = function () {
-        const data = JSON.parse(xmlHttp.responseText);
-        globalThis.MAX_COUNT = +data.count;
-        console.log(data.count);
-        update_card_container(data.announcements);
-     }
-    xmlHttp.open("GET", '/get_count?page_number=' + page, false);
-    xmlHttp.send();
-}
 
 class Page{
     constructor(builder){
         this.header = builder.header || false
-        this.mainWidget = builder.mainWidget
+        this.widgetFactory = builder.widgetFactory
+        this.manager = builder.manager
+        this.updateWidget()
         this.footer = builder.footer || false
     }
 
     show() {
+        document.body.innerHTML = ""
         for (let element of this.generate()){
             document.body.append(element)
         }
@@ -111,10 +55,17 @@ class Page{
     *generate(){
         if (this.header)
             yield this.header.generateHTML()
-        yield this.mainWidget
+        yield this.mainWidget.generateHTML()
         if (this.footer)
             yield this.footer.generateHTML()
     }
+
+    updateWidget(data){
+        console.log("updateWidget")
+        this.mainWidget = this.widgetFactory.makeWidget(this.manager, data)
+        this.show()
+    }
+
 }
 
 class Header{
@@ -125,7 +76,10 @@ class Header{
     }
 
     generateHTML(){
-        let navBar = document.querySelector('#navbar')
+        //<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar"></nav>
+        let navBar = document.createElement("nav")
+        navBar.className = "navbar navbar-expand-lg navbar-dark bg-dark"
+        //let navBar = document.querySelector('#navbar')
         if (this.brand){
             let brand = document.createElement("a")
             brand.className = "navbar-brand"
@@ -184,6 +138,7 @@ class Header{
         navBar.append(ul_left)
         navBar.append(ul_right)
 
+        return navBar
     }
 }
 
@@ -266,8 +221,9 @@ class LinkBuilder{
 }
 
 class PageBuilder{
-    constructor(mainWidget){
-        this.mainWidget = mainWidget
+    constructor(widgetFactory, manager){
+        this.widgetFactory = widgetFactory
+        this.manager = manager
     }
 
     addHeader(header){
@@ -275,14 +231,192 @@ class PageBuilder{
         return this
     }
 
-    addFooter(footer){
-        this.footer = footer
-        return this
-    }
+    // addFooter(footer){
+    //     this.footer = footer
+    //     return this
+    // }
 
     build() {
         return new Page(this)
     }
+}
+
+class Announcement{
+    constructor(builder) {
+        this.title = builder.title
+        this.text = builder.text
+        this.date = builder.date
+        this.attachment = builder.attachment || false
+    }
+
+    generateHTML(){
+        let card = document.createElement('div');
+        card.className = 'card announcement';
+        let body = document.createElement('div');
+        body.className = 'card-body';
+        let title = document.createElement('h4');
+        title.className = 'card-title';
+        title.innerText = this.title;
+        let content = document.createElement('p');
+        content.className = 'card-text';
+        content.innerText = this.text;
+        let footer = document.createElement('div');
+        footer.className = "card-footer text-muted";
+        footer.innerText = this.date;
+
+        card.append(body);
+        body.append(title);
+        body.append(content);
+        body.append(footer);
+
+        return card;
+    }
+}
+
+class AnnouncementBuilder{
+    constructor(title) {
+        this.title = title
+    }
+
+    addAttachment(type, data){
+        if (type !== undefined)
+            this.attachment = {type: type, data: data}
+        return this
+    }
+
+    addText(text){
+        this.text = text
+        return this
+    }
+
+    addDate(date){
+        this.date = date
+        return this
+    }
+
+    build(){
+        return new Announcement(this)
+    }
+}
+
+class DeskFactory {
+    makeWidget(manager, pageNumber){
+        if (pageNumber === undefined) pageNumber = 1;
+        console.log(manager, pageNumber)
+        let data = this.getAnnouncementsData(pageNumber)
+        let announcements = this.makeAnnouncements(data)
+        console.log(announcements)
+        return new AnnouncementDesk(announcements, pageNumber, manager)
+    }
+
+    getAnnouncementsData(page) {
+
+        let xmlHttp = getXmlHttp();
+        xmlHttp.open("GET", '/get_count?page_number=' + page, false);
+        xmlHttp.send()
+        const data = JSON.parse(xmlHttp.responseText)
+        globalThis.MAX_COUNT = +data.count
+        return data.announcements
+    }
+
+    *makeAnnouncements(data){
+        for (let announcement of data){
+            yield (new AnnouncementBuilder(announcement.title)
+                .addText(announcement.text)
+                .addDate(announcement.date)
+                .addAttachment(announcement.attachmentType, announcement.attachmentData)
+                .build())
+        }
+    }
+}
+
+class AnnouncementDesk{
+    constructor(announcements, pageNumber, manager){
+        this.announcements = announcements
+        this.pageNumber = pageNumber
+        this.manager = manager
+    }
+
+    updatePage(targetPage){
+        console.log("here!!!")
+        this.manager.updatePage(targetPage)
+    }
+
+    generateHTML() {
+        let desk = document.createElement("div")
+        let container = document.createElement("div")
+        container.id = "card-container"
+        for (let an of this.announcements){
+            container.append(an.generateHTML())
+        }
+        let footer = this.generateFooter()
+        desk.append(container)
+        desk.append(footer)
+        return desk
+    }
+
+    generateFooter(){
+        let footer = document.createElement("footer")
+        let nav = document.createElement("nav")
+        nav.className = "horizontal-centered"
+        let ul_nav = document.createElement("ul")
+        ul_nav.className = "pagination announcement-nav"
+        let pr_but = document.createElement('li')
+        let cur_al = document.createElement("li")
+        let next_but = document.createElement("li")
+
+        let a = document.createElement("a")
+        a.className = "page-link"
+        a.onclick = this.previousPage
+        a.innerText = "Previous"
+        pr_but.append(a)
+
+        let cur = document.createElement("a")
+        cur.className = "page-link"
+        cur.innerText = this.pageNumber
+        cur_al.append(cur)
+
+        let aa = document.createElement("a")
+        aa.className = "page-link"
+        aa.onclick = this.nextPage
+        aa.innerText = "Next"
+        next_but.append(aa)
+
+        ul_nav.append(pr_but, cur_al, next_but)
+        nav.append(ul_nav)
+        footer.append(nav)
+
+        return footer
+
+    }
+
+    previousPage = () => {
+        console.log("previous")
+        if (this.pageNumber !== 1)
+            this.updatePage(this.pageNumber - 1)
+    }
+
+    nextPage = () => {
+        console.log(this.pageNumber, globalThis.MAX_COUNT)
+        if (this.pageNumber !== globalThis.MAX_COUNT)
+            this.updatePage(this.pageNumber + 1)
+    }
+}
+
+class Manager{
+    constructor(page) {
+        this.page = page || false
+    }
+
+    updatePage(data){
+        console.log(data, "manager")
+        this.page.updateWidget(data)
+    }
+
+    setPage(page){
+        this.page = page
+    }
+
 }
 
 document.addEventListener('DOMContentLoaded', () =>
@@ -293,12 +427,13 @@ document.addEventListener('DOMContentLoaded', () =>
         .addLink((new LinkBuilder("Главная")).setClassName("active").build())
         .addLink((new LinkBuilder("Заявки")).build())
         .build()
-    let mainWidget = document.createElement("div")
-    mainWidget.innerHTML = "<div id=\"card-container\"></div>"
+    const deskFactory = new DeskFactory()
+    const manager = new Manager()
 
-    const page = (new PageBuilder(mainWidget)
+    const page = (new PageBuilder(deskFactory, manager)
         .addHeader(header)
         .build())
-    page.show()
-    get_count()
+
+    manager.setPage(page)
+    manager.updatePage(1)
 });
