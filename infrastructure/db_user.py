@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from . import Base
 from sqlalchemy import Column, Integer, String, Enum
 from domain.users.roles import Role
-from application.api import dbconn
+from ui.api import dbconn
 
 
 class DBUser(UserMixin, Base):
