@@ -61,7 +61,6 @@ class Page{
     }
 
     updateWidget(data){
-        console.log("updateWidget")
         this.mainWidget = this.widgetFactory.makeWidget(this.manager, data)
         this.show()
     }
@@ -76,10 +75,9 @@ class Header{
     }
 
     generateHTML(){
-        //<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar"></nav>
         let navBar = document.createElement("nav")
         navBar.className = "navbar navbar-expand-lg navbar-dark bg-dark"
-        //let navBar = document.querySelector('#navbar')
+
         if (this.brand){
             let brand = document.createElement("a")
             brand.className = "navbar-brand"
@@ -101,11 +99,7 @@ class Header{
         ul_right.className = "navbar-nav ml-auto"
         let user_li = document.createElement("li")
         user_li.className = "nav-item dropdown"
-        /*
-        <a class= href="#" id= role="button" data-toggle="dropdown" ="true" ="false" style="">
-                {{ session['name'] or 'user_name' }}
-            </a>
-         */
+
         let user_name = document.createElement("a")
         user_name.className = "nav-link dropdown-toggle"
         user_name.id = "navbarDropdown"
@@ -117,11 +111,7 @@ class Header{
         user_name.setAttribute("style", "margin-right: 80px !important;")
         user_name.innerText = this.userName
         let user_logout = document.createElement("div")
-        /*
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Выход</a>
-            </div>
-         */
+
         user_logout.className = "dropdown-menu"
         user_name.setAttribute("aria-labelledby", "navbarDropdown")
         let logout = document.createElement("a")
@@ -231,10 +221,10 @@ class PageBuilder{
         return this
     }
 
-    // addFooter(footer){
-    //     this.footer = footer
-    //     return this
-    // }
+    addFooter(footer){
+        this.footer = footer
+        return this
+    }
 
     build() {
         return new Page(this)
@@ -302,10 +292,8 @@ class AnnouncementBuilder{
 class DeskFactory {
     makeWidget(manager, pageNumber){
         if (pageNumber === undefined) pageNumber = 1;
-        console.log(manager, pageNumber)
         let data = this.getAnnouncementsData(pageNumber)
         let announcements = this.makeAnnouncements(data)
-        console.log(announcements)
         return new AnnouncementDesk(announcements, pageNumber, manager)
     }
 
@@ -338,7 +326,6 @@ class AnnouncementDesk{
     }
 
     updatePage(targetPage){
-        console.log("here!!!")
         this.manager.updatePage(targetPage)
     }
 
@@ -391,13 +378,11 @@ class AnnouncementDesk{
     }
 
     previousPage = () => {
-        console.log("previous")
         if (this.pageNumber !== 1)
             this.updatePage(this.pageNumber - 1)
     }
 
     nextPage = () => {
-        console.log(this.pageNumber, globalThis.MAX_COUNT)
         if (this.pageNumber !== globalThis.MAX_COUNT)
             this.updatePage(this.pageNumber + 1)
     }
@@ -409,7 +394,6 @@ class Manager{
     }
 
     updatePage(data){
-        console.log(data, "manager")
         this.page.updateWidget(data)
     }
 
