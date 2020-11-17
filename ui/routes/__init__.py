@@ -11,8 +11,8 @@ Routes.add_url_rule(
 )
 
 Routes.add_url_rule(
-		'/get_count',
-		'get_count',
-		view_func=announcement.get_announcements,
-		methods=["GET"],
+    '/get_count',
+    'get_count',
+    view_func=announcement.get_announcements,
+    methods=["GET"],
 )
