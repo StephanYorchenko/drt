@@ -1,4 +1,4 @@
-from domain.desk import Desk
+from app.desks.desk import Desk
 from flask import request, jsonify
 
 

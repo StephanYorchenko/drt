@@ -1,11 +1,9 @@
 from __future__ import annotations
-from typing import Dict
 
 from .requestType import HostessRequestType
-from infrastructure.serializable import Serializable
 
 
-class Request(Serializable):
+class Request:
     def __init__(self,
                  request_id: int,
                  request_type: HostessRequestType,
@@ -37,14 +35,3 @@ class Request(Serializable):
             return False
 
         return self.request_id == other.id
-
-    def to_json(self) -> Dict[str, str]:
-        return {'id': self._id, 'request_type': self._type,
-                'comment': self._comment, 'user_id': self._user}
-
-    @staticmethod
-    def from_json(data: Dict[str, str]) -> Request:
-        return Request(int(data['id']),
-                       HostessRequestType(data['request_type']),
-                       data['comment'],
-                       int(data['user_id']))
