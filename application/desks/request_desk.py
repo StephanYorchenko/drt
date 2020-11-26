@@ -1,6 +1,6 @@
 from application.desks.desk import Desk
 from domain.request.request import Request
-from infrastructure.db_request import DBRequest
+from infrastructure.db_classes.db_request import DBRequest
 from application.domain_serializers.request_serializer import RequestSerializer
 
 
