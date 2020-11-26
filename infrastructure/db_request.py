@@ -4,7 +4,7 @@ from ui.api import dbconn
 
 
 class DBRequest(Base):
-    __table_name__ = 'request'
+    __tablename__ = 'request'
 
     id = Column(Integer, primary_key=True)
     comment = Column(Text, nullable=True)
