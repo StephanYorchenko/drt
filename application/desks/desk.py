@@ -9,7 +9,7 @@ class Desk(abc.ABC):
                  entry_count: int):
         self._entry_type = entry_type
         self._entry_count = entry_count
-        self._serializer = serializer
+        self.serializer = serializer
         self._db_entry_type = db_entry_type
 
     def get(self, page) -> Tuple[list, int]:
@@ -20,10 +20,10 @@ class Desk(abc.ABC):
         try:
             jsons_page = jsons[(page - 1) * self._entry_count:
                                min(page * self._entry_count, len(jsons))]
-            return (list(map(lambda data: self._serializer.from_json(data),
+            return (list(map(lambda data: self.serializer.from_json(data),
                              jsons_page)), page_count)
         except IndexError:
             return [], page_count
 
     def add(self, entry):
-        self._db_entry_type.add(**self._serializer.to_json(entry))
+        self._db_entry_type.add(**self.serializer.to_json(entry))
