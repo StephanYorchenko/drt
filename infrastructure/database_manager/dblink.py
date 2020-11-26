@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from . import Config
+from ..config import Config
 
 
 class DBConn:

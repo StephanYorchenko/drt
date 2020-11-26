@@ -1,5 +1,5 @@
 from domain.announcement.announcement import Announcement
-from infrastructure.db_announcement import DBAnnouncement
+from infrastructure.db_classes.db_announcement import DBAnnouncement
 from application.domain_serializers.announcement_serializer import \
     AnnouncementSerializer
 from application.desks.desk import Desk

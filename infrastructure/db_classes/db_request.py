@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
 from infrastructure import Base
-from ui.api import dbconn
+from infrastructure.database_manager import dbconn
 
 
 class DBRequest(Base):

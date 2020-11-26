@@ -1,8 +1,8 @@
 from flask_login import UserMixin
-from . import Base
+from infrastructure import Base
 from sqlalchemy import Column, Integer, String, Enum
 from domain.users.roles import Role
-from ui.api import dbconn
+from infrastructure.database_manager import dbconn
 
 
 class DBUser(UserMixin, Base):
