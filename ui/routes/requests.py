@@ -1,5 +1,5 @@
 from .get_items_from_desk import jsonify_n_serialized_objects_from_desk
-from app.desks.announcement_desk import AnnouncementDesk
+from application.desks.announcement_desk import AnnouncementDesk
 
 
 def get_announcements():
