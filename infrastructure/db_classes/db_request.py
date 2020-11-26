@@ -4,6 +4,7 @@ from infrastructure.database_manager import dbconn
 
 
 class DBRequest(Base):
+    # noinspection SpellCheckingInspection
     __tablename__ = 'request'
 
     id = Column(Integer, primary_key=True)
