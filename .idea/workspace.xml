@@ -26,28 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64c1432-e2b6-4098-a296-503d75a8a1e8" name="Default Changelist" comment="Added Desk methods realization">
-      <change afterPath="$PROJECT_DIR$/.idea/drt.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/domain_serializers/announcement_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/domain_serializers/domain_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/domain_serializers/request_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/domain_serializers/user_serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/serialize.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/serialize.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/announcement/announcement.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/announcement/announcement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/announcement/announcement_desk.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/desks/announcement_desk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/desk.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/desks/desk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/request/request.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/request/request.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/request/request_desk.py" beforeDir="false" afterPath="$PROJECT_DIR$/application/desks/request_desk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/users/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/users/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/domain/users/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/domain/users/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/routes/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/routes/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/routes/announcement.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/routes/announcement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/routes/get_items_from_desk.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/routes/get_items_from_desk.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/routes/requests.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/routes/requests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/drt.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/drt.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +56,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="JupyterTrust" id="92589b7c-49fe-4ec5-b19a-507006c584de" />
+  <component name="JupyterTrust" id="58b13d59-4d8a-48be-996f-be843d54b1a7" />
   <component name="ProjectId" id="1je8cuFCcj1agmvMZT97svePp5h" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -87,8 +68,8 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/fat32" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -136,6 +117,9 @@
       <workItem from="1604210314109" duration="429000" />
       <workItem from="1604390263476" duration="5573000" />
       <workItem from="1605600345799" duration="2614000" />
+      <workItem from="1606154860666" duration="85000" />
+      <workItem from="1606154958572" duration="1126000" />
+      <workItem from="1606216940588" duration="2637000" />
     </task>
     <task id="LOCAL-00001" summary="desk minor refactoring">
       <created>1604173732796</created>
@@ -194,6 +178,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="Added Desk methods realization" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="424" y="177" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606154943354">
+      <screen x="0" y="0" width="1920" height="1038" />
+    </state>
+    <state x="424" y="177" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1038@0.0.1920.1038" timestamp="1606154943354" />
     <state x="1749" y="463" width="374" height="574" key="#com.intellij.ide.util.MemberChooser" timestamp="1604173442034">
       <screen x="72" y="27" width="2488" height="1413" />
     </state>
@@ -202,14 +190,16 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2649" y="302" width="524" height="509" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1605601685503" />
-    <state x="3135" y="291" width="424" height="491" key="FileChooserDialogImpl" timestamp="1604399384179">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="1215" y="280" width="424" height="491" key="FileChooserDialogImpl" timestamp="1606218835879">
+      <screen x="0" y="0" width="1920" height="1038" />
     </state>
+    <state x="1215" y="280" key="FileChooserDialogImpl/0.0.1920.1038@0.0.1920.1038" timestamp="1606218835879" />
     <state x="3135" y="291" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1604399384179" />
     <state x="1241" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1604210527782" />
-    <state x="2405" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1604393441715">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="485" y="181" width="1022" height="729" key="SettingsEditor" timestamp="1606154927722">
+      <screen x="0" y="0" width="1920" height="1038" />
     </state>
+    <state x="485" y="181" width="1022" height="729" key="SettingsEditor/0.0.1920.1038@0.0.1920.1038" timestamp="1606154927722" />
     <state x="2405" y="188" width="1022" height="737" key="SettingsEditor/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1604393441715" />
     <state x="1667" y="482" width="648" height="524" key="StructurePopup" timestamp="1604172134678">
       <screen x="72" y="27" width="2488" height="1413" />
@@ -223,6 +213,10 @@
       <screen x="72" y="27" width="2488" height="1413" />
     </state>
     <state x="-396" y="243" width="899" height="1374" key="dock-window-1/72.27.2488.1413@72.27.2488.1413" timestamp="1604153985266" />
+    <state x="806" y="305" key="refactoring.ChangeSignatureDialog" timestamp="1606218656486">
+      <screen x="0" y="0" width="1920" height="1038" />
+    </state>
+    <state x="806" y="305" key="refactoring.ChangeSignatureDialog/0.0.1920.1038@0.0.1920.1038" timestamp="1606218656486" />
     <state x="3010" y="238" width="672" height="678" key="search.everywhere.popup" timestamp="1604393408220">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
