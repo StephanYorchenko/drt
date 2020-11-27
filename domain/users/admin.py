@@ -1,6 +1,6 @@
 from .employee import Employee
 from .roles import Role
-from app.desks.desk import Announcement
+from domain.announcement.announcement import Announcement
 from .user import User
 
 

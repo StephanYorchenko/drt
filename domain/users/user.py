@@ -1,16 +1,16 @@
 from __future__ import annotations
-
 from abc import ABC
+from dataclasses import dataclass
 
 from .roles import Role
 
 
+@dataclass
 class User(ABC):
-    def __init__(self, user_id: int, username: str, password, role: Role):
-        self.id = user_id
-        self.username = username
-        self.password = password
-        self.role = role
+    user_id: int
+    username: str
+    password: str
+    role: Role
 
     def set_username(self, username: str) -> None:
         self.username = username

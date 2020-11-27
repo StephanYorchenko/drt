@@ -1,10 +1,12 @@
 from typing import List
+from dataclasses import dataclass
+
 from .tableReservation import Reservation
 
 
+@dataclass
 class Table:
-    def __init__(self, table_id: int):
-        self.id = table_id
+    table_id: int
 
     def get_reservations(self) -> List[Reservation]:
         pass
