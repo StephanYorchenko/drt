@@ -1,7 +1,4 @@
-from flask import render_template, session
-from flask_login import login_required
-
-from infrastructure import DBUser
+from flask import render_template
 
 
 def main():
