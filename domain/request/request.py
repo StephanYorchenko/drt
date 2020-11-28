@@ -13,5 +13,4 @@ class Request:
     def __eq__(self, other):
         if other is not Request:
             return False
-
         return self.request_id == other.request_id
