@@ -1,9 +1,11 @@
 import datetime
+from dataclasses import dataclass
+
 from domain.users.user import User
 
 
+@dataclass
 class Reservation:
-    def __init__(self, user: User, start: datetime, duration: datetime):
-        self.user = user
-        self.start = start
-        self.duration = duration
+    user: User
+    start: datetime
+    duration: datetime

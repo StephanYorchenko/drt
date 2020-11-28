@@ -5,9 +5,7 @@ from application.domain_serializers.domain_serializer import DomainSerializer
 
 
 class Desk(abc.ABC):
-    def __init__(self, entry_type, db_entry_type, serializer: DomainSerializer,
-                 entry_count: int):
-        self._entry_type = entry_type
+    def __init__(self, db_entry_type, serializer: DomainSerializer, entry_count: int):
         self._entry_count = entry_count
         self.serializer = serializer
         self._db_entry_type = db_entry_type
