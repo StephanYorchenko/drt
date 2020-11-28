@@ -135,7 +135,6 @@ class Header{
 class HeaderBuilder{
     constructor(){
         this.links = []
-        this.setUser()
     }
 
     setBrand(brand){
@@ -148,18 +147,12 @@ class HeaderBuilder{
         return this
     }
 
-    setUser(){
-        this.userName = getCookie("name")
-        let role = getCookie("role")
-        if (+role === 1){
+    setUser(user){
+        this.userName = user.Name//getCookie("name")
+        //let role = new Role(+getCookie("role"))
+        if (user.role.role !== "undefined"){
             this.addLink(
-                (new LinkBuilder("Администрирование"))
-                    .build()
-            )
-        }
-        else if (+role === 2){
-            this.addLink(
-                (new LinkBuilder("Заявки"))
+                (new LinkBuilder(user.role.tag))
                     .build()
             )
         }
@@ -168,6 +161,27 @@ class HeaderBuilder{
 
     build() {
         return new Header(this);
+    }
+}
+
+class User{
+    constructor(name) {
+        this.name = name
+    }
+
+    setRole(role){
+        this.role = role
+        return this
+    }
+
+}
+
+class Role{
+    Roles = ["Администратор", "Заведующий"]
+    TagNames = ["Администрирование", "Запросы"]
+    constructor(role_id){
+        this.role_name = this.Roles[role_id]
+        this.tag = this.TagNames[role_id]
     }
 }
 
@@ -400,17 +414,22 @@ class Manager{
     setPage(page){
         this.page = page
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', () =>
 {
     document.cookie = "name=Stepan;role=1"
+
+    let user = (new User(getCookie("name")))
+        .setRole(new Role(+getCookie("role")))
+
     const header = (new HeaderBuilder())
         .setBrand("DRT")
         .addLink((new LinkBuilder("Главная")).setClassName("active").build())
         .addLink((new LinkBuilder("Заявки")).build())
+        .setUser(user)
         .build()
+
     const deskFactory = new DeskFactory()
     const manager = new Manager()
 
