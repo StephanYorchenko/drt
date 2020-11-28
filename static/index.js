@@ -570,6 +570,7 @@ class AuthorizeForm{
         let btn = document.createElement("button")
         btn.className = "login100-form-btn"
         btn.addEventListener('click', this.tryAuthorize)
+        btn.innerText = "Войти"
 
         limiter_div.append(container_login)
         container_login.append(wrap_div)
