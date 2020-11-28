@@ -1,4 +1,4 @@
-from app.desks.desk import Desk
+from application.desks.desk import Desk
 from flask import request, jsonify
 
 
@@ -8,7 +8,7 @@ def jsonify_n_serialized_objects_from_desk(desk: Desk, name: str):
     ans_dict = {
         "count": page_count,
         name: [
-            item.to_json() for item in items    
+            desk.serializer.to_json(item) for item in items
         ]
     }
 
