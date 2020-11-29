@@ -25,6 +25,7 @@ class DBUser(UserMixin, Base):
         with dbconn as session:
             user = session.query(DBUser).filter_by(name=i_username).first()
             user.user_hash = new_hash
+            user.save()
 
     @staticmethod
     def get_user(**kwargs):
