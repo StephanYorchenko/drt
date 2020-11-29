@@ -8,11 +8,9 @@ class DBConn:
         self.db = db
 
     def __enter__(self):
-        return self.db.connect
+        return self.db
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        print("AAAAAAAAAAA")
-        print(dir(self.db))
         self.db.close()
 
 
@@ -33,4 +31,4 @@ class Db(object):
 
 
 db = Db()
-dbconn = DBConn(db)
+dbconn = DBConn(db_session())

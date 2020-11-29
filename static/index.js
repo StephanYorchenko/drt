@@ -466,7 +466,8 @@ class LoginManager{
     userFactory;
     user;
 
-    constructor(userFactory) {
+    constructor(userFactory, md5) {
+        this.md5 = md5
         this.userFactory = userFactory;
         this.loginPage = false
         this.is_authorized = false
@@ -477,7 +478,7 @@ class LoginManager{
         xmlHttp.open("POST", '/auth', false)
         let formData = new FormData()
         formData.append("name", data.name)
-        formData.append("password", data.password)
+        formData.append("password", this.md5(data.password))
         xmlHttp.send(formData);
         const response = JSON.parse(xmlHttp.responseText);
         if (response.authorized){
@@ -501,6 +502,7 @@ class LoginManager{
         formData.append("name", name)
         xmlHttp.send(formData)
         let answer = JSON.parse(xmlHttp.responseText).result
+        console.log(answer)
         if (answer){
             this.setUser(name, +getCookie("role"))
         } else{
@@ -595,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () =>
     const roleFactory = new RoleFactory()
     const userFactory = new UserFactory(roleFactory)
     const authFactory = new AuthorizeFormFactory()
-    const loginManager = new LoginManager(userFactory)
+    const loginManager = new LoginManager(userFactory, CryptoJS.MD5)
 
     const loginPage = (new PageBuilder(authFactory, loginManager))
         .build()
