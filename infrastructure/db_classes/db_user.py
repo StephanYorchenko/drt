@@ -14,9 +14,9 @@ class DBUser(UserMixin, Base):
     role = Column(Enum(Role), nullable=False)
 
     @staticmethod
-    def check_user(i_username, i_password) -> bool:
+    def check_user(i_username, i_hash) -> bool:
         user = DBUser.get_user(name=i_username)
-        return bool(user) and user.password == i_password
+        return bool(user) and user.user_hash == i_hash
 
     @staticmethod
     def get_user(**kwargs):
