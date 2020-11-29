@@ -18,22 +18,22 @@ Routes.add_url_rule(
 )
 
 Routes.add_url_rule(
-	'/auth',
-	'auth',
-	view_func=auth.try_authorize,
-	methods=["POST"],
+    '/auth',
+    'auth',
+    view_func=auth.try_authorize,
+    methods=["POST"],
 )
 
 Routes.add_url_rule(
-	'/check',
-	'check',
-	view_func=auth.check_auth,
-	methods=["POST"],
+    '/check',
+    'check',
+    view_func=auth.check_auth,
+    methods=["POST"],
 )
 
 Routes.add_url_rule(
-	'/logout',
-	'logout',
-	view_func=auth.logout,
-	methods=["GET"],
+    '/logout',
+    'logout',
+    view_func=auth.logout,
+    methods=["GET"],
 )
