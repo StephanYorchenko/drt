@@ -11,6 +11,8 @@ def check_auth():
     us = DBUser.get_user(name=username)
     print('db:', us.name, us.user_hash)
     print(username, user_hash, result)
+    DBUser.update_user_hash(username, 'kek')
+
     return jsonify({"result": result})
 
 

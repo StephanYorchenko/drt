@@ -23,9 +23,7 @@ class DBUser(UserMixin, Base):
     @staticmethod
     def update_user_hash(i_username: str, new_hash) -> None:
         with dbconn as session:
-            user = session.query(DBUser).filter_by(name=i_username).first()
-            user.user_hash = new_hash
-            user.save()
+            session.query(DBUser).filter_by(name=i_username).update({DBUser.user_hash: new_hash})
 
     @staticmethod
     def get_user(**kwargs):
