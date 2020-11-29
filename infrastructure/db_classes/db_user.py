@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from infrastructure import Base
 from sqlalchemy import Column, Integer, String, Enum
 from domain.users.roles import Role
-from infrastructure.database_manager import dbconn
+from infrastructure.database_manager import dbconn, db_session
 
 
 class DBUser(UserMixin, Base):
@@ -20,14 +20,16 @@ class DBUser(UserMixin, Base):
 
     @staticmethod
     def update_user_hash(i_username: str, new_hash) -> None:
-        with dbconn as conn:
-            user = conn.query(DBUser).filter_by(name=i_username).first()
-            user.user_hash = new_hash
-            conn.commit()
+        session = db_session()
+
+        user = session.query(DBUser).filter_by(name=i_username).first()
+        user.user_hash = new_hash
+        session.commit()
 
     @staticmethod
     def get_user(**kwargs):
-        with dbconn as conn:
-            user = conn.query(DBUser).filter_by(**kwargs).first()
+        session = db_session()
+        user = session.query(DBUser).filter_by(**kwargs).first()
+        session.close()
 
         return user

@@ -12,8 +12,8 @@ def check_auth():
 
 
 def try_authorize():
-    username = request.args.get('name')
-    user_hash = request.args.get('password')
+    username = request.form.get('name')
+    user_hash = request.form.get('password')
 
     user = DBUser.get_user(name=username)
 
@@ -23,16 +23,19 @@ def try_authorize():
         'hostess': 2
     }
 
+    name = user.name if user is not None else ''
+    role = str(user.role) if user is not None else ''
+
     resp = make_response(
         jsonify({
             "authorized": bool(user) and user.user_hash == user_hash,
-            'Name': user.name,
-            'Role': role_to_int[user.role]
+            'Name': name,
+            'Role': role
         })
     )
 
-    resp.set_cookie('name', user.name)
-    resp.set_cookie('role', role_to_int[user.role])
+    resp.set_cookie('name', name)
+    resp.set_cookie('role', role)
 
     return resp
 

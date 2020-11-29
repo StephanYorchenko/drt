@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class Role(Enum):
-    EMPLOYEE = 'employee'
-    ADMIN = 'admin'
-    HOSTESS = 'hostess'
+    EMPLOYEE = 0
+    ADMIN = 1
+    HOSTESS = 2
