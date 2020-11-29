@@ -3,6 +3,7 @@ from infrastructure import Base
 from sqlalchemy import Column, Integer, String, Enum
 from domain.users.roles import Role
 from infrastructure.database_manager import dbconn, db_session
+import hashlib
 
 
 class DBUser(UserMixin, Base):
@@ -10,6 +11,7 @@ class DBUser(UserMixin, Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
+    password = Column(String(80), unique=True, nullable=False)
     user_hash = Column(String(30), unique=False, nullable=False)
     role = Column(Enum(Role), nullable=False)
 
@@ -28,8 +30,7 @@ class DBUser(UserMixin, Base):
 
     @staticmethod
     def get_user(**kwargs):
-        session = db_session()
-        user = session.query(DBUser).filter_by(**kwargs).first()
-        session.close()
+        with dbconn as session:
+            user = session.query(DBUser).filter_by(**kwargs).first()
 
         return user
