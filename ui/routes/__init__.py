@@ -16,3 +16,9 @@ Routes.add_url_rule(
     view_func=announcement.get_announcements,
     methods=["GET"],
 )
+
+Routes.add_url_rule(
+    '/login',
+    'login',
+    view_func=login
+)
