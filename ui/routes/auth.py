@@ -16,13 +16,6 @@ def try_authorize():
     user_hash = request.form.get('password')
 
     user = DBUser.get_user(name=username)
-
-    role_to_int = {
-        'employee': 0,
-        'admin': 1,
-        'hostess': 2
-    }
-
     name = user.name if user is not None else ''
     role = str(user.role.value) if user is not None else ''
 
