@@ -1,5 +1,5 @@
 from flask import Blueprint
-from . import main, announcement, requests
+from . import main, announcement, requests, auth
 
 Routes = Blueprint('routes', __name__, template_folder='templates')
 
@@ -18,7 +18,22 @@ Routes.add_url_rule(
 )
 
 Routes.add_url_rule(
-    '/login',
-    'login',
-    view_func=login
+	'/auth',
+	'auth',
+	view_func=auth.try_authorize,
+	methods=["POST"],
+)
+
+Routes.add_url_rule(
+	'/check',
+	'check',
+	view_func=auth.check_auth,
+	methods=["POST"],
+)
+
+Routes.add_url_rule(
+	'/logout',
+	'logout',
+	view_func=auth.logout,
+	methods=["GET"],
 )

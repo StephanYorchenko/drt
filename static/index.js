@@ -71,10 +71,11 @@ class Header{
     constructor(builder){
         this.brand = builder.brand || false
         this.links = builder.links
-        this.userName = builder.userName || false
+        this.userName = false
     }
 
     generateHTML(){
+        this.getUserName()
         let navBar = document.createElement("nav")
         navBar.className = "navbar navbar-expand-lg navbar-dark bg-dark"
 
@@ -130,12 +131,30 @@ class Header{
 
         return navBar
     }
+
+    subscribeUserStorage(userStorage){
+        this.userStorage = userStorage
+        return this
+    }
+    
+    getUserName(){
+        let user = this.userStorage.user
+        if (user !== undefined) {
+            console.log(user, user.role, user.role.tag)
+            this.userName = user.name
+            if (user.role.role !== 0) {
+                this.links[2] = (new LinkBuilder(user.role.tag)).build() //TODO: нет DIP
+            } else if (this.links.length > 2)
+                this.links.pop()
+
+        }
+    }
 }
 
 class HeaderBuilder{
     constructor(){
         this.links = []
-        this.setUser()
+        // this.linkBuilder = linkBuilder
     }
 
     setBrand(brand){
@@ -148,26 +167,45 @@ class HeaderBuilder{
         return this
     }
 
-    setUser(){
-        this.userName = getCookie("name")
-        let role = getCookie("role")
-        if (+role === 1){
-            this.addLink(
-                (new LinkBuilder("Администрирование"))
-                    .build()
-            )
-        }
-        else if (+role === 2){
-            this.addLink(
-                (new LinkBuilder("Заявки"))
-                    .build()
-            )
-        }
+    build() {
+        return new Header(this);
+    }
+}
+class RoleFactory{
+    makeRole(role_id){
+        return new Role(role_id)
+    }
+}
+
+class UserFactory{
+    roleFactory;
+    constructor(roleFactory) {
+        this.roleFactory = roleFactory
+    }
+    makeUser(name, role_id){
+        let role = this.roleFactory.makeRole(role_id)
+        return (new User(name)).setRole(role)
+    }
+}
+
+class User{
+    constructor(name) {
+        this.name = name
+    }
+
+    setRole(role){
+        this.role = role
         return this
     }
 
-    build() {
-        return new Header(this);
+}
+
+class Role{
+    Roles = ["Администратор", "Заведующий"]
+    TagNames = ["Администрирование", "Запросы"]
+    constructor(role_id){
+        this.role_name = this.Roles[role_id]
+        this.tag = this.TagNames[role_id]
     }
 }
 
@@ -290,6 +328,9 @@ class AnnouncementBuilder{
 }
 
 class DeskFactory {
+    // constructor(anBuilder) {
+    //     this.anBuilder = anBuilder
+    // }
     makeWidget(manager, pageNumber){
         if (pageNumber === undefined) pageNumber = 1;
         let data = this.getAnnouncementsData(pageNumber)
@@ -298,7 +339,6 @@ class DeskFactory {
     }
 
     getAnnouncementsData(page) {
-
         let xmlHttp = getXmlHttp();
         xmlHttp.open("GET", '/get_count?page_number=' + page, false);
         xmlHttp.send()
@@ -391,33 +431,192 @@ class AnnouncementDesk{
 class Manager{
     constructor(page) {
         this.page = page || false
+        this.loginManager = false
     }
 
     updatePage(data){
         this.page.updateWidget(data)
+        return this
     }
 
     setPage(page){
-        this.page = page
+        this.page = page || this.main_page
+        return this
     }
 
+    setLoginManager(loginManager){
+        this.loginManager = loginManager
+        return this
+    }
+
+    start(){
+        if (this.loginManager.checkAuthorize())
+            this.updatePage(1)
+        else
+            this.showAuth(this.loginManager.loginPage)
+    }
+
+    showAuth(authPage){
+        this.main_page = this.page
+        authPage.show()
+    }
+}
+
+class LoginManager{
+    userFactory;
+    user;
+
+    constructor(userFactory) {
+        this.userFactory = userFactory;
+        this.loginPage = false
+        this.is_authorized = false
+    }
+
+    tryAuthorize(data){
+        let xmlHttp = getXmlHttp();
+        xmlHttp.open("POST", '/auth', false)
+        let formData = new FormData()
+        formData.append("name", data.name)
+        formData.append("password", data.password)
+        xmlHttp.send(formData);
+        const response = JSON.parse(xmlHttp.responseText);
+        if (response.authorized){
+            this.setUser(response.Name, response.Role)
+            this.manager.updatePage(1)
+        }
+    }
+
+    setUser(name, role){
+        this.is_authorized = true
+        this.user = this.userFactory.makeUser(name, role)
+    }
+
+    checkAuthorize(){
+        let name = getCookie("name")
+        if (name == null)
+            return false
+        let xmlHttp = getXmlHttp();
+        xmlHttp.open("POST", '/check', false)
+        let formData = new FormData()
+        formData.append("name", name)
+        xmlHttp.send(formData)
+        let answer = JSON.parse(xmlHttp.responseText).result
+        if (answer){
+            this.setUser(name, +getCookie("role"))
+        } else{
+            this.clearUser()
+        }
+        return answer
+    }
+
+    setManager(manager){
+        this.manager = manager
+    }
+
+    setPage(loginPage){
+        this.loginPage = loginPage
+        return this
+    }
+
+    clearUser() {
+        this.user = undefined
+        this.is_authorized = false
+        let xmlHttp = getXmlHttp();
+        xmlHttp.open("GET", '/logout', false)
+        xmlHttp.send()
+        this.loginPage.show()
+    }
+}
+
+class AuthorizeFormFactory{
+    makeWidget(manager){
+        return new AuthorizeForm(manager)
+    }
+}
+
+class AuthorizeForm{
+    constructor(manager) {
+        this.manager = manager
+        console.log(this.manager)
+        this.form = document.createElement("div")
+    }
+
+    tryAuthorize = () => {
+        this.manager.tryAuthorize(this.getFormData())
+    }
+
+    generateHTML(){
+        let limiter_div = document.createElement("div")
+        limiter_div.className = "limiter"
+        let container_login = document.createElement("div")
+        container_login.className = "container-login100"
+        let wrap_div = document.createElement("div")
+        wrap_div.className = "wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55"
+        this.form.className = "login100-form validate-form flex-sb flex-w"
+        this.form.innerHTML = "" +
+            "<span class=\"login100-form-title p-b-32\">Авторизация</span>\n" +
+            "<span class=\"txt1 p-b-11\">Имя пользователя</span>\n" +
+            "<div class=\"wrap-input100 validate-input m-b-36\">\n" +
+            "<input class=\"input100\" type=\"text\" id=\"username\" >\n" +
+            "<span class=\"focus-input100\"></span>\n" +
+            "</div>\n" +
+            "<span class=\"txt1 p-b-11\">Пароль</span>\n" +
+            "<div class=\"wrap-input100 validate-input m-b-12\">\n" +
+            "<input class=\"input100\" type=\"password\" id=\"password\" >\n" +
+            "<span class=\"focus-input100\"></span>\n" +
+            "</div>"
+        let btn_container = document.createElement("div")
+        btn_container.className = "container-login100-form-btn"
+        let btn = document.createElement("button")
+        btn.className = "login100-form-btn"
+        btn.addEventListener('click', this.tryAuthorize)
+        btn.innerText = "Войти"
+
+        limiter_div.append(container_login)
+        container_login.append(wrap_div)
+        wrap_div.append(this.form)
+        this.form.append(btn_container)
+        btn_container.append(btn)
+
+        return limiter_div
+    }
+
+    getFormData(){
+        return {
+            name: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () =>
 {
-    document.cookie = "name=Stepan;role=1"
-    const header = (new HeaderBuilder())
+    const deskFactory = new DeskFactory()
+    const roleFactory = new RoleFactory()
+    const userFactory = new UserFactory(roleFactory)
+    const authFactory = new AuthorizeFormFactory()
+    const loginManager = new LoginManager(userFactory)
+
+    const loginPage = (new PageBuilder(authFactory, loginManager))
+        .build()
+
+    const manager = new Manager()
+
+    loginManager.setPage(loginPage)
+        .setManager(manager)
+
+    const header = (new HeaderBuilder(LinkBuilder))
         .setBrand("DRT")
         .addLink((new LinkBuilder("Главная")).setClassName("active").build())
         .addLink((new LinkBuilder("Заявки")).build())
         .build()
-    const deskFactory = new DeskFactory()
-    const manager = new Manager()
+        .subscribeUserStorage(loginManager)
 
     const page = (new PageBuilder(deskFactory, manager)
         .addHeader(header)
         .build())
 
     manager.setPage(page)
-    manager.updatePage(1)
+        .setLoginManager(loginManager)
+        .start()
 });

@@ -1,13 +1,15 @@
 from typing import Dict
 
 
-class DomainSerializer:
-    def from_json(self, data: Dict[str, str]):
-        raise NotImplemented
+def default_to(domain_object) -> Dict[str, str]:
+    res = {}
+    for name, value in domain_object.__dict__.items():
+        if not name.startswith('_'):
+            res[name] = value
+    return res
 
-    def to_json(self, domain_object) -> Dict[str, str]:
-        res = {}
-        for name, value in domain_object.__dict__.items():
-            if not name.startswith('_'):
-                res[name] = value
-        return res
+
+class DomainSerializer:
+    def __init__(self, from_json, to_json=default_to):
+        self.from_json = from_json
+        self.to_json = to_json

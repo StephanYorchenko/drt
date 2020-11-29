@@ -4,7 +4,11 @@ from domain.users.user import User
 from domain.users.roles import Role
 
 
+def from_json(data: Dict[str, str]) -> User:
+    return User(int(data['id']), data['username'], data['password'],
+                Role(data['role']))
+
+
 class UserSerializer(DomainSerializer):
-    def from_json(self, data: Dict[str, str]) -> User:
-        return User(int(data['id']), data['username'], data['password'],
-                    Role(data['role']))
+    def __init__(self):
+        super().__init__(from_json)
