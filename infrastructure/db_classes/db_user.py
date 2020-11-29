@@ -14,12 +14,12 @@ class DBUser(UserMixin, Base):
     role = Column(Enum(Role), nullable=False)
 
     @staticmethod
-    def check_user(i_username, i_hash) -> bool:
+    def check_user(i_username: str, i_hash: str) -> bool:
         user = DBUser.get_user(name=i_username)
         return bool(user) and user.user_hash == i_hash
 
     @staticmethod
-    def update_user_hash(i_username, new_hash):
+    def update_user_hash(i_username: str, new_hash) -> None:
         with dbconn as conn:
             user = conn.query(DBUser).filter_by(name=i_username).first()
             user.user_hash = new_hash

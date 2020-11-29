@@ -1,16 +1,39 @@
-from flask import jsonify, make_response, redirect
+from flask import jsonify, make_response, redirect, request
+from infrastructure import DBUser
 
 
 def check_auth():
-    return jsonify({"result": True})
+    username = request.args.get('name')
+    user_hash = request.args.get('password')
+
+    result = DBUser.check_user(username, user_hash)
+
+    return jsonify({"result": result})
 
 
 def try_authorize():
-    resp = make_response(jsonify({"authorized": True,
-                                  'Name': 'Stephan',
-                                  'Role': 1}))
-    resp.set_cookie('name', 'Stephan')
-    resp.set_cookie('role', '1')
+    username = request.args.get('name')
+    user_hash = request.args.get('password')
+
+    user = DBUser.get_user(name=username)
+
+    role_to_int = {
+        'employee': 0,
+        'admin': 1,
+        'hostess': 2
+    }
+
+    resp = make_response(
+        jsonify({
+            "authorized": bool(user) and user.user_hash == user_hash,
+            'Name': user.name,
+            'Role': role_to_int[user.role]
+        })
+    )
+
+    resp.set_cookie('name', user.name)
+    resp.set_cookie('role', role_to_int[user.role])
+
     return resp
 
 
