@@ -10,7 +10,7 @@ class DBUser(UserMixin, Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
-    password = Column(String(30), unique=False, nullable=False)
+    user_hash = Column(String(30), unique=False, nullable=False)
     role = Column(Enum(Role), nullable=False)
 
     @staticmethod
@@ -19,8 +19,15 @@ class DBUser(UserMixin, Base):
         return bool(user) and user.user_hash == i_hash
 
     @staticmethod
+    def update_user_hash(i_username, new_hash):
+        with dbconn as conn:
+            user = conn.query(DBUser).filter_by(name=i_username).first()
+            user.user_hash = new_hash
+            conn.commit()
+
+    @staticmethod
     def get_user(**kwargs):
-        with open(dbconn) as conn:
+        with dbconn as conn:
             user = conn.query(DBUser).filter_by(**kwargs).first()
 
         return user
