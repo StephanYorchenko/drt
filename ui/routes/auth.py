@@ -24,7 +24,7 @@ def try_authorize():
     }
 
     name = user.name if user is not None else ''
-    role = str(user.role) if user is not None else ''
+    role = str(user.role.value) if user is not None else ''
 
     resp = make_response(
         jsonify({
