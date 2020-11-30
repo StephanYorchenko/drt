@@ -1,5 +1,5 @@
-from flask import jsonify, make_response, redirect
-
+from flask import jsonify, make_response, redirect, request, Response
+import requests
 
 def check_auth():
 	return jsonify({"result": True})
@@ -18,4 +18,5 @@ def logout():
 	resp = make_response(redirect('/'))
 	resp.set_cookie('name', '', expires=0)
 	resp.set_cookie('role', '', expires=0)
+
 	return resp

@@ -3,17 +3,6 @@ from . import main, announcement, requests, auth
 
 Routes = Blueprint('routes', __name__, template_folder='templates')
 
-Routes.add_url_rule(
-		'/',
-		'main',
-		view_func=lambda: send_from_directory('static/dist', 'index.html')
-)
-
-Routes.add_url_rule(
-		'/dist/<path:path>',
-		'static',
-		view_func=lambda path: send_from_directory('static/dist', path)
-)
 
 Routes.add_url_rule(
 		'/api/get_count',
@@ -40,5 +29,5 @@ Routes.add_url_rule(
 		'/api/logout',
 		'logout',
 		view_func=auth.logout,
-		methods=["GET"],
+		methods=["POST"],
 )
