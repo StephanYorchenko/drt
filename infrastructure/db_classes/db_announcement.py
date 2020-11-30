@@ -25,18 +25,17 @@ class DBAnnouncement(Base, ):
 
     @staticmethod
     def get():
-        s = db_session()
-        announcements = s.query(DBAnnouncement).all()
-        s.close()
+        with dbconn as session:
+            announcements = session.query(DBAnnouncement).all()
 
         return [DBAnnouncement.to_json(announcement) for announcement in announcements]
 
     @staticmethod
     def add(**kwargs):
-        with dbconn as conn:
+        with dbconn as session:
             announcement = DBAnnouncement(kwargs['user_id'],
                                           kwargs['text'],
                                           kwargs['title'])
-            conn.add(announcement)
+            session.add(announcement)
 
         return announcement
