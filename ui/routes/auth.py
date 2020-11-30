@@ -1,4 +1,4 @@
-from flask import jsonify, make_response, redirect, request, Request
+from flask import jsonify, make_response, redirect, request, Response
 from secrets import token_urlsafe
 from infrastructure import DBUser
 import requests
