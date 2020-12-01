@@ -14,49 +14,58 @@ import CryptoJS from "crypto-js";
 import {PageBuilder} from "@/components/PageBuilder";
 import {Manager} from "@/components/Manager";
 import {HeaderBuilder} from "@/components/HeaderBuilder";
-import {LinkBuilder} from "@/components/LinkBuilder";
+import {LinkFactory} from "@/components/LinkBuilder";
 
 export default {
   name: 'App',
   mounted(){
     const awilix = require('awilix')
     const container = awilix.createContainer({
-      injectionMode: awilix.InjectionMode.PROXY
+      injectionMode: awilix.InjectionMode.CLASSIC,
     })
 
     container.register({
-      api: awilix.asClass(Api)
+      api: awilix.asClass(Api),
+      linkFactory: awilix.asValue(new LinkFactory()),
+      deskFactory: awilix.asClass(DeskFactory),
+      roleFactory: awilix.asClass(RoleFactory),
+      userFactory: awilix.asClass(UserFactory),
+      authFactory: awilix.asClass(AuthorizeFormFactory),
+      manager: awilix.asClass(Manager),
+      md5: awilix.asValue(CryptoJS.MD5),
+      loginManager: awilix.asClass(LoginManager).singleton(),
+      loginPage: awilix.asFunction((authFactory) => (new PageBuilder(authFactory)).build()),
+      header: awilix.asFunction((linkFactory, loginManager) => (new HeaderBuilder(linkFactory))
+                                                                    .setBrand("DRT")
+                                                                    .addLink(linkFactory.make("Главная", "active"))
+                                                                    .addLink(linkFactory.make("Заявки"))
+                                                                    .build()
+                                                                    .subscribeUserStorage(loginManager)),
+      page: awilix.asFunction((deskFactory, header) => (new PageBuilder(deskFactory))
+          .addHeader(header)
+          .build()),
     })
 
-    const api = new Api()
-    const deskFactory = new DeskFactory(container.resolve("api"))
-    const roleFactory = new RoleFactory()
-    const userFactory = new UserFactory(roleFactory)
-    const authFactory = new AuthorizeFormFactory()
-    const manager = new Manager()
-    const loginManager = (new LoginManager(userFactory, CryptoJS.MD5, api))
-        .setManager(manager)
+    //const deskFactory = container.resolve('deskFactory');
+    // const roleFactory = new RoleFactory()
+    // const userFactory = new UserFactory(roleFactory)
+    // const authFactory = new AuthorizeFormFactory()
+    //const manager = container.resolve('manager');
+    // const loginManager = new LoginManager(userFactory, CryptoJS.MD5, api, manager)
 
-    const loginPage = (new PageBuilder(authFactory, loginManager))
-        .build()
+    //const page =
 
-    loginManager.setPage(loginPage)
+    //loginManager.setPage(container.resolve('loginPage'))
 
-    const header = (new HeaderBuilder(LinkBuilder))
-        .setBrand("DRT")
-        .addLink((new LinkBuilder("Главная")).setClassName("active").build())
-        .addLink((new LinkBuilder("Заявки")).build())
-        .build()
-        .subscribeUserStorage(loginManager)
+    // const header =
+    //     .subscribeUserStorage(loginManager)
 
-    const page = (new PageBuilder(deskFactory, manager))
-        .addHeader(header)
-        .build()
+
 
     document.addEventListener("DOMContentLoaded", () => {
-      manager.setPage(page)
-          .setLoginManager(loginManager)
-          .start()
+      // manager.setPage(page)
+      //     .setLoginManager(loginManager)
+          container.resolve('manager').start()
     })
   }
 }

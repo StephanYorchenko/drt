@@ -2,7 +2,7 @@ export class Page{
     constructor(builder){
         this.header = builder.header || false
         this.widgetFactory = builder.widgetFactory
-        this.manager = builder.manager
+        this.manager = false
         this.updateWidget()
         this.footer = builder.footer || false
     }
@@ -23,7 +23,13 @@ export class Page{
     }
 
     updateWidget(data){
-        this.mainWidget = this.widgetFactory.makeWidget(this.manager, data)
-        this.show()
+        if (this.manager) {
+            this.mainWidget = this.widgetFactory.makeWidget(this.manager, data)
+            this.show()
+        }
+    }
+
+    setManager(manager){
+        this.manager = manager
     }
 }

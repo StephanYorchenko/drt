@@ -2,11 +2,11 @@ export class LoginManager{
     userFactory;
     user;
 
-    constructor(userFactory, md5, api) {
+    constructor(userFactory, md5, api, loginPage) {
+        this.setPage(loginPage)
         this.md5 = md5
         this.api = api
         this.userFactory = userFactory;
-        this.loginPage = false
         this.is_authorized = false
     }
 
@@ -29,6 +29,11 @@ export class LoginManager{
         this.user = this.userFactory.makeUser(name, role)
     }
 
+    setManager(manager){
+        this.manager = manager
+        return this
+    }
+
     checkAuthorize(){
         let name = this.api.getCookie("name")
         if (name == null)
@@ -48,13 +53,11 @@ export class LoginManager{
         return answer
     }
 
-    setManager(manager){
-        this.manager = manager
-        return this
-    }
-
     setPage(loginPage){
+        console.log('here', loginPage)
         this.loginPage = loginPage
+        this.loginPage.setManager(this)
+        console.log('here', loginPage)
         return this
     }
 
@@ -64,6 +67,7 @@ export class LoginManager{
         let xmlHttp = this.api.getXmlHttp();
         xmlHttp.open("POST", '/api/logout', false)
         xmlHttp.send()
-        this.loginPage.show()
+        console.log(this.loginPage)
+        this.loginPage.updateWidget()
     }
 }
