@@ -1,11 +1,11 @@
 import abc
 from typing import Tuple
 
-from application.domain_serializers.domain_serializer import DomainSerializer
+from application.record_transformer.domain_transformer import DomainTransformer
 
 
 class Desk(abc.ABC):
-    def __init__(self, db_entry_type, serializer: DomainSerializer, entry_count: int):
+    def __init__(self, db_entry_type, serializer: DomainTransformer, entry_count: int):
         self._entry_count = entry_count
         self.serializer = serializer
         self._db_entry_type = db_entry_type

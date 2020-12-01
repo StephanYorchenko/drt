@@ -1,5 +1,5 @@
 from application.desks.desk import Desk
-from application.domain_serializers.request_serializer import RequestSerializer
+from application.record_transformer.request_transformer import RequestTransformer
 from infrastructure.db_classes.db_request import DBRequest
 
 REQUEST_COUNT = 10
@@ -7,4 +7,4 @@ REQUEST_COUNT = 10
 
 class RequestDesk(Desk):
     def __init__(self):
-        super().__init__(DBRequest, RequestSerializer(), REQUEST_COUNT)
+        super().__init__(DBRequest, RequestTransformer(), REQUEST_COUNT)

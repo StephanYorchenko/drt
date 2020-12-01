@@ -9,7 +9,7 @@ def default_to(domain_object) -> Dict[str, str]:
     return res
 
 
-class DomainSerializer:
-    def __init__(self, from_json, to_json=default_to):
-        self.from_json = from_json
+class DomainTransformer:
+    def __init__(self, from_record, to_json=default_to):
+        self.from_record = from_record
         self.to_json = to_json
