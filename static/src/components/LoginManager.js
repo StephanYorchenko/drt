@@ -44,7 +44,6 @@ export class LoginManager{
         formData.append("name", name)
         xmlHttp.send(formData)
         let answer = JSON.parse(xmlHttp.responseText).result
-        console.log(answer)
         if (answer){
             this.setUser(name, +this.api.getCookie("role"))
         } else{
@@ -54,10 +53,8 @@ export class LoginManager{
     }
 
     setPage(loginPage){
-        console.log('here', loginPage)
         this.loginPage = loginPage
         this.loginPage.setManager(this)
-        console.log('here', loginPage)
         return this
     }
 
@@ -67,7 +64,6 @@ export class LoginManager{
         let xmlHttp = this.api.getXmlHttp();
         xmlHttp.open("POST", '/api/logout', false)
         xmlHttp.send()
-        console.log(this.loginPage)
         this.loginPage.updateWidget()
     }
 }

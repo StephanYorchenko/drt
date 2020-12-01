@@ -92,7 +92,6 @@ export class Header{
 
     getUserName(){
         let user = this.userStorage.user
-        console.log(this.linkBuilder)
         if (user !== undefined) {
             this.userName = user.name
             if (user.role.role !== 0) {

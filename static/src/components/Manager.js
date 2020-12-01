@@ -34,7 +34,6 @@ export class Manager{
 
     showAuth(authPage){
         this.main_page = this.page
-        console.log('@@', authPage)
         authPage.show()
     }
 }
