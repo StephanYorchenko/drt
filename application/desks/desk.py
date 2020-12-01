@@ -1,11 +1,12 @@
 import abc
 from typing import Tuple
 
-from application.domain_serializers.domain_serializer import DomainSerializer
+from application.record_transformer.domain_transformer import DomainTransformer
 
 
 class Desk(abc.ABC):
-    def __init__(self, db_entry_type, serializer: DomainSerializer, entry_count: int):
+    def __init__(self, db_entry_type, serializer: DomainTransformer,
+                 entry_count: int):
         self._entry_count = entry_count
         self.serializer = serializer
         self._db_entry_type = db_entry_type
@@ -18,7 +19,7 @@ class Desk(abc.ABC):
         try:
             jsons_page = jsons[(page - 1) * self._entry_count:
                                min(page * self._entry_count, len(jsons))]
-            return (list(map(lambda data: self.serializer.from_json(data),
+            return (list(map(lambda data: self.serializer.from_record(data),
                              jsons_page)), page_count)
         except IndexError:
             return [], page_count
