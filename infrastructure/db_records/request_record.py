@@ -4,7 +4,7 @@ from infrastructure.db_classes.db_request import DBRequest
 
 
 @dataclass
-class Request:
+class RequestRecord:
     request_id: int
     topic: str
     comment: str

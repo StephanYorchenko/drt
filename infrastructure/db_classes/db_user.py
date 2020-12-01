@@ -1,8 +1,9 @@
 from flask_login import UserMixin
+from sqlalchemy import Column, Integer, String
+
 from infrastructure import Base
-from sqlalchemy import Column, Integer, String, Enum
-from infrastructure.database_manager import dbconn, db_session
-import hashlib
+from infrastructure.database_manager import dbconn
+from infrastructure.db_records.user_record import UserRecord
 
 
 class DBUser(UserMixin, Base):
@@ -30,4 +31,4 @@ class DBUser(UserMixin, Base):
         with dbconn as session:
             user = session.query(DBUser).filter_by(**kwargs).first()
 
-        return user
+        return UserRecord(user)

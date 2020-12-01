@@ -4,7 +4,7 @@ from infrastructure.db_classes.db_user import DBUser
 
 
 @dataclass
-class Request:
+class UserRecord:
     id: int
     name: str
     password: str
