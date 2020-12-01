@@ -1,7 +1,7 @@
 export class Manager{
-    constructor(page) {
-        this.page = page || false
-        this.loginManager = false
+    constructor(page, loginManager) {
+        this.setPage(page || false)
+        this.setLoginManager(loginManager || false)
     }
 
     updatePage(data){
@@ -10,12 +10,18 @@ export class Manager{
     }
 
     setPage(page){
-        this.page = page || this.main_page
+        if (page) {
+            this.page = page || this.main_page
+            this.page.setManager(this)
+        }
         return this
     }
 
     setLoginManager(loginManager){
-        this.loginManager = loginManager
+        if (loginManager) {
+            this.loginManager = loginManager
+            this.loginManager.setManager(this)
+        }
         return this
     }
 
@@ -23,7 +29,7 @@ export class Manager{
         if (this.loginManager.checkAuthorize())
             this.updatePage(1)
         else
-            this.showAuth(this.loginManager.loginPage)
+            this.loginManager.clearUser()
     }
 
     showAuth(authPage){

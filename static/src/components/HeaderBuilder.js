@@ -1,8 +1,7 @@
-import {LinkBuilder} from "./LinkBuilder"
-
 export class HeaderBuilder{
-    constructor(){
+    constructor(linkBuilder){
         this.links = []
+        this.linkBuilder = linkBuilder
     }
 
     setBrand(brand){
@@ -20,10 +19,11 @@ export class HeaderBuilder{
     }
 }
 
-class Header{
-    constructor(builder){
-        this.brand = builder.brand || false
-        this.links = builder.links
+export class Header{
+    constructor(headerBuilder){
+        this.brand = headerBuilder.brand || false
+        this.links = headerBuilder.links
+        this.linkBuilder = headerBuilder.linkBuilder
         this.userName = false
     }
 
@@ -93,10 +93,9 @@ class Header{
     getUserName(){
         let user = this.userStorage.user
         if (user !== undefined) {
-            console.log(user, user.role, user.role.tag)
             this.userName = user.name
             if (user.role.role !== 0) {
-                this.links[2] = (new LinkBuilder(user.role.tag)).build() //TODO: нет DIP
+                this.links[2] = this.linkBuilder.make(user.role.tag)
             } else if (this.links.length > 2)
                 this.links.pop()
 
