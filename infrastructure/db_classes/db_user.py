@@ -1,9 +1,11 @@
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
-
 from infrastructure import Base
 from infrastructure.database_manager import dbconn
-from infrastructure.db_records.user_record import UserRecord
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from infrastructure.db_records.user_record import UserRecord
 
 
 class DBUser(UserMixin, Base):

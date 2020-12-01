@@ -1,7 +1,10 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
 from infrastructure import Base
 from infrastructure.database_manager import dbconn
-from infrastructure.db_records.request_record import RequestRecord
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from infrastructure.db_records.request_record import RequestRecord
 
 
 class DBRequest(Base):
