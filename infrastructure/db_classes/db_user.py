@@ -3,9 +3,7 @@ from sqlalchemy import Column, Integer, String
 from infrastructure import Base
 from infrastructure.database_manager import dbconn
 from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from infrastructure.db_records.user_record import UserRecord
+import infrastructure.db_records.user_record
 
 
 class DBUser(UserMixin, Base):
@@ -33,4 +31,4 @@ class DBUser(UserMixin, Base):
         with dbconn as session:
             user = session.query(DBUser).filter_by(**kwargs).first()
 
-        return UserRecord(user)
+        return infrastructure.db_records.user_record.UserRecord(user)
