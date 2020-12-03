@@ -1,7 +1,4 @@
 from dataclasses import dataclass
-from typing import Dict
-
-from infrastructure.db_classes.db_announcement import DBAnnouncement
 
 
 @dataclass
@@ -12,6 +9,10 @@ class AnnouncementRecord:
     date: str
 
     @staticmethod
-    def from_db_type(announcement: DBAnnouncement):
-        return AnnouncementRecord(announcement.title, announcement.text,
-                                  announcement.id, announcement.date)
+    def from_db_type(announcement):
+        return AnnouncementRecord(
+            announcement.title,
+            announcement.text,
+            announcement.id,
+            announcement.date
+        )

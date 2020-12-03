@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 
-from infrastructure.db_classes.db_request import DBRequest
-
 
 @dataclass
 class RequestRecord:
@@ -12,6 +10,11 @@ class RequestRecord:
     is_watched: bool
 
     @staticmethod
-    def from_db_type(request: DBRequest):
-        return Request(request.id, request.topic, request.comment,
-                       request.user_id, request.is_watched)
+    def from_db_type(request):
+        return RequestRecord(
+            request.id,
+            request.topic,
+            request.comment,
+            request.user_id,
+            request.is_watched
+        )
