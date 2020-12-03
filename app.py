@@ -5,6 +5,7 @@ from application.authenticator import Authenticator
 from infrastructure import DBUser
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
+from ui.routes.announcement_provider import AnnouncementProvider
 
 
 app = Flask(__name__)
@@ -14,7 +15,8 @@ bootstrap = Bootstrap(app)
 
 auth_db_worker = Authenticator(DBUser())
 auth_manager = Authentication(auth_db_worker)
-route_manager = RouteManager(auth_manager)
+announcement_provider = AnnouncementProvider()
+route_manager = RouteManager(auth_manager, announcement_provider)
 
 app.register_blueprint(route_manager.Routes)
 

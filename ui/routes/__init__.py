@@ -1,41 +1,47 @@
 from flask import Blueprint
 
-from . import main, announcement, requests, auth
+from . import main, announcement_provider, request_provider, auth
+from .announcement_provider import AnnouncementProvider
 from .auth import Authentication
 
 
 class RouteManager:
-    def __init__(self, authenticator: Authentication):
+    def __init__(
+            self,
+            authenticator: Authentication,
+            announcements: AnnouncementProvider
+    ):
         self.authenticator = authenticator
+        self.announcements = announcements
 
-        self.Routes = Routes = Blueprint(
+        self.Routes = Blueprint(
             'routes',
             __name__,
             template_folder='templates'
         )
 
-        Routes.add_url_rule(
+        self.Routes.add_url_rule(
             '/api/get_count',
             'get_count',
-            view_func=announcement.get_announcements,
+            view_func=self.announcements.get,
             methods=["GET"],
         )
 
-        Routes.add_url_rule(
+        self.Routes.add_url_rule(
             '/api/auth',
             'auth',
             view_func=self.authenticator.try_authorize,
             methods=["POST"],
         )
 
-        Routes.add_url_rule(
+        self.Routes.add_url_rule(
             '/api/check',
             'check',
             view_func=self.authenticator.check_auth,
             methods=["POST"],
         )
 
-        Routes.add_url_rule(
+        self.Routes.add_url_rule(
             '/api/logout',
             'logout',
             view_func=self.authenticator.logout,
