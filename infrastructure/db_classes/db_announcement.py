@@ -6,7 +6,9 @@ from infrastructure import Base
 from infrastructure.database_manager import dbconn
 from infrastructure.db_records.announcement_record import AnnouncementRecord
 
+
 class DBAnnouncement(Base, ):
+    # noinspection SpellCheckingInspection
     __tablename__ = 'announcement'
 
     id = Column(Integer, primary_key=True)
