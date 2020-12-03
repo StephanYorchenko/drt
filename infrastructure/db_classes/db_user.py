@@ -6,6 +6,7 @@ from infrastructure.db_records.user_record import UserRecord
 
 
 class DBUser(UserMixin, Base):
+    # noinspection SpellCheckingInspection
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
