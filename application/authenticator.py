@@ -11,8 +11,12 @@ class Authenticator:
         result = self.db_user.check_user(user, user_hash)
         return result
 
-    def get_user(self, username: str, password: str) -> Optional[UserRecord]:
-        if not self.check_auth(username, password):
+    def get_user(self, username: str) -> Optional[UserRecord]:
+        return self.db_user.get_user(name=username)
+
+    def get_authenticated_user(self, username: str, password: str):
+        user = self.get_user(username)
+        if user is None or user.password != password:
             return None
 
-        return self.db_user.get_user(name=username)
+        return user

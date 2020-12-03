@@ -11,6 +11,8 @@ class UserRecord:
 
     @staticmethod
     def from_db_type(request):
+        if request is None:
+            return None
         return UserRecord(
             request.id,
             request.name,

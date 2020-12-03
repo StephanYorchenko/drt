@@ -28,7 +28,8 @@ class Authentication:
         username = request.form.get('name')
         password = request.form.get('password')
 
-        user = self.authenticator.get_user(username, password)
+        user = self.authenticator.get_authenticated_user(username, password)
+
         name = user.name if user is not None else ''
         role = role_to_int[user.role] if user is not None else ''
 
@@ -41,7 +42,7 @@ class Authentication:
         )
 
         resp.set_cookie('name', name)
-        resp.set_cookie('role', role)
+        resp.set_cookie('role', str(role))
         token = token_urlsafe(37)
         resp.set_cookie('user_hash', token)
         DBUser.update_user_hash(name, token)
