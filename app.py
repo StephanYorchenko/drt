@@ -6,6 +6,7 @@ from infrastructure import DBUser
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
 
+
 app = Flask(__name__)
 app.config.from_object(Config)
 

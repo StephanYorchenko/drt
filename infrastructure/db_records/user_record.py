@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from infrastructure.db_classes.db_user import DBUser
 
 
 @dataclass
@@ -11,8 +10,8 @@ class UserRecord:
     role: str
 
     @staticmethod
-    def from_db_type(request: DBUser):
-        return Request(
+    def from_db_type(request):
+        return UserRecord(
             request.id,
             request.name,
             request.password,

@@ -2,10 +2,7 @@ from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
 from infrastructure import Base
 from infrastructure.database_manager import dbconn
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from infrastructure.db_records.user_record import UserRecord
+from infrastructure.db_records.user_record import UserRecord
 
 
 class DBUser(UserMixin, Base):
@@ -33,4 +30,4 @@ class DBUser(UserMixin, Base):
         with dbconn as session:
             user = session.query(DBUser).filter_by(**kwargs).first()
 
-        return UserRecord(user)
+        return UserRecord.from_db_type(user)
