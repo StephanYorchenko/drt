@@ -21,12 +21,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetAnnouncements'
-        400:
-          description: error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - announcement
@@ -133,20 +127,62 @@ paths:
                 properties:
                   is_authorized:
                     type: boolean
+  /api/user/{name}:
+    get:
+      tags:
+        - user
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: asd
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  role:
+                    type: integer
+  /api/user:
+    post:
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddUser'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+  /api/users:
+    get:
+      tags:
+        - user
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsers'
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-              message:
-                type: string
     GetAnnouncements:
       type: object
       properties:
@@ -177,3 +213,27 @@ components:
           type: string
         text:
           type: string
+    AddUser:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+          example: "some md5 hash"
+        role:
+          type: string
+    GetUsers:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 15
+        users:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
