@@ -24,8 +24,8 @@ class RouteManager:
         )
 
         self.Routes.add_url_rule(
-            '/api/get_count',
-            'get_count',
+            '/api/announcement',
+            'get_announcement',
             view_func=self.announcements.get,
             methods=["GET"],
         )
@@ -38,15 +38,15 @@ class RouteManager:
         )
 
         self.Routes.add_url_rule(
-            '/api/check',
-            'check',
+            '/api/auth/check',
+            'check_auth',
             view_func=self.authenticator.check_auth,
             methods=["POST"],
         )
 
         self.Routes.add_url_rule(
-            '/api/logout',
-            'logout',
+            '/api/user/logout',
+            'logout user',
             view_func=self.authenticator.logout,
             methods=["POST"],
         )
@@ -59,14 +59,14 @@ class RouteManager:
         )
 
         self.Routes.add_url_rule(
-            '/api/create_user',
+            '/api/user',
             'create_user',
             view_func=self.user_control.add_user,
             methods=["POST"]
         )
 
         self.Routes.add_url_rule(
-            '/api/user_list',
+            '/api/user/list',
             'user_list',
             view_func=self.user_control.get_all_users,
             methods=["GET"]
