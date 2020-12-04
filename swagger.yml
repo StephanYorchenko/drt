@@ -100,7 +100,7 @@ paths:
                   Role:
                     type: integer
                     example: 1
-  /api/check:
+  /api/auth/check:
     post:
       tags:
         - auth
@@ -170,7 +170,7 @@ paths:
                 properties:
                   result:
                     type: boolean
-  /api/users:
+  /api/user/list:
     get:
       tags:
         - user
