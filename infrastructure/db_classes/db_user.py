@@ -23,12 +23,58 @@ class DBUser(UserMixin, Base):
     @staticmethod
     def update_user_hash(i_username: str, new_hash) -> None:
         with dbconn as session:
-            session.query(DBUser).filter_by(name=i_username).update(
-                {DBUser.user_hash: new_hash})
+            user = session.query(DBUser).filter_by(name=i_username)
+            user.update({DBUser.user_hash: new_hash})
 
     @staticmethod
-    def get_user(**kwargs):
+    def update_username(user_id: int, new_username):
+        user = DBUser.get_db_user(id=user_id)
+        user.update(name=new_username)
+
+        # with dbconn as session:
+        #     user = session.query(DBUser).fileter_by(id=user_id)
+        #     user.update(name=new_username)
+
+    @staticmethod
+    def update_password(user_id: int, new_password: str):
+        user = DBUser.get_db_user(id=user_id)
+        user.update(password=new_password)
+
+    @staticmethod
+    def update_role(user_id: int, new_role: str):
+        if new_role.lower() not in ('admin', 'hostess', 'employee'):
+            raise ValueError('Role is not correct')
+
+        user = DBUser.get_db_user(id=user_id)
+        user.update(role=new_role)
+
+    @staticmethod
+    def get_db_user(**kwargs):
         with dbconn as session:
             user = session.query(DBUser).filter_by(**kwargs).first()
 
-        return UserRecord.from_db_type(user)
+        return user
+
+    @staticmethod
+    def get_user(**kwargs):
+        return UserRecord.from_db_type(DBUser.get_db_user(**kwargs))
+
+    @staticmethod
+    def add_user(**kwargs):
+        if kwargs['role'].lower() not in ('admin', 'hostess', 'employee'):
+            raise ValueError
+
+        with dbconn as session:
+            new_user = DBUser(
+                name=kwargs['name'],
+                password=kwargs['password'],
+                role=kwargs['role']
+            )
+            session.add(new_user)
+
+    @staticmethod
+    def get_all():
+        with dbconn as session:
+            users = session.query(DBUser).all()
+
+        return [UserRecord.from_db_type(user) for user in users]

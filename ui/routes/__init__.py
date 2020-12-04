@@ -3,16 +3,19 @@ from flask import Blueprint
 from . import main, announcement_provider, request_provider, auth
 from .announcement_provider import AnnouncementProvider
 from .auth import Authentication
+from .user_controller import UserController
 
 
 class RouteManager:
     def __init__(
             self,
             authenticator: Authentication,
-            announcements: AnnouncementProvider
+            announcements: AnnouncementProvider,
+            user_control: UserController
     ):
         self.authenticator = authenticator
         self.announcements = announcements
+        self.user_control = user_control
 
         self.Routes = Blueprint(
             'routes',
@@ -46,4 +49,25 @@ class RouteManager:
             'logout',
             view_func=self.authenticator.logout,
             methods=["POST"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/user',
+            'user',
+            view_func=self.user_control.get_user,
+            methods=["GET"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/create_user',
+            'create_user',
+            view_func=self.user_control.add_user,
+            methods=["POST"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/user_list',
+            'user_list',
+            view_func=self.user_control.get_all_users,
+            methods=["GET"]
         )

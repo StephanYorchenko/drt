@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 
-from application.authenticator import Authenticator
+from application.user_manager import UserManager
 from infrastructure import DBUser
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
@@ -13,7 +13,7 @@ app.config.from_object(Config)
 
 bootstrap = Bootstrap(app)
 
-auth_db_worker = Authenticator(DBUser())
+auth_db_worker = UserManager(DBUser())
 auth_manager = Authentication(auth_db_worker)
 announcement_provider = AnnouncementProvider()
 route_manager = RouteManager(auth_manager, announcement_provider)
