@@ -4,7 +4,7 @@ info:
   version: '1.0'
   title: drt API
 paths:
-  /get_count:
+  /api/announcement:
     get:
       tags:
         - announcement
@@ -27,7 +27,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /auth:
+    post:
+      tags:
+        - announcement
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: hash
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAnnoucement'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+    delete:
+      tags:
+        - announcement
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+  /api/auth:
     post:
       tags:
         - auth
@@ -56,7 +106,7 @@ paths:
                   Role:
                     type: integer
                     example: 1
-  /check:
+  /api/check:
     post:
       tags:
         - auth
@@ -107,6 +157,10 @@ components:
           type: array
           items:
             properties:
+              id:
+                type: integer
+              username:
+                type: string
               title:
                 type: string
               text:
@@ -114,4 +168,12 @@ components:
               date:
                 type: string
                 example: "2020-20-20"
-    
+    AddAnnoucement:
+      type: object
+      properties:
+        title:
+          type: string
+        username:
+          type: string
+        text:
+          type: string
