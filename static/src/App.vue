@@ -13,8 +13,10 @@ import {LoginManager} from "@/components/LoginManager";
 import CryptoJS from "crypto-js";
 import {PageBuilder} from "@/components/PageBuilder";
 import {Manager} from "@/components/Manager";
-import {HeaderBuilder} from "@/components/HeaderBuilder";
 import {LinkFactory} from "@/components/LinkBuilder";
+import {AdminFactory} from "@/components/AdminFactory";
+import {TableFactory} from "@/components/TableFactory";
+import {Header} from "@/components/HeaderBuilder";
 
 
 function register_container() {
@@ -25,24 +27,23 @@ function register_container() {
 
   container.register({
     api: awilix.asClass(Api),
+    brand: awilix.asValue("DRT"),
     linkFactory: awilix.asValue(new LinkFactory()),
+    tableFactory: awilix.asValue(new TableFactory()),
     deskFactory: awilix.asClass(DeskFactory),
     roleFactory: awilix.asClass(RoleFactory),
     userFactory: awilix.asClass(UserFactory),
+    adminFactory: awilix.asClass(AdminFactory),
     authFactory: awilix.asClass(AuthorizeFormFactory),
+    widgets: awilix.asFunction((deskFactory, adminFactory) => [deskFactory, adminFactory]),
     manager: awilix.asClass(Manager),
     md5: awilix.asValue(CryptoJS.MD5),
     loginManager: awilix.asClass(LoginManager).singleton(),
-    loginPage: awilix.asFunction((authFactory) => (new PageBuilder(authFactory)).build()),
-    header: awilix.asFunction((linkFactory, loginManager) => (new HeaderBuilder(linkFactory))
-        .setBrand("DRT")
-        .addLink(linkFactory.make("Главная", "active"))
-        .addLink(linkFactory.make("Заявки"))
-        .build()
-        .subscribeUserStorage(loginManager)),
-    page: awilix.asFunction((deskFactory, header) => (new PageBuilder(deskFactory))
+    loginPage: awilix.asFunction((authFactory) => (new PageBuilder([authFactory])).build()),
+    header: awilix.asClass(Header),
+    page: awilix.asFunction((widgets, header) => (new PageBuilder(widgets))
         .addHeader(header)
-        .build()),
+        .build()) ,
   })
   return container
 }

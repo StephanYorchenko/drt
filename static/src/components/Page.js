@@ -1,7 +1,7 @@
 export class Page{
     constructor(builder){
         this.header = builder.header || false
-        this.widgetFactory = builder.widgetFactory
+        this.widgetFactories = builder.widgetFactories
         this.manager = false
         this.updateWidget()
         this.footer = builder.footer || false
@@ -22,9 +22,9 @@ export class Page{
             yield this.footer.generateHTML()
     }
 
-    updateWidget(data){
+    updateWidget(widget, data){
         if (this.manager) {
-            this.mainWidget = this.widgetFactory.makeWidget(this.manager, data)
+            this.mainWidget = this.widgetFactories[widget].makeWidget(this.manager, data)
             this.show()
         }
     }

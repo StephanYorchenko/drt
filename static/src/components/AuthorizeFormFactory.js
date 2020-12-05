@@ -8,7 +8,7 @@ class AuthorizeForm{
     constructor(manager) {
         this.manager = manager
         console.log(this.manager)
-        this.form = document.createElement("div")
+        this.form = document.createElement("form")
     }
 
     tryAuthorize = () => {
@@ -37,11 +37,11 @@ class AuthorizeForm{
             "</div>"
         let btn_container = document.createElement("div")
         btn_container.className = "container-login100-form-btn"
-        let btn = document.createElement("button")
+        let btn = document.createElement("input")
         btn.className = "login100-form-btn"
-        btn.addEventListener('click', this.tryAuthorize)
+        btn.setAttribute("type", "submit")
         btn.innerText = "Войти"
-
+        this.form.addEventListener("submit", this.tryAuthorize)
         limiter_div.append(container_login)
         container_login.append(wrap_div)
         wrap_div.append(this.form)

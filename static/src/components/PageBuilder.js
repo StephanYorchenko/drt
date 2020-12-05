@@ -1,9 +1,8 @@
 import {Page} from "./Page"
 
 export class PageBuilder{
-    constructor(widgetFactory, manager){
-        this.widgetFactory = widgetFactory
-        this.manager = manager
+    constructor(widgetFactories){
+        this.widgetFactories = widgetFactories
     }
 
     addHeader(header){

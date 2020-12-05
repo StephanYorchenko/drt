@@ -1,6 +1,7 @@
 export class DeskFactory {
     constructor(api) {
         this.api = api
+        this.name = "Главная"
     }
     makeWidget(manager, pageNumber){
         if (pageNumber === undefined) pageNumber = 1;
@@ -11,7 +12,7 @@ export class DeskFactory {
 
     getAnnouncementsData(page) {
         let xmlHttp = this.api.getXmlHttp();
-        xmlHttp.open("GET", '/api/get_count?page_number=' + page, false);
+        xmlHttp.open("GET", '/api/announcement?page_number=' + page, false);
         xmlHttp.send()
         const data = JSON.parse(xmlHttp.responseText)
         this.api.MAX_COUNT = +data.count

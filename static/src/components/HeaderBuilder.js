@@ -1,30 +1,11 @@
-export class HeaderBuilder{
-    constructor(linkBuilder){
-        this.links = []
-        this.linkBuilder = linkBuilder
-    }
-
-    setBrand(brand){
-        this.brand = brand
-        return this
-    }
-
-    addLink(link){
-        this.links.push(link)
-        return this
-    }
-
-    build() {
-        return new Header(this);
-    }
-}
-
 export class Header{
-    constructor(headerBuilder){
-        this.brand = headerBuilder.brand || false
-        this.links = headerBuilder.links
-        this.linkBuilder = headerBuilder.linkBuilder
+    constructor(brand, linkFactory, loginManager, widgets){
+        this.brand = brand || false
+        this.links = []
+        this.linkFactory = linkFactory
         this.userName = false
+        this.subscribeUserStorage(loginManager)
+        this.subscribeWidgetsStorage(widgets)
     }
 
     generateHTML(){
@@ -90,15 +71,18 @@ export class Header{
         return this
     }
 
+    subscribeWidgetsStorage(widgets){
+        this.links = []
+        for (let widget of widgets){
+            this.links.push(this.linkFactory.make(widget.name))
+        }
+        return this
+    }
+
     getUserName(){
         let user = this.userStorage.user
         if (user !== undefined) {
             this.userName = user.name
-            if (user.role.role !== 0) {
-                this.links[2] = this.linkBuilder.make(user.role.tag)
-            } else if (this.links.length > 2)
-                this.links.pop()
-
         }
     }
 }

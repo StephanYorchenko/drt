@@ -1,17 +1,18 @@
 export class Manager{
     constructor(page, loginManager) {
+        this.page = false
         this.setPage(page || false)
         this.setLoginManager(loginManager || false)
     }
 
     updatePage(data){
-        this.page.updateWidget(data)
+        this.page.updateWidget(0, data)
         return this
     }
 
     setPage(page){
         if (page) {
-            this.page = page || this.main_page
+            this.page = page
             this.page.setManager(this)
         }
         return this

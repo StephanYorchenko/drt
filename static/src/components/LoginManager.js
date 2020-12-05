@@ -39,7 +39,7 @@ export class LoginManager{
         if (name == null)
             return false
         let xmlHttp = this.api.getXmlHttp();
-        xmlHttp.open("POST", '/api/check', false)
+        xmlHttp.open("POST", '/api/auth/check', false)
         let formData = new FormData()
         formData.append("name", name)
         xmlHttp.send(formData)
@@ -64,6 +64,6 @@ export class LoginManager{
         let xmlHttp = this.api.getXmlHttp();
         xmlHttp.open("POST", '/api/logout', false)
         xmlHttp.send()
-        this.loginPage.updateWidget()
+        this.loginPage.updateWidget(0)
     }
 }
