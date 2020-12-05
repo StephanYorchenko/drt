@@ -22,4 +22,4 @@ route_manager = RouteManager(auth_manager, announcement_provider, user_control)
 app.register_blueprint(route_manager.Routes)
 
 if __name__ == '__main__':
-	app.run(debug=True, port=8001, host='0.0.0.0')
+    app.run(debug=True, port=8001, host='0.0.0.0')

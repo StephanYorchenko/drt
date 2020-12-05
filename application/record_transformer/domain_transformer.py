@@ -1,9 +1,9 @@
 from typing import Dict
 
 
-def default_to(domain_object) -> Dict[str, str]:
+def default_to(obj) -> Dict[str, str]:
     res = {}
-    for name, value in domain_object.__dict__.items():
+    for name, value in obj.__dict__.items():
         if not name.startswith('_'):
             res[name] = value
     return res

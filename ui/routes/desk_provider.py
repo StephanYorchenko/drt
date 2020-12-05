@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from application.desks.desk import Desk
 from abc import ABC, abstractmethod
+from typing import Dict
 
 
 class DeskProvider(ABC):
@@ -13,7 +14,7 @@ class DeskProvider(ABC):
         ans_dict = {
             "count": page_count,
             name: [
-                self.desk.serializer.to_json(item) for item in items
+                self.domain_to_json(item) for item in items
             ]
         }
 
@@ -22,3 +23,11 @@ class DeskProvider(ABC):
     @abstractmethod
     def get(self):
         pass
+
+    @staticmethod
+    def domain_to_json(obj) -> Dict[str, str]:
+        res = {}
+        for name, value in obj.__dict__.items():
+            if not name.startswith('_'):
+                res[name] = value
+        return res
