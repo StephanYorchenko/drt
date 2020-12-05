@@ -21,7 +21,7 @@ announcement_transformer = DomainTransformer(
     lambda record: Announcement(record.title, record.text,
                                 record.user_id, record.date))
 announcement_desk = Desk(DBAnnouncement, announcement_transformer, 7)
-announcement_provider = DeskProvider(announcement_desk)
+announcement_provider = DeskProvider(announcement_desk, 'announcements')
 
 auth_db_worker = UserManager(DBUser())
 user_control = UserController(auth_db_worker)

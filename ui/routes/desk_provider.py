@@ -4,9 +4,10 @@ from abc import ABC, abstractmethod
 from typing import Dict
 
 
-class DeskProvider(ABC):
-    def __init__(self, desk: Desk):
+class DeskProvider:
+    def __init__(self, desk: Desk, name=''):
         self.desk = desk
+        self._name = name
 
     def jsonify_n_serialized_objects_from_desk(self, name: str):
         page_number = int(request.args.get('page_number'))
@@ -20,9 +21,10 @@ class DeskProvider(ABC):
 
         return jsonify(ans_dict)
 
-    @abstractmethod
     def get(self):
-        pass
+        return self.jsonify_n_serialized_objects_from_desk(
+            self._name
+        )
 
     @staticmethod
     def domain_to_json(obj) -> Dict[str, str]:
