@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from . import main, announcement_provider, request_provider, auth
+from . import main, request_provider, auth
 from .desk_provider import DeskProvider
 from .auth import Authentication
 from .user_controller import UserController

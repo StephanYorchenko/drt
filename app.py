@@ -3,8 +3,9 @@ from flask_bootstrap import Bootstrap
 
 from application.user_manager import UserManager
 from application.desks.desk import Desk
-from application.record_transformer.announcement_transformer \
-    import AnnouncementTransformer
+from application.record_transformer.domain_transformer \
+    import DomainTransformer
+from domain.announcement.announcement import Announcement
 from infrastructure import DBUser, DBAnnouncement
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
@@ -16,7 +17,10 @@ app.config.from_object(Config)
 
 bootstrap = Bootstrap(app)
 
-announcement_desk = Desk(DBAnnouncement, AnnouncementTransformer(), 7)
+announcement_transformer = DomainTransformer(
+    lambda record: Announcement(record.title, record.text,
+                                record.user_id, record.date))
+announcement_desk = Desk(DBAnnouncement, announcement_transformer, 7)
 announcement_provider = DeskProvider(announcement_desk)
 
 auth_db_worker = UserManager(DBUser())
