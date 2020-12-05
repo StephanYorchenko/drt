@@ -4,6 +4,7 @@ export class Header{
         this.links = []
         this.linkFactory = linkFactory
         this.userName = false
+        this.page = false
         this.subscribeUserStorage(loginManager)
         this.subscribeWidgetsStorage(widgets)
     }
@@ -77,6 +78,12 @@ export class Header{
             this.links.push(this.linkFactory.make(widget.name))
         }
         return this
+    }
+
+    setLinksAction(page){
+        for (let i=0; i<this.links.length; i++){
+            this.links[i].setAction(() => page.updateWidget(i))
+        }
     }
 
     getUserName(){

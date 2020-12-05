@@ -1,6 +1,8 @@
 export class Page{
     constructor(builder){
         this.header = builder.header || false
+        if (this.header)
+            this.header.setLinksAction(this)
         this.widgetFactories = builder.widgetFactories
         this.manager = false
         this.updateWidget()
