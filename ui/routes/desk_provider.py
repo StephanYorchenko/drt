@@ -1,6 +1,5 @@
 from flask import jsonify, request
-from application.desks.desk import Provider
-from abc import ABC, abstractmethod
+from application.provider import Provider
 from typing import Dict
 
 

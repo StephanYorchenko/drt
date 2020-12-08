@@ -2,11 +2,13 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 
 from application.user_manager import UserManager
-from application.desks.desk import Provider
-from application.record_transformer.domain_transformer \
+from application.provider import Provider
+from application.domain_transformer \
     import DomainTransformer
 from domain.announcement.announcement import Announcement
-from infrastructure import DBUser, DBAnnouncement
+from domain.request.request import Request
+from domain.request.requestType import HostessRequestType
+from infrastructure import DBUser, DBAnnouncement, DBRequest
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
 from ui.routes.desk_provider import DeskProvider
@@ -23,10 +25,19 @@ announcement_transformer = DomainTransformer(
 announcement_desk = Provider(DBAnnouncement, announcement_transformer, 7)
 announcement_provider = DeskProvider(announcement_desk, 'announcements')
 
+request_transformer = DomainTransformer(lambda record:
+                                        Request(record.id, HostessRequestType(
+                                           record.topic),
+                                               record.comment, record.user_id,
+                                               record.is_watched))
+request_desk = Provider(DBRequest, request_transformer, 7)
+request_provider = DeskProvider(request_desk, 'requests')
+
 auth_db_worker = UserManager(DBUser())
 user_control = UserController(auth_db_worker)
 auth_manager = Authentication(auth_db_worker)
-route_manager = RouteManager(auth_manager, announcement_provider, user_control)
+route_manager = RouteManager(auth_manager, announcement_provider,
+                             request_provider, user_control)
 
 app.register_blueprint(route_manager.Routes)
 
