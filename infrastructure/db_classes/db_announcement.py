@@ -1,10 +1,14 @@
-from sqlalchemy import Column, Integer, Text, String
-from infrastructure import Base
-from infrastructure.database_manager import dbconn, db_session
 from datetime import datetime
+
+from sqlalchemy import Column, Integer, Text, String
+
+from infrastructure import Base
+from infrastructure.database_manager import dbconn
+from infrastructure.db_records.announcement_record import AnnouncementRecord
 
 
 class DBAnnouncement(Base, ):
+    # noinspection SpellCheckingInspection
     __tablename__ = 'announcement'
 
     id = Column(Integer, primary_key=True)
@@ -15,20 +19,12 @@ class DBAnnouncement(Base, ):
     #                  nullable=False)
 
     @staticmethod
-    def to_json(announcement):
-        return dict(
-            id=announcement.id,
-            text=announcement.text,
-            title=announcement.title,
-            date=announcement.date,
-        )
-
-    @staticmethod
     def get():
         with dbconn as session:
             announcements = session.query(DBAnnouncement).all()
 
-        return [DBAnnouncement.to_json(announcement) for announcement in announcements]
+        return [AnnouncementRecord.from_db_type(announcement)
+                for announcement in announcements]
 
     @staticmethod
     def add(**kwargs):

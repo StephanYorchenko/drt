@@ -1,39 +1,74 @@
 from flask import Blueprint
-from . import main, announcement, requests, auth
 
-Routes = Blueprint('routes', __name__, template_folder='templates')
+from . import main, request_provider, auth
+from .desk_provider import DeskProvider
+from .auth import Authentication
+from .user_controller import UserController
 
-Routes.add_url_rule(
-    '/',
-    'announcements',
-    view_func=announcement.render_page,
-    methods=["GET"]
-)
 
-Routes.add_url_rule(
-    '/get_count',
-    'get_count',
-    view_func=announcement.get_announcements,
-    methods=["GET"],
-)
+class RouteManager:
+    def __init__(
+            self,
+            authenticator: Authentication,
+            announcements: DeskProvider,
+            user_control: UserController
+    ):
+        self.authenticator = authenticator
+        self.announcements = announcements
+        self.user_control = user_control
 
-Routes.add_url_rule(
-    '/auth',
-    'auth',
-    view_func=auth.try_authorize,
-    methods=["POST"],
-)
+        self.Routes = Blueprint(
+            'routes',
+            __name__,
+            template_folder='templates'
+        )
 
-Routes.add_url_rule(
-    '/check',
-    'check',
-    view_func=auth.check_auth,
-    methods=["POST"],
-)
+        self.Routes.add_url_rule(
+            '/api/announcement',
+            'get_announcement',
+            view_func=self.announcements.get,
+            methods=["GET"],
+        )
 
-Routes.add_url_rule(
-    '/logout',
-    'logout',
-    view_func=auth.logout,
-    methods=["GET"],
-)
+        self.Routes.add_url_rule(
+            '/api/auth',
+            'auth',
+            view_func=self.authenticator.try_authorize,
+            methods=["POST"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/auth/check',
+            'check_auth',
+            view_func=self.authenticator.check_auth,
+            methods=["POST"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/user/logout',
+            'logout user',
+            view_func=self.authenticator.logout,
+            methods=["POST"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/user',
+            'user',
+            view_func=self.user_control.get_user,
+            methods=["GET"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/user',
+            'create_user',
+            view_func=self.user_control.add_user,
+            methods=["POST"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/user/list',
+            'user_list',
+            view_func=self.user_control.get_all_users,
+            methods=["GET"]
+        )
+        
