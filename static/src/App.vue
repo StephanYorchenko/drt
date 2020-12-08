@@ -26,10 +26,10 @@ function register_container() {
   })
 
   container.register({
-    api: awilix.asClass(Api),
+    api: awilix.asClass(Api).singleton(),
     brand: awilix.asValue("DRT"),
     linkFactory: awilix.asValue(new LinkFactory()),
-    tableFactory: awilix.asValue(new TableFactory()),
+    tableFactory: awilix.asClass(TableFactory).singleton(),
     deskFactory: awilix.asClass(DeskFactory),
     roleFactory: awilix.asClass(RoleFactory),
     userFactory: awilix.asClass(UserFactory),

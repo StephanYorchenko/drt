@@ -23,8 +23,9 @@ class UserController:
         name = request.form.get('name')
         password = request.form.get('password')
         role = self.int_to_role[int(request.form.get('role'))]
-
-        result = self.user_manager.add_user(name, password, role)
+        result = self.update_user(name, new_password=password, new_role=role)
+        if not result:
+            result = self.user_manager.add_user(name, password, role)
 
         return jsonify(
             {
