@@ -2,7 +2,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 
 from application.user_manager import UserManager
-from application.desks.provider import Provider
+from application.desks.desk import Provider
 from application.record_transformer.domain_transformer \
     import DomainTransformer
 from domain.announcement.announcement import Announcement

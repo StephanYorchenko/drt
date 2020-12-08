@@ -1,4 +1,4 @@
-from application.desks.provider import Provider
+from application.desks.desk import Provider
 from application.record_transformer.request_transformer \
     import RequestTransformer
 from infrastructure.db_classes.db_request import DBRequest
