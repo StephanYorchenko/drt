@@ -96,7 +96,7 @@ export class TableFactory{
         request.open("POST", '/api/user', false)
         let formData = new FormData()
         formData.append("name", name)
-        formData.append("password", this.md5(form.password))
+        formData.append("password", this.md5(form.password.value))
         formData.append("role", '1')
         request.send(formData)
     }
