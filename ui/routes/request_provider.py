@@ -1,10 +1,10 @@
-from application.desks.request_desk import RequestDesk
+from application.desks.request_desk import RequestProvider
 from .desk_provider import DeskProvider
 
 
 class RequestProvider(DeskProvider):
     def __init__(self):
-        super().__init__(RequestDesk())
+        super().__init__(RequestProvider())
 
     def get(self):
         return self.jsonify_n_serialized_objects_from_desk(

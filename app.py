@@ -2,7 +2,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 
 from application.user_manager import UserManager
-from application.desks.desk import Desk
+from application.desks.provider import Provider
 from application.record_transformer.domain_transformer \
     import DomainTransformer
 from domain.announcement.announcement import Announcement
@@ -20,7 +20,7 @@ bootstrap = Bootstrap(app)
 announcement_transformer = DomainTransformer(
     lambda record: Announcement(record.title, record.text,
                                 record.user_id, record.date))
-announcement_desk = Desk(DBAnnouncement, announcement_transformer, 7)
+announcement_desk = Provider(DBAnnouncement, announcement_transformer, 7)
 announcement_provider = DeskProvider(announcement_desk, 'announcements')
 
 auth_db_worker = UserManager(DBUser())
