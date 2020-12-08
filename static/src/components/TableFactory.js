@@ -99,5 +99,6 @@ export class TableFactory{
         formData.append("password", this.md5(form.password.value))
         formData.append("role", '1')
         request.send(formData)
+        form.reset()
     }
 }
