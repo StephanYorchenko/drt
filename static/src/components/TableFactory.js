@@ -100,8 +100,4 @@ export class TableFactory{
         formData.append("role", '1')
         request.send(formData)
     }
-
-    /*
-    <a href="#uploadModal" class="btn btn-primary" data-toggle="modal">Отправить csv</a>
-     */
 }
