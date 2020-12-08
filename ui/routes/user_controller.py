@@ -65,7 +65,7 @@ class UserController:
         return jsonify(
             {
                 'user_list': [
-                    {'name' :user.name, 'role': user.role} for user in self.user_manager.get_all_users()
+                    {'name': user.name, 'role': user.role} for user in self.user_manager.get_all_users()
                 ]
             }
         )

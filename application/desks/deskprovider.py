@@ -4,7 +4,7 @@ from typing import Tuple
 from application.record_transformer.domain_transformer import DomainTransformer
 
 
-class Desk(abc.ABC):
+class DeskProvider(abc.ABC):
     def __init__(self, db_entry_type, serializer: DomainTransformer,
                  entry_count: int):
         self._entry_count = entry_count
