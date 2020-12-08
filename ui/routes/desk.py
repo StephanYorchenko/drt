@@ -3,7 +3,7 @@ from application.provider import Provider
 from typing import Dict
 
 
-class DeskProvider:
+class Desk:
     def __init__(self, desk: Provider, name=''):
         self.desk = desk
         self._name = name
