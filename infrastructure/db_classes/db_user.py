@@ -28,25 +28,24 @@ class DBUser(UserMixin, Base):
 
     @staticmethod
     def update_username(user_id: int, new_username):
-        user = DBUser.get_db_user(id=user_id)
-        user.update(name=new_username)
-
-        # with dbconn as session:
-        #     user = session.query(DBUser).fileter_by(id=user_id)
-        #     user.update(name=new_username)
+        with dbconn as session:
+            user = session.query(DBUser).filter_by(id=user_id)
+            user.update({DBUser.name: new_username})
 
     @staticmethod
     def update_password(user_id: int, new_password: str):
-        user = DBUser.get_db_user(id=user_id)
-        user.update(password=new_password)
+        with dbconn as session:
+            user = session.query(DBUser).filter_by(id=user_id)
+            user.update({DBUser.password: new_password})
 
     @staticmethod
     def update_role(user_id: int, new_role: str):
         if new_role.lower() not in ('admin', 'hostess', 'employee'):
             raise ValueError('Role is not correct')
 
-        user = DBUser.get_db_user(id=user_id)
-        user.update(role=new_role)
+        with dbconn as session:
+            user = session.query(DBUser).filter_by(id=user_id)
+            user.update({DBUser.role: new_role})
 
     @staticmethod
     def get_db_user(**kwargs):
