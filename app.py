@@ -1,13 +1,8 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
 
-from application.user_manager import UserManager
-from application.provider import Provider
-from application.domain_transformer \
-    import DomainTransformer
-from domain.announcement.announcement import Announcement
-from domain.request.request import Request
-from domain.request.requestType import HostessRequestType
+from application import DomainTransformer, Provider, UserManager
+from domain import Announcement, Request, HostessRequestType
 from infrastructure import DBUser, DBAnnouncement, DBRequest
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
