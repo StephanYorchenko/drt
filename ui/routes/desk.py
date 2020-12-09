@@ -1,10 +1,9 @@
 from flask import jsonify, request
-from application.desks.desk import Provider
-from abc import ABC, abstractmethod
+from application.provider import Provider
 from typing import Dict
 
 
-class DeskProvider:
+class Desk:
     def __init__(self, desk: Provider, name=''):
         self.desk = desk
         self._name = name

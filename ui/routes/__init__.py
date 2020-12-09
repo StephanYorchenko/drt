@@ -1,7 +1,7 @@
 from flask import Blueprint
 
-from . import main, request_provider, auth
-from .desk_provider import DeskProvider
+from . import main, auth
+from .desk import Desk
 from .auth import Authentication
 from .user_controller import UserController
 
@@ -10,12 +10,14 @@ class RouteManager:
     def __init__(
             self,
             authenticator: Authentication,
-            announcements: DeskProvider,
+            announcements: Desk,
+            requests: Desk,
             user_control: UserController
     ):
         self.authenticator = authenticator
         self.announcements = announcements
         self.user_control = user_control
+        self.requests = requests
 
         self.Routes = Blueprint(
             'routes',
