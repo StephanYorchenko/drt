@@ -2,11 +2,16 @@ import abc
 from typing import Tuple
 
 from application.record_transformer.domain_transformer import DomainTransformer
+from infrastructure import DBAnnouncement
 
 
 class Provider(abc.ABC):
-    def __init__(self, db_entry_type, serializer: DomainTransformer,
-                 entry_count: int):
+    def __init__(
+            self,
+            db_entry_type: DBAnnouncement,
+            serializer: DomainTransformer,
+            entry_count: int = 7
+    ):
         self._entry_count = entry_count
         self.serializer = serializer
         self._db_entry_type = db_entry_type

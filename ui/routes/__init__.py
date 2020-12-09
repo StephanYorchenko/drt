@@ -71,4 +71,3 @@ class RouteManager:
             view_func=self.user_control.get_all_users,
             methods=["GET"]
         )
-
