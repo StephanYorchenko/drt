@@ -1,16 +1,16 @@
 from flask import jsonify, request
-from application.provider import Provider
+from application.providers.provider import Provider
 from typing import Dict
 
 
 class Desk:
-    def __init__(self, desk: Provider, name=''):
-        self.desk = desk
+    def __init__(self, provider: Provider, name=''):
+        self.provider = provider
         self._name = name
 
     def jsonify_n_serialized_objects_from_desk(self, name: str):
         page_number = int(request.args.get('page_number'))
-        items, page_count = self.desk.get(page_number)
+        items, page_count = self.provider.get(page_number)
         ans_dict = {
             "count": page_count,
             name: [

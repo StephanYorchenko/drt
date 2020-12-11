@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
 from infrastructure import Base
-from infrastructure.database_manager import dbconn
+from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.request_record import RequestRecord
 
 
@@ -15,17 +15,20 @@ class DBRequest(Base):
     user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
                      nullable=False)
 
-    @staticmethod
-    def get():
-        with dbconn as c:
+    def __init__(self, dbconn: DBConn):
+        self.dbconn = dbconn
+
+    def get(self):
+        with self.dbconn as c:
             requests = c.query(DBRequest).all()
 
         return list(map(RequestRecord, requests))
 
-    @staticmethod
-    def add(**kwargs):
-        with dbconn as conn:
-            conn.add(DBRequest(kwargs['id'],
-                               kwargs['comment'],
-                               kwargs['type'],
-                               kwargs['user_id']))
+    def add(self, **kwargs):
+        with self.dbconn as conn:
+            # conn.add(DBRequest(kwargs['id'],
+            #                    kwargs['comment'],
+            #                    kwargs['type'],
+            #                    kwargs['user_id']))
+            pass
+        pass

@@ -5,26 +5,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from application import Provider, DomainTransformer, UserManager
-from domain import Announcement
-from infrastructure import DBUser, DBAnnouncement
+from application import Provider, AnnouncementProvider, RequestProvider,\
+    DomainTransformer, AnnouncementTransformer, RequestTransformer,\
+    UserManager
+from domain import Announcement, Request
+from infrastructure import DBUser, DBAnnouncement, DBRequest
 from infrastructure.config import Config
 from infrastructure.database_manager.dblink import DBConn
-from ui.routes import RouteManager, Authentication
-from ui.routes import Desk
+from ui.routes import Desk, AnnouncementDesk, RequestDesk
 from ui.routes import RouteManager, Authentication
 from ui.routes.user_controller import UserController
 
 
 def get_app():
-    announcement_transformer = DomainTransformer(
-        lambda record: Announcement(
-            record.title,
-            record.text,
-            record.user_id,
-            record.date
-        )
-    )
     engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
     session = sessionmaker(bind=engine, autocommit=True)()
 
@@ -38,17 +31,37 @@ def get_app():
 
     container = Container('app')
 
-    container.register_value(announcement_transformer)\
-        .to_type(DomainTransformer)
-
+    # for announcements
+    container.register_value(DomainTransformer(
+        lambda record: Announcement(
+            record.title,
+            record.text,
+            record.user_id,
+            record.date))).to_type(AnnouncementTransformer)
     container.register_value(DBAnnouncement(dbconn))\
         .to_type(DBAnnouncement)
+    container.register_type(AnnouncementDesk, Instantiation.Singleton).\
+        to_type(AnnouncementDesk)\
+        .with_params(name='announcements')
+    container.register_type(AnnouncementProvider, Instantiation.Singleton).\
+        to_type(AnnouncementProvider)
+
+    # for requests
+    container.register_value(DomainTransformer(
+        lambda record: Request(record.request_id, record.topic, record.comment,
+                               record.user_id, record.is_watched)))\
+        .to_type(RequestTransformer)
+    container.register_value(DBRequest(dbconn)).to_type(DBRequest)
+    container.register_type(RequestDesk, Instantiation.Singleton). \
+        to_type(RequestDesk) \
+        .with_params(name='requests')
+    container.register_type(RequestProvider, Instantiation.Singleton).\
+        to_type(RequestProvider)
+
+    container.register_value(7).to_name('entry_count')
 
     container.register_value(DBUser(dbconn))\
         .to_type(DBUser)
-
-    container.register_type(Provider, Instantiation.Singleton)\
-        .to_type(Provider)
 
     container.register_type(UserManager, Instantiation.Singleton)\
         .to_type(UserManager)
@@ -58,10 +71,6 @@ def get_app():
 
     container.register_type(Authentication, Instantiation.Singleton)\
         .to_type(Authentication)
-
-    container.register_type(Desk, Instantiation.Singleton).\
-        to_type(Desk)\
-        .with_params(name='announcements')
 
     container.register_type(RouteManager, Instantiation.Singleton)\
         .to_type(RouteManager)

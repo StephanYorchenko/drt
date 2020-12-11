@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 from . import main, auth
-from .desk import Desk
+from ui.routes.desks import Desk, AnnouncementDesk, RequestDesk
 from .auth import Authentication
 from .user_controller import UserController
 
@@ -10,8 +10,8 @@ class RouteManager:
     def __init__(
             self,
             authenticator: Authentication,
-            announcements: Desk,
-            requests: Desk,
+            announcements: AnnouncementDesk,
+            requests: RequestDesk,
             user_control: UserController
     ):
         self.authenticator = authenticator
@@ -30,6 +30,13 @@ class RouteManager:
             'get_announcement',
             view_func=self.announcements.get,
             methods=["GET"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/requests',
+            'get requests',
+            view_func=self.requests.get,
+            methods=['GET']
         )
 
         self.Routes.add_url_rule(
