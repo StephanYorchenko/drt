@@ -1,7 +1,7 @@
 import abc
 from typing import Tuple
 
-from application.record_transformer.domain_transformer import DomainTransformer
+from application import DomainTransformer
 from infrastructure import DBAnnouncement
 
 
