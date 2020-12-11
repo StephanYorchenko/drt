@@ -1,19 +1,19 @@
+from di_container.container import Container, Instantiation
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
 
-from application.user_manager import UserManager
-from application import Provider, DomainTransformer
-from domain.announcement.announcement import Announcement
+from application import Provider, DomainTransformer, UserManager
+from domain import Announcement
 from infrastructure import DBUser, DBAnnouncement
 from infrastructure.config import Config
 from infrastructure.database_manager.dblink import DBConn
 from ui.routes import RouteManager, Authentication
 from ui.routes import Desk
+from ui.routes import RouteManager, Authentication
 from ui.routes.user_controller import UserController
-from di_container.container import Container, Instantiation
 
 
 def get_app():
