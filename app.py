@@ -1,11 +1,15 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import sessionmaker, Session
 
 from application.user_manager import UserManager
 from application import Provider, DomainTransformer
 from domain.announcement.announcement import Announcement
 from infrastructure import DBUser, DBAnnouncement
 from infrastructure.config import Config
+from infrastructure.database_manager.dblink import DBConn
 from ui.routes import RouteManager, Authentication
 from ui.routes import Desk
 from ui.routes.user_controller import UserController
@@ -21,17 +25,26 @@ def get_app():
             record.date
         )
     )
-    dbconn =
+    engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
+    session = sessionmaker(bind=engine, autocommit=True)()
+
+    conn_container = Container('dbconn')
+    conn_container.register_value(session)\
+        .to_type(Session)
+    conn_container.register_type(DBConn, Instantiation.Singleton)\
+        .to_type(DBConn)
+
+    dbconn = conn_container.resolve_type(DBConn)
 
     container = Container('app')
 
     container.register_value(announcement_transformer)\
         .to_type(DomainTransformer)
 
-    container.register_value(DBAnnouncement())\
+    container.register_value(DBAnnouncement(dbconn))\
         .to_type(DBAnnouncement)
 
-    container.register_value(DBUser())\
+    container.register_value(DBUser(dbconn))\
         .to_type(DBUser)
 
     container.register_type(Provider, Instantiation.Singleton)\

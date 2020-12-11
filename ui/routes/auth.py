@@ -45,7 +45,7 @@ class Authentication:
         resp.set_cookie('role', str(role))
         token = token_urlsafe(37)
         resp.set_cookie('user_hash', token)
-        DBUser.update_user_hash(name, token)
+        self.user_manager.update_user_hash(name, token)
 
         return resp
 

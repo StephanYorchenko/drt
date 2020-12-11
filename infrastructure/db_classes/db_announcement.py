@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column, Integer, Text, String
 
 from infrastructure import Base
-from infrastructure.database_manager import dbconn
+from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.announcement_record import AnnouncementRecord
 
 
@@ -18,20 +18,23 @@ class DBAnnouncement(Base):
     # user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
     #                  nullable=False)
 
-    @staticmethod
-    def get():
-        with dbconn as session:
+    def __init__(self, dbconn: DBConn):
+        self.dbconn = dbconn
+
+    def get(self):
+        with self.dbconn as session:
             announcements = session.query(DBAnnouncement).all()
 
         return [AnnouncementRecord.from_db_type(announcement)
                 for announcement in announcements]
 
-    @staticmethod
-    def add(**kwargs):
-        with dbconn as session:
-            announcement = DBAnnouncement(kwargs['user_id'],
-                                          kwargs['text'],
-                                          kwargs['title'])
-            session.add(announcement)
+    def add(self, **kwargs):
+        with self.dbconn as session:
+            # announcement = DBAnnouncement(kwargs['user_id'],
+            #                               kwargs['text'],
+            #                               kwargs['title'])
+            # session.add(announcement)
+            pass
 
-        return announcement
+        # return announcement
+        return

@@ -55,5 +55,8 @@ class UserManager:
 
         return True
 
+    def update_user_hash(self, name, token):
+        self.db_user.update_user_hash(name, token)
+
     def get_all_users(self):
         return self.db_user.get_all()

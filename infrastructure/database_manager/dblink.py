@@ -1,10 +1,10 @@
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy import create_engine
 from ..config import Config
 
 
 class DBConn:
-    def __init__(self, db):
+    def __init__(self, db: Session):
         self.db = db
 
     def __enter__(self):
@@ -31,4 +31,6 @@ class Db(object):
 
 
 db = Db()
-dbconn = DBConn(db_session())
+engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
+bdsession = sessionmaker(bind=engine, autocommit=True)()
+dbconn = DBConn(bdsession)
