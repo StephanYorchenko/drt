@@ -2,13 +2,12 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 
 from application.user_manager import UserManager
-from application.desks.desk import Provider
-from application.record_transformer.domain_transformer import DomainTransformer
+from application import Provider, DomainTransformer
 from domain.announcement.announcement import Announcement
 from infrastructure import DBUser, DBAnnouncement
 from infrastructure.config import Config
 from ui.routes import RouteManager, Authentication
-from ui.routes.desk_provider import DeskProvider
+from ui.routes import Desk
 from ui.routes.user_controller import UserController
 from di_container.container import Container, Instantiation
 
@@ -47,8 +46,8 @@ def get_app():
     container.register_type(Authentication, Instantiation.Singleton)\
         .to_type(Authentication)
 
-    container.register_type(DeskProvider, Instantiation.Singleton).\
-        to_type(DeskProvider)\
+    container.register_type(Desk, Instantiation.Singleton).\
+        to_type(Desk)\
         .with_params(name='announcements')
 
     container.register_type(RouteManager, Instantiation.Singleton)\
