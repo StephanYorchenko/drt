@@ -22,6 +22,7 @@ def get_app():
             record.date
         )
     )
+    dbconn =
 
     container = Container('app')
 
