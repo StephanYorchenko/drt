@@ -1,8 +1,11 @@
 from flask_login import UserMixin
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import Session
+from sqlalchemy.engine import Engine
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.user_record import UserRecord
+# from ..database_manager.dblink import db_engine
 
 
 class DBUser(UserMixin, Base):
@@ -15,8 +18,9 @@ class DBUser(UserMixin, Base):
     user_hash = Column(String(30), unique=False, nullable=False)
     role = Column(String, nullable=False)
 
-    def __init__(self, dbconn: DBConn):
+    def __init__(self, dbconn: DBConn, engine: Engine):
         self.dbconn = dbconn
+        self.engine = engine
 
     def check_user(self, i_username: str, i_hash: str) -> bool:
         user = self.get_user(name=i_username)
@@ -58,14 +62,13 @@ class DBUser(UserMixin, Base):
         if kwargs['role'].lower() not in ('admin', 'hostess', 'employee'):
             raise ValueError
 
-        with self.dbconn as session:
-            pass
-            # new_user = DBUser(
-            #     name=kwargs['name'],
-            #     password=kwargs['password'],
-            #     role=kwargs['role']
-            # )
-            # session.add(new_user)
+        session = Session(self.engine)
+        new_user = DBUser(self.dbconn, self.engine)
+        new_user.name = kwargs['name']
+        new_user.password = kwargs['password']
+        new_user.role = kwargs['role']
+        session.add(new_user)
+        session.commit()
 
     def get_all(self):
         with self.dbconn as session:

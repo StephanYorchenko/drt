@@ -64,7 +64,7 @@ def get_app():
 
     container.register_value(7).to_name('entry_count')
 
-    container.register_value(DBUser(dbconn))\
+    container.register_value(DBUser(dbconn, engine))\
         .to_type(DBUser)
 
     container.register_type(UserManager, Instantiation.Singleton)\
