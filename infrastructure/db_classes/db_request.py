@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session
@@ -15,6 +17,7 @@ class DBRequest(Base):
     comment = Column(Text, nullable=True)
     topic = Column(String, nullable=True)
     is_watched = Column(Boolean, default=False)
+    date = Column(String, default=datetime.now)
     user_id = Column(Integer, nullable=False)
 
     def __init__(self, dbconn: DBConn, engine: Engine):
