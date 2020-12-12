@@ -43,6 +43,7 @@ class DBRequest(Base):
         new_request.topic = kwargs['topic']
         new_request.comment = kwargs['comment']
         new_request.user_id = kwargs['user_id']
+        new_request.date = kwargs['date']
 
         session.add(new_request)
         session.commit()
