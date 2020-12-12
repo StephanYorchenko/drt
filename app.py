@@ -40,7 +40,7 @@ def get_app():
             record.date))).to_type(AnnouncementTransformer)
     container.register_value(Filter(lambda x: True))\
         .to_type(AnnouncementFilter)
-    container.register_value(DBAnnouncement(dbconn))\
+    container.register_value(DBAnnouncement(dbconn, engine))\
         .to_type(DBAnnouncement)
     container.register_type(AnnouncementDesk, Instantiation.Singleton).\
         to_type(AnnouncementDesk)\
@@ -55,7 +55,7 @@ def get_app():
         .to_type(RequestTransformer)
     container.register_value(Filter(lambda record: not record.is_watched))\
         .to_type(RequestFilter)
-    container.register_value(DBRequest(dbconn)).to_type(DBRequest)
+    container.register_value(DBRequest(dbconn, engine)).to_type(DBRequest)
     container.register_type(RequestDesk, Instantiation.Singleton). \
         to_type(RequestDesk) \
         .with_params(name='requests')

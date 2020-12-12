@@ -1,4 +1,7 @@
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session
+
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.request_record import RequestRecord
@@ -12,23 +15,32 @@ class DBRequest(Base):
     comment = Column(Text, nullable=True)
     topic = Column(String, nullable=True)
     is_watched = Column(Boolean, default=False)
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
-                     nullable=False)
+    user_id = Column(Integer, nullable=False)
 
-    def __init__(self, dbconn: DBConn):
+    def __init__(self, dbconn: DBConn, engine: Engine):
         self.dbconn = dbconn
+        self.engine = engine
 
     def get(self):
-        with self.dbconn as c:
-            requests = c.query(DBRequest).all()
+        with self.dbconn as session:
+            requests = session.query(DBRequest).all()
 
         return list(map(RequestRecord, requests))
 
+    def update_watched(self, request_id: int, is_watched: bool):
+        with self.dbconn as session:
+            user = session.query(DBRequest).filter_by(id=request_id)
+            user.update({DBRequest.is_watched: is_watched})
+
     def add(self, **kwargs):
-        with self.dbconn as conn:
-            # conn.add(DBRequest(kwargs['id'],
-            #                    kwargs['comment'],
-            #                    kwargs['type'],
-            #                    kwargs['user_id']))
-            pass
-        pass
+        session = Session(self.engine)
+        new_request = DBRequest(self.dbconn, self.engine)
+
+        new_request.is_watched = kwargs['is_watched']
+        new_request.topic = kwargs['topic']
+        new_request.comment = kwargs['comment']
+        new_request.user_id = kwargs['user_id']
+
+        session.add(new_request)
+        session.commit()
+        session.close()

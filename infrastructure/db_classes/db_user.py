@@ -64,11 +64,14 @@ class DBUser(UserMixin, Base):
 
         session = Session(self.engine)
         new_user = DBUser(self.dbconn, self.engine)
+
         new_user.name = kwargs['name']
         new_user.password = kwargs['password']
         new_user.role = kwargs['role']
+
         session.add(new_user)
         session.commit()
+        session.close()
 
     def get_all(self):
         with self.dbconn as session:

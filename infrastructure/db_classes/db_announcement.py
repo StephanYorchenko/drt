@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, Text, String
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session
 
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
@@ -15,11 +17,11 @@ class DBAnnouncement(Base):
     text = Column(Text, nullable=True)
     title = Column(String, nullable=True)
     date = Column(String, default=datetime.now)
-    # user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
-    #                  nullable=False)
+    # user_id = Column(Integer, nullable=False)
 
-    def __init__(self, dbconn: DBConn):
+    def __init__(self, dbconn: DBConn, engine: Engine):
         self.dbconn = dbconn
+        self.engine = engine
 
     def get(self):
         with self.dbconn as session:
@@ -29,12 +31,13 @@ class DBAnnouncement(Base):
                 for announcement in announcements]
 
     def add(self, **kwargs):
-        with self.dbconn as session:
-            # announcement = DBAnnouncement(kwargs['user_id'],
-            #                               kwargs['text'],
-            #                               kwargs['title'])
-            # session.add(announcement)
-            pass
+        session = Session(self.engine)
+        new_announcement = DBAnnouncement(self.dbconn, self.engine)
 
-        # return announcement
-        return
+        new_announcement.text = kwargs['text']
+        new_announcement.title = kwargs['title']
+        new_announcement.date = kwargs['date']
+
+        session.add(new_announcement)
+        session.commit()
+        session.close()
