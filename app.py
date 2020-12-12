@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from application import Provider, AnnouncementProvider, RequestProvider,\
     DomainTransformer, AnnouncementTransformer, RequestTransformer,\
-    UserManager
+    Filter, AnnouncementFilter, RequestFilter, UserManager
 from domain import Announcement, Request
 from infrastructure import DBUser, DBAnnouncement, DBRequest
 from infrastructure.config import Config
@@ -38,6 +38,8 @@ def get_app():
             record.text,
             record.user_id,
             record.date))).to_type(AnnouncementTransformer)
+    container.register_value(Filter(lambda x: True))\
+        .to_type(AnnouncementFilter)
     container.register_value(DBAnnouncement(dbconn))\
         .to_type(DBAnnouncement)
     container.register_type(AnnouncementDesk, Instantiation.Singleton).\
@@ -51,6 +53,8 @@ def get_app():
         lambda record: Request(record.request_id, record.topic, record.comment,
                                record.user_id, record.is_watched)))\
         .to_type(RequestTransformer)
+    container.register_value(Filter(lambda record: not record.is_watched))\
+        .to_type(RequestFilter)
     container.register_value(DBRequest(dbconn)).to_type(DBRequest)
     container.register_type(RequestDesk, Instantiation.Singleton). \
         to_type(RequestDesk) \
