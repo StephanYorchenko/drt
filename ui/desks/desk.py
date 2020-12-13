@@ -4,7 +4,7 @@ from typing import Dict
 
 
 class Desk:
-    def __init__(self, provider: Provider,  name=''):
+    def __init__(self, provider: Provider, name=''):
         self.provider = provider
         self._name = name
 

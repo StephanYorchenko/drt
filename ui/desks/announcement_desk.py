@@ -1,4 +1,4 @@
-from ui.desks import Desk
+from ui.desks.desk import Desk
 from application import AnnouncementProvider
 
 
