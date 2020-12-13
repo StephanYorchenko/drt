@@ -27,12 +27,12 @@ class AuthorizeForm{
             "<span class=\"login100-form-title p-b-32\">Авторизация</span>\n" +
             "<span class=\"txt1 p-b-11\">Имя пользователя</span>\n" +
             "<div class=\"wrap-input100 validate-input m-b-36\">\n" +
-            "<input class=\"input100\" type=\"text\" id=\"username\" >\n" +
+            "<input class=\"input100\" type=\"text\" request_id=\"username\" >\n" +
             "<span class=\"focus-input100\"></span>\n" +
             "</div>\n" +
             "<span class=\"txt1 p-b-11\">Пароль</span>\n" +
             "<div class=\"wrap-input100 validate-input m-b-12\">\n" +
-            "<input class=\"input100\" type=\"password\" id=\"password\" >\n" +
+            "<input class=\"input100\" type=\"password\" request_id=\"password\" >\n" +
             "<span class=\"focus-input100\"></span>\n" +
             "</div>"
         let btn_container = document.createElement("div")
