@@ -9,6 +9,7 @@ class Request:
     request_type: HostessRequestType
     comment: str
     user_id: int
+    date: str
     is_watched: bool
 
     def __eq__(self, other):

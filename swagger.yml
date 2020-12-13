@@ -58,7 +58,7 @@ paths:
         - request
       parameters:
         - in: query
-          name: id
+          name: request_id
           schema:
             type: string
       responses:
@@ -126,7 +126,7 @@ paths:
         - announcement
       parameters:
         - in: query
-          name: id
+          name: request_id
           schema:
             type: string
       responses:

@@ -1,9 +1,6 @@
 import abc
 from typing import Tuple
 
-from application import DomainTransformer
-from application.filters import Filter
-
 
 class Provider(abc.ABC):
     def __init__(

@@ -7,6 +7,7 @@ class RequestRecord:
     topic: str
     comment: str
     user_id: int
+    date: str
     is_watched: bool
 
     @staticmethod
@@ -16,5 +17,6 @@ class RequestRecord:
             request.topic,
             request.comment,
             request.user_id,
-            request.is_watched
+            request.date,
+            request.approved
         )

@@ -16,7 +16,7 @@ class DBRequest(Base):
     id = Column(Integer, primary_key=True)
     comment = Column(Text, nullable=True)
     topic = Column(String, nullable=True)
-    is_watched = Column(Boolean, default=False)
+    approved = Column(Boolean, default=False)
     date = Column(String, default=datetime.now)
     user_id = Column(Integer, nullable=False)
 
@@ -30,16 +30,16 @@ class DBRequest(Base):
 
         return list(map(RequestRecord, requests))
 
-    def update_watched(self, request_id: int, is_watched: bool):
+    def change_approval(self, request_id: int, is_watched: bool):
         with self.dbconn as session:
             user = session.query(DBRequest).filter_by(id=request_id)
-            user.update({DBRequest.is_watched: is_watched})
+            user.update({DBRequest.approved: is_watched})
 
     def add(self, **kwargs):
         session = Session(self.engine)
         new_request = DBRequest(self.dbconn, self.engine)
 
-        new_request.is_watched = kwargs['is_watched']
+        new_request.approved = kwargs['approved']
         new_request.topic = kwargs['topic']
         new_request.comment = kwargs['comment']
         new_request.user_id = kwargs['user_id']
