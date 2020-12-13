@@ -10,7 +10,7 @@ class Request:
     comment: str
     user_id: int
     date: str
-    is_watched: bool
+    approved: bool
 
     def __eq__(self, other):
         if other is not Request:

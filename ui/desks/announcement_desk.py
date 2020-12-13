@@ -1,4 +1,4 @@
-from ui.routes.desks.desk import Desk
+from ui.desks import Desk
 from application import AnnouncementProvider
 
 

@@ -33,4 +33,4 @@ class Provider(abc.ABC):
             return [], page_count
 
     def add(self, entry):
-        self._db_entry_type.add(**self.transformer.to_json(entry))
+        self._db_entry_type.add(self.transformer.to_record(entry))

@@ -4,7 +4,7 @@ from typing import Dict
 
 
 class Desk:
-    def __init__(self, provider: Provider, name=''):
+    def __init__(self, provider: Provider,  name=''):
         self.provider = provider
         self._name = name
 
@@ -24,6 +24,9 @@ class Desk:
         return self.jsonify_n_serialized_objects_from_desk(
             self._name
         )
+
+    def add(self, json: Dict[str, str]):
+        self.provider.add(self.provider.transformer.from_json(json))
 
     @staticmethod
     def domain_to_json(obj) -> Dict[str, str]:

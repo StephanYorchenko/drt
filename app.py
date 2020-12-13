@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from di_container.container import Container, Instantiation
 from flask import Flask
 from sqlalchemy import create_engine
@@ -7,7 +9,8 @@ from application import AnnouncementProvider, RequestProvider, \
     DomainTransformer, AnnouncementTransformer, RequestTransformer, \
     Filter, AnnouncementFilter, RequestFilter, UserManager
 from domain import Announcement, Request
-from infrastructure import DBUser, DBAnnouncement, DBRequest
+from infrastructure import DBUser, DBAnnouncement, DBRequest, \
+    AnnouncementRecord, RequestRecord
 from infrastructure.config import Config
 from infrastructure.database_manager.dblink import DBConn
 from ui.routes import AnnouncementDesk, RequestDesk
@@ -35,7 +38,19 @@ def get_app():
             record.title,
             record.text,
             record.user_id,
-            record.date))).to_type(AnnouncementTransformer)
+            record.date),
+        lambda announcement: AnnouncementRecord(
+            announcement.title,
+            announcement.text,
+            announcement.user_id,
+            announcement.date),
+        lambda json: Announcement(
+            json['title'],
+            json['text'],
+            json['username'],
+            str(datetime.now)
+        ))
+    ).to_type(AnnouncementTransformer)
     container.register_value(Filter(lambda x: True))\
         .to_type(AnnouncementFilter)
     container.register_value(DBAnnouncement(dbconn, engine))\
@@ -49,7 +64,13 @@ def get_app():
     # for requests
     container.register_value(DomainTransformer(
         lambda record: Request(record.request_id, record.topic, record.comment,
-                               record.user_id, record.date, record.approved)))\
+                               record.user_id, record.date, record.approved),
+        lambda request: RequestRecord(request.request_id, request.request_type,
+                                      request.comment, request.user_id,
+                                      request.date, request.approved),
+        lambda json: Request(json['request_id'], json['request_type'],
+                             json['comment'], json['user_id'], json['date'],
+                             json['approved'])))\
         .to_type(RequestTransformer)
     container.register_value(Filter(lambda record: not record.approved))\
         .to_type(RequestFilter)

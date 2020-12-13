@@ -1,7 +1,7 @@
 from flask import Blueprint
 
 from . import main, auth
-from ui.routes.desks import Desk, AnnouncementDesk, RequestDesk
+from ui.desks import AnnouncementDesk, RequestDesk
 from .auth import Authentication
 from .user_controller import UserController
 

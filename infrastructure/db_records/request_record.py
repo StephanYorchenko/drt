@@ -8,7 +8,7 @@ class RequestRecord:
     comment: str
     user_id: int
     date: str
-    is_watched: bool
+    approved: bool
 
     @staticmethod
     def from_db_type(request):

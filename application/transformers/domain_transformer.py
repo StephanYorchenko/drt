@@ -14,6 +14,8 @@ def default_to(obj) -> Dict[str, str]:
 
 
 class DomainTransformer(AnnouncementTransformer, RequestTransformer):
-    def __init__(self, from_record, to_json=default_to):
+    def __init__(self, from_record, to_record, from_json, to_json=default_to):
         self.from_record = from_record
+        self.to_record = to_record
+        self.from_json = from_json
         self.to_json = to_json

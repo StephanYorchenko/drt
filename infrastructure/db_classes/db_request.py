@@ -35,15 +35,15 @@ class DBRequest(Base):
             user = session.query(DBRequest).filter_by(id=request_id)
             user.update({DBRequest.approved: is_watched})
 
-    def add(self, **kwargs):
+    def add(self, record: RequestRecord):
         session = Session(self.engine)
         new_request = DBRequest(self.dbconn, self.engine)
 
-        new_request.approved = kwargs['approved']
-        new_request.topic = kwargs['topic']
-        new_request.comment = kwargs['comment']
-        new_request.user_id = kwargs['user_id']
-        new_request.date = kwargs['date']
+        new_request.approved = record.approved
+        new_request.topic = record.topic
+        new_request.comment = record.comment
+        new_request.user_id = record.user_id
+        new_request.date = record.date
 
         session.add(new_request)
         session.commit()
