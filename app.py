@@ -6,15 +6,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
 from application import AnnouncementProvider, RequestProvider, \
-    DomainTransformer, AnnouncementTransformer, RequestTransformer, \
+    RecordTransformer, AnnouncementRecordTransformer,\
+    RequestRecordTransformer,\
     Filter, AnnouncementFilter, RequestFilter, UserManager
 from domain import Announcement, Request
 from infrastructure import DBUser, DBAnnouncement, DBRequest, \
     AnnouncementRecord, RequestRecord
 from infrastructure.config import Config
 from infrastructure.database_manager.dblink import DBConn
-from ui.routes import AnnouncementDesk, RequestDesk
-from ui.routes import RouteManager, Authentication
+from ui import AnnouncementDesk, RequestDesk, RouteManager, Authentication,\
+    AnnouncementJsonTransformer, RequestJsonTransformer, JsonTransformer
 from ui.routes.user_controller import UserController
 
 
@@ -33,7 +34,7 @@ def get_app():
     container = Container('app')
 
     # for announcements
-    container.register_value(DomainTransformer(
+    container.register_value(RecordTransformer(
         lambda record: Announcement(
             record.title,
             record.text,
@@ -43,14 +44,14 @@ def get_app():
             announcement.title,
             announcement.text,
             announcement.user_id,
-            announcement.date),
+            announcement.date))
+    ).to_type(AnnouncementRecordTransformer)
+    container.register_value(JsonTransformer(
         lambda json: Announcement(
             json['title'],
             json['text'],
             json['username'],
-            str(datetime.now)
-        ))
-    ).to_type(AnnouncementTransformer)
+            str(datetime.now)))).to_type(AnnouncementJsonTransformer)
     container.register_value(Filter(lambda x: True))\
         .to_type(AnnouncementFilter)
     container.register_value(DBAnnouncement(dbconn, engine))\
@@ -62,16 +63,18 @@ def get_app():
         to_type(AnnouncementProvider)
 
     # for requests
-    container.register_value(DomainTransformer(
+    container.register_value(RecordTransformer(
         lambda record: Request(record.request_id, record.topic, record.comment,
                                record.user_id, record.date, record.approved),
         lambda request: RequestRecord(request.request_id, request.request_type,
                                       request.comment, request.user_id,
-                                      request.date, request.approved),
+                                      request.date, request.approved)))\
+        .to_type(RequestRecordTransformer)
+    container.register_value(JsonTransformer(
         lambda json: Request(json['request_id'], json['request_type'],
                              json['comment'], json['user_id'], json['date'],
                              json['approved'])))\
-        .to_type(RequestTransformer)
+        .to_type(RequestJsonTransformer)
     container.register_value(Filter(lambda record: not record.approved))\
         .to_type(RequestFilter)
     container.register_value(DBRequest(dbconn, engine)).to_type(DBRequest)

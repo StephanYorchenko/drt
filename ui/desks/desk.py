@@ -4,9 +4,10 @@ from typing import Dict
 
 
 class Desk:
-    def __init__(self, provider: Provider, name=''):
+    def __init__(self, provider: Provider, transformer, name=''):
         self.provider = provider
         self._name = name
+        self.transformer = transformer
 
     def jsonify_n_serialized_objects_from_desk(self, name: str):
         page_number = int(request.args.get('page_number'))
@@ -14,7 +15,7 @@ class Desk:
         ans_dict = {
             "count": page_count,
             name: [
-                self.domain_to_json(item) for item in items
+                self.transformer.to_json(item) for item in items
             ]
         }
 
@@ -26,7 +27,7 @@ class Desk:
         )
 
     def add(self, json: Dict[str, str]):
-        self.provider.add(self.provider.transformer.from_json(json))
+        self.provider.add(self.transformer.from_json(json))
 
     @staticmethod
     def domain_to_json(obj) -> Dict[str, str]:

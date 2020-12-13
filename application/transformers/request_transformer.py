@@ -1,2 +1,0 @@
-class RequestTransformer:
-    pass

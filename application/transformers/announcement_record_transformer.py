@@ -1,0 +1,2 @@
+class AnnouncementRecordTransformer:
+    pass

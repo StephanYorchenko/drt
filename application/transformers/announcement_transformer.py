@@ -1,2 +1,0 @@
-class AnnouncementTransformer:
-    pass
