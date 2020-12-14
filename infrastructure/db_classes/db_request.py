@@ -42,7 +42,7 @@ class DBRequest(Base):
         new_request.approved = record.approved
         new_request.topic = record.topic
         new_request.comment = record.comment
-        new_request.user_id = record.user_id
+        new_request.username = record.username
         new_request.date = record.date
 
         session.add(new_request)
