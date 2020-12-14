@@ -16,7 +16,7 @@ class RequestRecord:
             request.id,
             request.topic,
             request.comment,
-            request.user_id,
+            request.username,
             request.date,
             request.approved
         )

@@ -17,4 +17,5 @@ class RequestDesk(Desk):
         #     json[key] = data[key]
         print(list(data.keys()), "AAAAAAAAAAAAAAAAAAAAAaa")
 
-        self.provider.change_approval(data['request_id'], True)
+        self.provider.change_approval(data['id'], True)
+        return 'Success'

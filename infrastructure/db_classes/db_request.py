@@ -28,7 +28,7 @@ class DBRequest(Base):
         with self.dbconn as session:
             requests = session.query(DBRequest).all()
 
-        return list(map(RequestRecord, requests))
+        return list(map(RequestRecord.from_db_type, requests))
 
     def change_approval(self, request_id: int, is_watched: bool):
         with self.dbconn as session:
