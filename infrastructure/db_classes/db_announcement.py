@@ -17,7 +17,6 @@ class DBAnnouncement(Base):
     text = Column(Text, nullable=True)
     title = Column(String, nullable=True)
     date = Column(String, default=datetime.now)
-    # user_id = Column(Integer, nullable=False)
 
     def __init__(self, dbconn: DBConn, engine: Engine):
         self.dbconn = dbconn
@@ -30,13 +29,13 @@ class DBAnnouncement(Base):
         return [AnnouncementRecord.from_db_type(announcement)
                 for announcement in announcements]
 
-    def add(self, **kwargs):
+    def add(self, record: AnnouncementRecord):
         session = Session(self.engine)
         new_announcement = DBAnnouncement(self.dbconn, self.engine)
 
-        new_announcement.text = kwargs['text']
-        new_announcement.title = kwargs['title']
-        new_announcement.date = kwargs['date']
+        new_announcement.text = record.text
+        new_announcement.title = record.title
+        new_announcement.date = record.date
 
         session.add(new_announcement)
         session.commit()

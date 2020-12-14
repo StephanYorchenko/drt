@@ -33,7 +33,7 @@ class Desk:
             text=data.get('text'),
             username=data.get('username')
         )
-        self.provider.add(self.transformer.from_json(json))
+        return self.provider.add(self.transformer.from_json(json))
 
     @staticmethod
     def domain_to_json(obj) -> Dict[str, str]:

@@ -33,4 +33,9 @@ class Provider(abc.ABC):
             return [], page_count
 
     def add(self, entry):
-        self._db_entry_type.add(self.transformer.to_record(entry))
+        try:
+            self._db_entry_type.add(self.transformer.to_record(entry))
+            return 'Success'
+        except Exception as e:
+            print(e)
+            return 'Error'
