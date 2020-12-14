@@ -31,8 +31,6 @@ class DBRequest(Base):
         return list(map(RequestRecord.from_db_type, requests))
 
     def change_approval(self, request_id: int, approved: bool):
-        print(request_id)
-        print(approved)
         with self.dbconn as session:
             user = session.query(DBRequest).filter_by(id=request_id)
             user.update({DBRequest.approved: approved})
