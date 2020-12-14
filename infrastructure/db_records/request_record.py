@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class RequestRecord:
-    request_id: int
+    id: int
     topic: str
     comment: str
     username: str

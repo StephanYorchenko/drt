@@ -19,6 +19,7 @@ class Desk:
                 self.transformer.to_json(item) for item in items
             ]
         }
+        print(ans_dict.items())
 
         return jsonify(ans_dict)
 

@@ -61,9 +61,9 @@ def get_app():
 
     # for requests
     container.register_value(RecordTransformer(
-        lambda record: Request(record.request_id, record.topic, record.comment,
+        lambda record: Request(record.id, record.topic, record.comment,
                                record.username, record.date, record.approved),
-        lambda request: RequestRecord(request.request_id, request.topic,
+        lambda request: RequestRecord(request.id, request.topic,
                                       request.comment, request.username,
                                       request.date, request.approved)))\
         .to_type(RequestRecordTransformer)
