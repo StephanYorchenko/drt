@@ -1,14 +1,12 @@
 from dataclasses import dataclass
 
-from .requestType import HostessRequestType
-
 
 @dataclass
 class Request:
     request_id: int
-    request_type: HostessRequestType
+    topic: str
     comment: str
-    user_id: int
+    username: str
     date: str
     approved: bool
 

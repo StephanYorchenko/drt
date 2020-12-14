@@ -62,15 +62,16 @@ def get_app():
     # for requests
     container.register_value(RecordTransformer(
         lambda record: Request(record.request_id, record.topic, record.comment,
-                               record.user_id, record.date, record.approved),
+                               record.username, record.date, record.approved),
         lambda request: RequestRecord(request.request_id, request.request_type,
-                                      request.comment, request.user_id,
+                                      request.comment, request.username,
                                       request.date, request.approved)))\
         .to_type(RequestRecordTransformer)
     container.register_value(JsonTransformer(
         lambda json: Request(0, json['topic'],
-                             json['comment'], json['user_id'], json['date'],
-                             json['approved'])))\
+                             json['comment'], json['username'],
+                             str(datetime.now().date()),
+                             False)))\
         .to_type(RequestJsonTransformer)
     container.register_value(Filter(lambda record: not record.approved))\
         .to_type(RequestFilter)

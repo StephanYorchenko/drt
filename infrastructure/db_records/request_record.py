@@ -6,7 +6,7 @@ class RequestRecord:
     request_id: int
     topic: str
     comment: str
-    user_id: int
+    username: str
     date: str
     approved: bool
 
