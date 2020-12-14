@@ -3,11 +3,12 @@ from dataclasses import dataclass
 
 @dataclass
 class RequestRecord:
-    request_id: int
+    id: int
     topic: str
     comment: str
-    user_id: int
-    is_watched: bool
+    username: str
+    date: str
+    approved: bool
 
     @staticmethod
     def from_db_type(request):
@@ -15,6 +16,7 @@ class RequestRecord:
             request.id,
             request.topic,
             request.comment,
-            request.user_id,
-            request.is_watched
+            request.username,
+            request.date,
+            request.approved
         )

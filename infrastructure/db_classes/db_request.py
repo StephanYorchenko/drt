@@ -1,6 +1,11 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, Text, ForeignKey, String, Boolean
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session
+
 from infrastructure import Base
-from infrastructure.database_manager import dbconn
+from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.request_record import RequestRecord
 
 
@@ -11,21 +16,35 @@ class DBRequest(Base):
     id = Column(Integer, primary_key=True)
     comment = Column(Text, nullable=True)
     topic = Column(String, nullable=True)
-    is_watched = Column(Boolean, default=False)
-    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
-                     nullable=False)
+    approved = Column(Boolean, default=False)
+    date = Column(String, default=datetime.now)
+    username = Column(String, nullable=False)
 
-    @staticmethod
-    def get():
-        with dbconn as c:
-            requests = c.query(DBRequest).all()
+    def __init__(self, dbconn: DBConn, engine: Engine):
+        self.dbconn = dbconn
+        self.engine = engine
 
-        return list(map(RequestRecord, requests))
+    def get(self):
+        with self.dbconn as session:
+            requests = session.query(DBRequest).all()
 
-    @staticmethod
-    def add(**kwargs):
-        with dbconn as conn:
-            conn.add(DBRequest(kwargs['id'],
-                               kwargs['comment'],
-                               kwargs['type'],
-                               kwargs['user_id']))
+        return list(map(RequestRecord.from_db_type, requests))
+
+    def change_approval(self, request_id: int, approved: bool):
+        with self.dbconn as session:
+            user = session.query(DBRequest).filter_by(id=request_id)
+            user.update({DBRequest.approved: approved})
+
+    def add(self, record: RequestRecord):
+        session = Session(self.engine)
+        new_request = DBRequest(self.dbconn, self.engine)
+
+        new_request.approved = record.approved
+        new_request.topic = record.topic
+        new_request.comment = record.comment
+        new_request.username = record.username
+        new_request.date = record.date
+
+        session.add(new_request)
+        session.commit()
+        session.close()

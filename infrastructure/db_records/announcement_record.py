@@ -5,7 +5,6 @@ from dataclasses import dataclass
 class AnnouncementRecord:
     title: str
     text: str
-    user_id: int
     date: str
 
     @staticmethod
@@ -13,6 +12,5 @@ class AnnouncementRecord:
         return AnnouncementRecord(
             announcement.title,
             announcement.text,
-            announcement.id,
             announcement.date
         )

@@ -4,6 +4,106 @@ info:
   version: '1.0'
   title: drt API
 paths:
+  /api/request:
+    get:
+      tags:
+        - request
+      parameters:
+        - in: header
+          name: page
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRequest'
+    post:
+      tags:
+        - request
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: hash
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddRequest'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+    put:
+      tags:
+        - request
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: hash
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequest'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+    delete:
+      tags:
+        - request
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+
   /api/announcement:
     get:
       tags:
@@ -183,6 +283,60 @@ paths:
                 $ref: '#/components/schemas/GetUsers'
 components:
   schemas:
+    GetRequest:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 15
+        announcements:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+              username:
+                type: integer
+              topic:
+                type: string
+              comment:
+                type: string
+              approved:
+                type: boolean
+              date:
+                type: string
+                example: "2020-20-20"
+    UpdateRequest:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        username:
+          type: integer
+        topic:
+          type: string
+        comment:
+          type: string
+        approved:
+          type: boolean
+        date:
+          type: string
+          example: "2020-20-20"
+
+    AddRequest:
+      type: object
+      properties:
+        username:
+          type: integer
+        topic:
+          type: string
+        comment:
+          type: string
+        approved:
+          type: boolean
+        date:
+          type: string
+          example: "2020-20-20"
     GetAnnouncements:
       type: object
       properties:

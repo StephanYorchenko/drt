@@ -1,17 +1,16 @@
 from dataclasses import dataclass
 
-from .requestType import HostessRequestType
-
 
 @dataclass
 class Request:
-    request_id: int
-    request_type: HostessRequestType
+    id: int
+    topic: str
     comment: str
-    user_id: int
-    is_watched: bool
+    username: str
+    date: str
+    approved: bool
 
     def __eq__(self, other):
         if other is not Request:
             return False
-        return self.request_id == other.request_id
+        return self.id == other.id

@@ -1,13 +1,15 @@
 from datetime import datetime
 
 from sqlalchemy import Column, Integer, Text, String
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import Session
 
 from infrastructure import Base
-from infrastructure.database_manager import dbconn
+from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.announcement_record import AnnouncementRecord
 
 
-class DBAnnouncement(Base, ):
+class DBAnnouncement(Base):
     # noinspection SpellCheckingInspection
     __tablename__ = 'announcement'
 
@@ -15,23 +17,26 @@ class DBAnnouncement(Base, ):
     text = Column(Text, nullable=True)
     title = Column(String, nullable=True)
     date = Column(String, default=datetime.now)
-    # user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'),
-    #                  nullable=False)
 
-    @staticmethod
-    def get():
-        with dbconn as session:
+    def __init__(self, dbconn: DBConn, engine: Engine):
+        self.dbconn = dbconn
+        self.engine = engine
+
+    def get(self):
+        with self.dbconn as session:
             announcements = session.query(DBAnnouncement).all()
 
         return [AnnouncementRecord.from_db_type(announcement)
                 for announcement in announcements]
 
-    @staticmethod
-    def add(**kwargs):
-        with dbconn as session:
-            announcement = DBAnnouncement(kwargs['user_id'],
-                                          kwargs['text'],
-                                          kwargs['title'])
-            session.add(announcement)
+    def add(self, record: AnnouncementRecord):
+        session = Session(self.engine)
+        new_announcement = DBAnnouncement(self.dbconn, self.engine)
 
-        return announcement
+        new_announcement.text = record.text
+        new_announcement.title = record.title
+        new_announcement.date = record.date
+
+        session.add(new_announcement)
+        session.commit()
+        session.close()

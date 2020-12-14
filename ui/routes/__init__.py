@@ -1,7 +1,7 @@
 from flask import Blueprint
 
-from . import main, request_provider, auth
-from .desk_provider import DeskProvider
+from . import main, auth
+from ui.desks import AnnouncementDesk, RequestDesk
 from .auth import Authentication
 from .user_controller import UserController
 
@@ -10,12 +10,14 @@ class RouteManager:
     def __init__(
             self,
             authenticator: Authentication,
-            announcements: DeskProvider,
+            announcements: AnnouncementDesk,
+            requests: RequestDesk,
             user_control: UserController
     ):
         self.authenticator = authenticator
         self.announcements = announcements
         self.user_control = user_control
+        self.requests = requests
 
         self.Routes = Blueprint(
             'routes',
@@ -28,6 +30,20 @@ class RouteManager:
             'get_announcement',
             view_func=self.announcements.get,
             methods=["GET"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/announcement',
+            'post_announcement',
+            view_func=self.announcements.add,
+            methods=["POST"],
+        )
+
+        self.Routes.add_url_rule(
+            '/api/requests',
+            'get requests',
+            view_func=self.requests.get,
+            methods=['GET']
         )
 
         self.Routes.add_url_rule(
@@ -72,3 +88,23 @@ class RouteManager:
             methods=["GET"]
         )
 
+        self.Routes.add_url_rule(
+            '/api/request',
+            'get_request',
+            view_func=self.requests.get,
+            methods=["GET"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/request',
+            'add_request',
+            view_func=self.requests.add,
+            methods=["POST"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/request',
+            'update_request',
+            view_func=self.requests.change_approval,
+            methods=["PUT"]
+        )

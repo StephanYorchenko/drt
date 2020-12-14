@@ -1,0 +1,2 @@
+class AnnouncementJsonTransformer:
+    pass
