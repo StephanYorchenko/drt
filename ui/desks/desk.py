@@ -26,7 +26,13 @@ class Desk:
             self._name
         )
 
-    def add(self, json: Dict[str, str]):
+    def add(self):
+        data = request.form
+        json = dict(
+            title=data.get('title'),
+            text=data.get('text'),
+            username=data.get('username')
+        )
         self.provider.add(self.transformer.from_json(json))
 
     @staticmethod

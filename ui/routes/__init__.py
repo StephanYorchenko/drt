@@ -33,6 +33,13 @@ class RouteManager:
         )
 
         self.Routes.add_url_rule(
+            '/api/announcement',
+            'post_announcement',
+            view_func=self.announcements.add,
+            methods=["POST"],
+        )
+
+        self.Routes.add_url_rule(
             '/api/requests',
             'get requests',
             view_func=self.requests.get,
