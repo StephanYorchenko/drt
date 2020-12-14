@@ -32,7 +32,6 @@ class Desk:
         json = dict()
         for key in list(data.keys()):
             json[key] = data[key]
-        print(json)
 
         return self.provider.add(self.transformer.from_json(json))
 
