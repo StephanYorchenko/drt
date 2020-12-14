@@ -101,3 +101,10 @@ class RouteManager:
             view_func=self.requests.add,
             methods=["POST"]
         )
+
+        self.Routes.add_url_rule(
+            '/api/request',
+            'update_request',
+            view_func=self.requests.change_approval,
+            methods=["PUT"]
+        )
