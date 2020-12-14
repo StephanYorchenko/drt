@@ -38,20 +38,17 @@ def get_app():
         lambda record: Announcement(
             record.title,
             record.text,
-            record.user_id,
             record.date),
         lambda announcement: AnnouncementRecord(
             announcement.title,
             announcement.text,
-            announcement.user_id,
             announcement.date))
     ).to_type(AnnouncementRecordTransformer)
     container.register_value(JsonTransformer(
         lambda json: Announcement(
             json['title'],
             json['text'],
-            json['username'],
-            str(datetime.now)))).to_type(AnnouncementJsonTransformer)
+            str(datetime.now().date())))).to_type(AnnouncementJsonTransformer)
     container.register_value(Filter(lambda x: True))\
         .to_type(AnnouncementFilter)
     container.register_value(DBAnnouncement(dbconn, engine))\

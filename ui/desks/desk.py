@@ -31,8 +31,8 @@ class Desk:
         json = dict(
             title=data.get('title'),
             text=data.get('text'),
-            username=data.get('username')
         )
+
         return self.provider.add(self.transformer.from_json(json))
 
     @staticmethod
