@@ -18,7 +18,7 @@ class DBRequest(Base):
     topic = Column(String, nullable=True)
     approved = Column(Boolean, default=False)
     date = Column(String, default=datetime.now)
-    user_id = Column(Integer, nullable=False)
+    username = Column(String, nullable=False)
 
     def __init__(self, dbconn: DBConn, engine: Engine):
         self.dbconn = dbconn
