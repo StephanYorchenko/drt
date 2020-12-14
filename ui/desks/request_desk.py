@@ -11,11 +11,5 @@ class RequestDesk(Desk):
         super().__init__(provider, transformer, name)
 
     def change_approval(self):
-        data = request.form
-        # json = dict()
-        # for key in list(data.keys()):
-        #     json[key] = data[key]
-        print(list(data.keys()), "AAAAAAAAAAAAAAAAAAAAAaa")
-
-        self.provider.change_approval(data['id'], True)
+        self.provider.change_approval(request.form['id'], True)
         return 'Success'
