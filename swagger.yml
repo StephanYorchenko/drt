@@ -53,12 +53,44 @@ paths:
                 properties:
                   result:
                     type: boolean
+    put:
+      tags:
+        - request
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: role
+          schema:
+            type: string
+        - in: query
+          name: hash
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequest'
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
     delete:
       tags:
         - request
       parameters:
         - in: query
-          name: request_id
+          name: id
           schema:
             type: string
       responses:
@@ -126,7 +158,7 @@ paths:
         - announcement
       parameters:
         - in: query
-          name: request_id
+          name: id
           schema:
             type: string
       responses:
@@ -263,27 +295,44 @@ components:
             properties:
               id:
                 type: integer
-              user_id:
+              username:
                 type: integer
               topic:
                 type: string
               comment:
                 type: string
-              is_watched:
+              approved:
                 type: boolean
               date:
                 type: string
                 example: "2020-20-20"
-    AddRequest:
+    UpdateRequest:
       type: object
       properties:
         user_id:
+          type: integer
+        username:
           type: integer
         topic:
           type: string
         comment:
           type: string
-        is_watched:
+        approved:
+          type: boolean
+        date:
+          type: string
+          example: "2020-20-20"
+
+    AddRequest:
+      type: object
+      properties:
+        username:
+          type: integer
+        topic:
+          type: string
+        comment:
+          type: string
+        approved:
           type: boolean
         date:
           type: string
