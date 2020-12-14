@@ -68,7 +68,7 @@ def get_app():
                                       request.date, request.approved)))\
         .to_type(RequestRecordTransformer)
     container.register_value(JsonTransformer(
-        lambda json: Request(json['request_id'], json['request_type'],
+        lambda json: Request(0, json['topic'],
                              json['comment'], json['user_id'], json['date'],
                              json['approved'])))\
         .to_type(RequestJsonTransformer)

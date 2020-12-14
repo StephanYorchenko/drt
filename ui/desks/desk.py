@@ -10,7 +10,8 @@ class Desk:
         self.transformer = transformer
 
     def jsonify_n_serialized_objects_from_desk(self, name: str):
-        page_number = int(request.args.get('page_number'))
+        # page_number = int(request.args.get('page_number'))
+        page_number = 1
         items, page_count = self.provider.get(page_number)
         ans_dict = {
             "count": page_count,
@@ -28,10 +29,10 @@ class Desk:
 
     def add(self):
         data = request.form
-        json = dict(
-            title=data.get('title'),
-            text=data.get('text'),
-        )
+        json = dict()
+        for key in list(data.keys()):
+            json[key] = data[key]
+        print(json)
 
         return self.provider.add(self.transformer.from_json(json))
 

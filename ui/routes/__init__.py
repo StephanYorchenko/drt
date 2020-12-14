@@ -87,3 +87,17 @@ class RouteManager:
             view_func=self.user_control.get_all_users,
             methods=["GET"]
         )
+
+        self.Routes.add_url_rule(
+            '/api/request',
+            'get_request',
+            view_func=self.requests.get,
+            methods=["GET"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/request',
+            'add_request',
+            view_func=self.requests.add,
+            methods=["POST"]
+        )
