@@ -5,10 +5,14 @@ export class RoleFactory {
 }
 
 class Role{
-    Roles = ["Администратор", "Заведующий"]
+    Roles = ["EMPLOYEE", "ADMIN", "HOSTESS"]
     TagNames = ["Администрирование", "Запросы"]
     constructor(role_id){
         this.role_name = this.Roles[role_id]
         this.tag = this.TagNames[role_id]
+    }
+
+    getIdByName(name){
+        return this.Roles.indexOf(name)
     }
 }

@@ -3,7 +3,7 @@ export class UserFactory{
     constructor(roleFactory) {
         this.roleFactory = roleFactory
     }
-    makeUser(name, role_id){
+    make(name, role_id){
         let role = this.roleFactory.makeRole(role_id)
         return (new User(name)).setRole(role)
     }

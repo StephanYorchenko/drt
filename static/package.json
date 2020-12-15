@@ -1,61 +1,51 @@
 {
-  "name": "double_rt",
+  "name": "drt_react",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "dev": "webpack-dev-server",
-    "postinstall": "npm run build"
-  },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.11"
-  },
-  "devDependencies": {
-    "@intervolga/optimize-cssnano-plugin": "^1.0.6",
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "awilix": "^4.3.0",
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.5.0",
+    "awilix": "^4.3.1",
     "axios": "^0.21.0",
-    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.5.3",
-    "bootstrap-vue": "^2.20.0",
     "crypto-js": "^4.0.0",
-    "css-loader": "^5.0.1",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "jquery": "^3.5.0",
-    "postcss": "^8.1.10",
-    "postcss-loader": "^4.1.0",
-    "style-loader": "^2.0.0",
-    "vue-loader": "^15.9.5",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
+    "jquery": "^3.5.1",
+    "js-cookie": "^2.2.1",
+    "mdbreact": "^5.0.1",
+    "popper.js": "^1.16.1",
+    "ra-data-json-server": "^3.10.4",
+    "react": "^17.0.1",
+    "react-admin": "^3.10.4",
+    "react-bootstrap": "^1.4.0",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
+    "web-vitals": "^0.2.4"
   },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://0.0.0.0:8001",
   "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+      "react-app",
+      "react-app/jest"
+    ]
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "_id": "double_rt@0.1.0",
-  "readme": "ERROR: No README data found!"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

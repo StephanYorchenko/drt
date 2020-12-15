@@ -4,6 +4,18 @@
     margin-left: 15%;
 }
 
+.anForm{
+    max-width: 70%;
+    margin-top: 10px;
+    margin-left: 15%;
+}
+
+
+.table{
+    width: 70%;
+    margin: auto;
+}
+
 .announcement{
     margin-bottom: 2px;
 }
