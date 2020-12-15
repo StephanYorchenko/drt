@@ -29,12 +29,15 @@ class Desk:
         )
 
     def add(self):
-        data = request.form
+        return self.provider.add(self.transformer.from_json(
+            self.get_json(request.form)))
+
+    @staticmethod
+    def get_json(data):
         json = dict()
         for key in list(data.keys()):
             json[key] = data[key]
-
-        return self.provider.add(self.transformer.from_json(json))
+        return json
 
     @staticmethod
     def domain_to_json(obj) -> Dict[str, str]:
