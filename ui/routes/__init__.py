@@ -82,6 +82,13 @@ class RouteManager:
         )
 
         self.Routes.add_url_rule(
+            '/api/user',
+            'delete_user',
+            view_func=self.user_control.delete_user,
+            methods=["DELETE"]
+        )
+
+        self.Routes.add_url_rule(
             '/api/user/list',
             'user_list',
             view_func=self.user_control.get_all_users,
