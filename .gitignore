@@ -94,3 +94,5 @@ dmypy.json
 # .idea
 .idea/
 node_modules/
+
+static/.eslintcache

@@ -11,8 +11,12 @@ class Desk:
 
     def jsonify_n_serialized_objects_from_desk(self, name: str):
         if 'page_number' not in request.args:
-            return jsonify(list(map(self.transformer.to_json,
-                                    self.provider.get_all())))
+            ans_dict = {
+                'count': 1,
+                name: list(map(self.transformer.to_json,
+                               self.provider.get_all()))
+            }
+            return jsonify(ans_dict)
         page_number = int(request.args.get('page_number'))
         items, page_count = self.provider.get(page_number)
         ans_dict = {
