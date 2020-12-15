@@ -15,6 +15,14 @@ class Provider(abc.ABC):
         self.filter = filter
         self._db_entry_type = db_entry_type
 
+    def get_all(self) -> list:
+        jsons = self._db_entry_type.get()
+        visible = []
+        for object in map(self.transformer.from_record, jsons):
+            if self.filter(object):
+                visible.append(object)
+        return visible
+
     def get(self, page) -> Tuple[list, int]:
         if page < 1:
             raise ValueError("Incorrect page number")
