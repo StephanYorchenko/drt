@@ -61,6 +61,15 @@ class UserController:
             }
         )
 
+    def delete_user(self):
+        name = request.form.get('username')
+        self.user_manager.delete_user(name)
+        return jsonify(
+            {
+                'result': True
+            }
+        )
+
     def get_all_users(self):
         return jsonify(
             {

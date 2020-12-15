@@ -32,6 +32,10 @@ class UserManager:
 
         return True
 
+    def delete_user(self, name: str):
+        result = self.db_user.delete_user(name=name)
+        return True
+
     def update_user(
             self,
             current_name,

@@ -78,3 +78,11 @@ class DBUser(UserMixin, Base):
             users = session.query(DBUser).all()
 
         return [UserRecord.from_db_type(user) for user in users]
+
+    def delete_user(self, **kwargs):
+        session = Session(self.engine)
+        user = self.get_db_user(**kwargs)
+
+        session.delete(user)
+        session.commit()
+        session.close()
