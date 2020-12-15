@@ -13,8 +13,12 @@ class Desk:
         if 'page_number' not in request.args:
             ans_dict = {
                 'count': 1,
-                name: list(map(self.transformer.to_json,
-                               self.provider.get_all()))
+                name: list(
+                    map(
+                        self.transformer.to_json,
+                        self.provider.get_all()
+                    )
+                )
             }
             return jsonify(ans_dict)
         page_number = int(request.args.get('page_number'))
@@ -25,7 +29,6 @@ class Desk:
                 self.transformer.to_json(item) for item in items
             ]
         }
-        print(ans_dict.items())
 
         return jsonify(ans_dict)
 
