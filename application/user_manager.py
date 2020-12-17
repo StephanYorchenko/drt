@@ -13,7 +13,12 @@ class UserManager:
         self.transformer = transformer
 
     def get_role(self, username: str) -> Role:
+        print(self.get_user(username))
         return self.get_user(username).role
+
+    def check_rights(self, name, *roles):
+        if self.get_role(name) not in roles:
+            raise PermissionError
 
     def check_auth(self, user: str, user_hash: str) -> bool:
         result = self.db_user.check_user(user, user_hash)
@@ -34,7 +39,9 @@ class UserManager:
 
         return user
 
-    def add_user(self, username: str, password: str, role: int):
+    def add_user(self, username: str, password: str, role: int,
+                 caller_name: str):
+        self.check_rights(caller_name, Role.ADMIN)
         user = self.db_user.get_user(name=username)
         try:
             Role(role)
@@ -50,17 +57,20 @@ class UserManager:
 
         return True
 
-    def delete_user(self, name: str):
+    def delete_user(self, name: str, caller_name: str):
+        self.check_rights(caller_name, Role.ADMIN)
         result = self.db_user.delete_user(name=name)
         return True
 
     def update_user(
             self,
             current_name,
-            new_name=None,
-            new_password=None,
-            new_role=None
+            caller_name: str,
+            new_name: str = None,
+            new_password: str = None,
+            new_role: int = None
     ):
+        self.check_rights(caller_name, Role.ADMIN)
         user = self.get_user(current_name)
         if user is None:
             return False
@@ -86,5 +96,6 @@ class UserManager:
     def update_user_hash(self, name, token):
         self.db_user.update_user_hash(name, token)
 
-    def get_all_users(self) -> List[User]:
+    def get_all_users(self, caller_name: str) -> List[User]:
+        self.check_rights(caller_name, Role.ADMIN)
         return list(map(self.transformer.from_record, self.db_user.get_all()))
