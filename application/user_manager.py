@@ -13,7 +13,6 @@ class UserManager:
         self.transformer = transformer
 
     def get_role(self, username: str) -> Role:
-        print(self.get_user(username))
         return self.get_user(username).role
 
     def check_rights(self, name, *roles):

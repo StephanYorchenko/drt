@@ -11,5 +11,6 @@ class RequestDesk(Desk):
         super().__init__(provider, transformer, name)
 
     def change_approval(self):
-        self.provider.change_approval(request.form['id'], True)
+        self.provider.change_approval(request.form['id'], True,
+                                      super().get_caller_name())
         return 'Success'

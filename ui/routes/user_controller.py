@@ -1,7 +1,6 @@
 from flask import jsonify, request
 
 from application.user_manager import UserManager
-from domain import Role
 
 
 class UserController:
