@@ -1,3 +1,4 @@
 from .record_transformer import RecordTransformer
 from .request_record_transformer import RequestRecordTransformer
 from .announcement_record_transformer import AnnouncementRecordTransformer
+from .user_record_transformer import UserRecordTransformer

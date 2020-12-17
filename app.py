@@ -7,11 +7,11 @@ from sqlalchemy.orm import sessionmaker, Session
 
 from application import AnnouncementProvider, RequestProvider, \
     RecordTransformer, AnnouncementRecordTransformer,\
-    RequestRecordTransformer,\
+    RequestRecordTransformer, UserRecordTransformer,\
     Filter, AnnouncementFilter, RequestFilter, UserManager
-from domain import Announcement, Request
+from domain import Announcement, Request, User, Role
 from infrastructure import DBUser, DBAnnouncement, DBRequest, \
-    AnnouncementRecord, RequestRecord
+    AnnouncementRecord, RequestRecord, UserRecord
 from infrastructure.config import Config
 from infrastructure.database_manager.dblink import DBConn
 from ui import AnnouncementDesk, RequestDesk, RouteManager, Authentication,\
@@ -32,6 +32,14 @@ def get_app():
     dbconn = conn_container.resolve_type(DBConn)
 
     container = Container('app')
+
+    # for user
+    container.register_value(RecordTransformer(
+        lambda record: User(record.id, record.name, record.password,
+                            Role(record.role)),
+        lambda user: UserRecord(user.user_id, user.username, user.password,
+                                '', int(user.role))))\
+        .to_type(UserRecordTransformer)
 
     # for announcements
     container.register_value(RecordTransformer(
