@@ -41,7 +41,7 @@ class DBUser(UserMixin, Base):
             user = session.query(DBUser).filter_by(id=user_id)
             user.update({DBUser.password: new_password})
 
-    def update_role(self, user_id: int, new_role: str):
+    def update_role(self, user_id: int, new_role: int):
         with self.dbconn as session:
             user = session.query(DBUser).filter_by(id=user_id)
             user.update({DBUser.role: new_role})

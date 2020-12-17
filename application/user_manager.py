@@ -1,4 +1,5 @@
 from typing import Optional, List
+import sys
 
 from application.transformers.user_record_transformer \
     import UserRecordTransformer
@@ -35,6 +36,11 @@ class UserManager:
 
     def add_user(self, username: str, password: str, role: int):
         user = self.db_user.get_user(name=username)
+        try:
+            Role(role)
+        except ValueError as e:
+            print(f"Couldn't add user {username}, {e}", file=sys.stderr)
+            return
         if user is not None:
             return False
         try:
@@ -64,6 +70,12 @@ class UserManager:
         if new_password is not None:
             self.db_user.update_password(user.user_id, new_password)
         if new_role is not None:
+            try:
+                Role(new_role)
+            except ValueError as e:
+                print(f"Couldn't update user {current_name}, {e}",
+                      file=sys.stderr)
+                return
             try:
                 self.db_user.update_role(user.user_id, new_role)
             except ValueError:
