@@ -9,7 +9,7 @@ from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.request_record import RequestRecord
 
 
-class DBTableRequest(Base):
+class DBRequestTable(Base):
     # noinspection SpellCheckingInspection
     __tablename__ = 'request_table'
 
@@ -24,14 +24,14 @@ class DBTableRequest(Base):
 
     def get(self):
         with self.dbconn as session:
-            new_table_requests = session.query(DBTableRequest).all()
+            new_table_requests = session.query(DBRequestTable).all()
 
         return new_table_requests
         # return list(map(RequestRecord.from_db_type, requests))
 
     def add(self, record):
         session = Session(self.engine)
-        new_table_request = DBTableRequest(self.dbconn, self.engine)
+        new_table_request = DBRequestTable(self.dbconn, self.engine)
 
         new_table_request.number = record.topic
         new_table_request.username = record.username
