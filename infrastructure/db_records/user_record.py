@@ -7,7 +7,7 @@ class UserRecord:
     name: str
     password: str
     user_hash: str
-    role: str
+    role: int
 
     @staticmethod
     def from_db_type(request):

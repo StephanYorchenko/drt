@@ -16,7 +16,7 @@ class DBUser(UserMixin, Base):
     name = Column(String(80), unique=True, nullable=False)
     password = Column(String(80), unique=True, nullable=False)
     user_hash = Column(String(30), unique=False, nullable=False)
-    role = Column(String, nullable=False)
+    role = Column(Integer, nullable=False)
 
     def __init__(self, dbconn: DBConn, engine: Engine):
         self.dbconn = dbconn
@@ -41,10 +41,7 @@ class DBUser(UserMixin, Base):
             user = session.query(DBUser).filter_by(id=user_id)
             user.update({DBUser.password: new_password})
 
-    def update_role(self, user_id: int, new_role: str):
-        if new_role.lower() not in ('admin', 'hostess', 'employee'):
-            raise ValueError('Role is not correct')
-
+    def update_role(self, user_id: int, new_role: int):
         with self.dbconn as session:
             user = session.query(DBUser).filter_by(id=user_id)
             user.update({DBUser.role: new_role})
@@ -59,9 +56,6 @@ class DBUser(UserMixin, Base):
         return UserRecord.from_db_type(self.get_db_user(**kwargs))
 
     def add_user(self, **kwargs):
-        if kwargs['role'].lower() not in ('admin', 'hostess', 'employee'):
-            raise ValueError
-
         session = Session(self.engine)
         new_user = DBUser(self.dbconn, self.engine)
 

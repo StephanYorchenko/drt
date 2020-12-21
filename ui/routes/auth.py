@@ -1,16 +1,9 @@
-from flask import jsonify, make_response, request, Response
 from secrets import token_urlsafe
 
-from application.user_manager import UserManager
-from infrastructure import DBUser
 import requests
+from flask import jsonify, make_response, request, Response
 
-
-role_to_int = {
-    "EMPLOYEE": 0,
-    "ADMIN": 1,
-    "HOSTESS": 2
-}
+from application.user_manager import UserManager
 
 
 class Authentication:
@@ -30,8 +23,9 @@ class Authentication:
 
         user = self.user_manager.get_authenticated_user(username, password)
 
-        name = user.name if user is not None else ''
-        role = role_to_int[user.role] if user is not None else ''
+        name = user.username if user is not None else ''
+        role = user.role.value if user is not None else ''
+        print()
 
         resp = make_response(
             jsonify({
@@ -54,12 +48,14 @@ class Authentication:
         resp = requests.request(
             method=request.method,
             url='http://localhost:8002/',
-            headers={key: value for (key, value) in request.headers if key != 'Host'},
+            headers={key: value
+                     for (key, value) in request.headers if key != 'Host'},
             data=request.get_data(),
             cookies=request.cookies,
             allow_redirects=False)
 
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+        excluded_headers = ['content-encoding', 'content-length',
+                            'transfer-encoding', 'connection']
         headers = [(name, value) for (name, value) in resp.raw.headers.items()
                    if name.lower() not in excluded_headers]
 
