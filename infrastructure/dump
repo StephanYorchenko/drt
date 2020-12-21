@@ -57,6 +57,12 @@ INSERT INTO request VALUES(3,'2020-12-14','asd','12','12',1);
 INSERT INTO request VALUES(4,'2020-12-14','asd','kek','lol',1);
 INSERT INTO request VALUES(5,'2020-12-14','StephanYorchenko','Надо больше дерева!','Дерево 200',0);
 DELETE FROM sqlite_sequence;
+CREATE TABLE "table_request" (
+  "id"  INTEGER PRIMARY KEY AUTOINCREMENT,
+  "username"  TEXT,
+  "date"  TEXT,
+  "number"  INTEGER
+);
 INSERT INTO sqlite_sequence VALUES('announcement',22);
 INSERT INTO sqlite_sequence VALUES('user',9);
 INSERT INTO sqlite_sequence VALUES('request',5);
