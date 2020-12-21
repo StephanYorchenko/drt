@@ -24,17 +24,21 @@ class TableRequestProvider(Provider):
             self.check_rights(caller_name, Role.ADMIN)
         return super(TableRequestProvider, self).get_all(caller_name)
 
-    def try_book(self, table_number: int, date: str, caller_name: str):
+    def try_book(self, number: int, date: str, caller_name: str):
         self.check_rights(caller_name, Role.ADMIN, Role.EMPLOYEE)
         requests = self.get_all(caller_name, True)
         for request in requests:
-            if request.table_number == table_number and request.date == date:
-                return False
-        self.db_entry_type.add(
+            if request.number == number and request.date == date:
+                return dict(
+                    result=False
+                )
+        self._db_entry_type.add(
             self.transformer.to_record(TableRequest(
                 0,
-                table_number,
+                number,
                 date,
                 caller_name
             )))
-        return True
+        return dict(
+            result=True
+        )

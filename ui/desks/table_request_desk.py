@@ -1,3 +1,5 @@
+from flask import request
+
 from .desk import Desk
 from ui.transformers.table_request_json_transformer import\
     TableRequestJsonTransformer
@@ -14,6 +16,9 @@ class TableRequestDesk(Desk):
             name
         )
 
-    def try_book(self, table_number: int, date: str):
+    def try_book(self):
+        number = int(request.form.get('number'))
+        date = request.form.get('date')
+        username = request.form.get('username')
         return self.provider.try_book(
-            table_number, date, super().get_caller_name())
+            number, date, username)

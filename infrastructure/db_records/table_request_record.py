@@ -6,7 +6,7 @@ from infrastructure.db_classes.db_table_request import DBTableRequest
 @dataclass
 class TableRequestRecord:
     id: int
-    table_number: int
+    number: int
     date: str
     username: str
 
@@ -16,4 +16,5 @@ class TableRequestRecord:
             table_request.id,
             table_request.number,
             table_request.date,
-            table_request.username)
+            table_request.username
+        )

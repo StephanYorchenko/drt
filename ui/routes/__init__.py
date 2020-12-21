@@ -123,15 +123,15 @@ class RouteManager:
         )
 
         self.Routes.add_url_rule(
-            '/api/table_requests',
-            'get_table_requests',
+            '/api/table_request',
+            'get_table_request',
             view_func=self.table_requests.get,
             methods=['GET']
         )
 
         self.Routes.add_url_rule(
-            '/api/table_requests',
-            'add_table_requests',
+            '/api/table_request',
+            'add_table_request',
             view_func=self.table_requests.try_book,
             methods=['POST']
         )

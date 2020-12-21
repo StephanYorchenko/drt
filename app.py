@@ -131,7 +131,7 @@ def get_app():
 
     # for table request
     container.register_value(RecordTransformer(
-        lambda record: TableRequest(record.id, record.table_number,
+        lambda record: TableRequest(record.id, record.number,
                                     record.date, record.username),
         lambda request: TableRequestRecord(request.id, request.number,
                                            request.date, request.username))). \

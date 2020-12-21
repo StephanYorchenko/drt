@@ -11,7 +11,7 @@ from infrastructure.db_records.request_record import RequestRecord
 
 class DBTableRequest(Base):
     # noinspection SpellCheckingInspection
-    __tablename__ = 'request_table'
+    __tablename__ = 'table_request'
 
     id = Column(Integer, primary_key=True)
     number = Column(Integer)
@@ -33,7 +33,7 @@ class DBTableRequest(Base):
         session = Session(self.engine)
         new_table_request = DBTableRequest(self.dbconn, self.engine)
 
-        new_table_request.number = record.table_number
+        new_table_request.number = record.number
         new_table_request.username = record.username
         new_table_request.date = record.date
 
