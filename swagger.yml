@@ -104,7 +104,7 @@ paths:
                   result:
                     type: boolean
 
-  /api/request_table:
+  /api/table_request:
     get:
       tags:
         - request table

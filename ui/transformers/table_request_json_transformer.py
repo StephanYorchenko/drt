@@ -1,0 +1,2 @@
+class TableRequestJsonTransformer:
+    pass

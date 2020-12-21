@@ -47,7 +47,7 @@ class Authentication:
     def logout():
         resp = requests.request(
             method=request.method,
-            url='http://localhost:8002/',
+            url='http://localhost:8001/',
             headers={key: value
                      for (key, value) in request.headers if key != 'Host'},
             data=request.get_data(),
