@@ -19,7 +19,7 @@ class Desk:
         self.transformer = transformer
 
     def get_caller_name(self):
-        return request.cookies.get('user_hash')
+        return request.cookies.get('name')
 
     def get_n_jsonified_objects(self, name: str):
         page_number = int(request.args.get('page_number'))
