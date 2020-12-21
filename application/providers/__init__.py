@@ -1,3 +1,4 @@
 from application.providers.provider import Provider
 from application.providers.announcement_provider import AnnouncementProvider
 from application.providers.request_provider import RequestProvider
+from .table_request_provider import TableRequestProvider

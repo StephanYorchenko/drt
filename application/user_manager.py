@@ -1,7 +1,7 @@
 from typing import Optional, List
 import sys
 
-from application.transformers.user_record_transformer \
+from application.transformers.user_record \
     import UserRecordTransformer
 from domain import Role, User
 from infrastructure import DBUser

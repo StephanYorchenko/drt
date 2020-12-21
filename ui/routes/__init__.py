@@ -1,7 +1,11 @@
 from flask import Blueprint
 
 from . import main, auth
-from ui.desks import AnnouncementDesk, RequestDesk
+from ui.desks import (
+    AnnouncementDesk,
+    RequestDesk,
+    TableRequestDesk
+)
 from .auth import Authentication
 from .user_controller import UserController
 
@@ -12,12 +16,14 @@ class RouteManager:
             authenticator: Authentication,
             announcements: AnnouncementDesk,
             requests: RequestDesk,
+            table_requests: TableRequestDesk,
             user_control: UserController
     ):
         self.authenticator = authenticator
         self.announcements = announcements
-        self.user_control = user_control
         self.requests = requests
+        self.table_requests = table_requests
+        self.user_control = user_control
 
         self.Routes = Blueprint(
             'routes',
@@ -114,4 +120,18 @@ class RouteManager:
             'update_request',
             view_func=self.requests.change_approval,
             methods=["PUT"]
+        )
+
+        self.Routes.add_url_rule(
+            '/api/table_requests',
+            'get_table_requests',
+            view_func=self.table_requests.get,
+            methods=['GET']
+        )
+
+        self.Routes.add_url_rule(
+            '/api/table_requests',
+            'add_table_requests',
+            view_func=self.table_requests.try_book,
+            methods=['POST']
         )

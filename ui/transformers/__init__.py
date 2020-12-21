@@ -1,3 +1,4 @@
 from .announcement_json_transfromer import AnnouncementJsonTransformer
 from .request_json_transformer import RequestJsonTransformer
 from .json_transformer import JsonTransformer
+from .table_request_json_transformer import TableRequestJsonTransformer
