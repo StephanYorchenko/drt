@@ -109,7 +109,7 @@ def get_app():
 
     routes = container.resolve_type(RouteManager)
 
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='./static/build', static_url_path='/')
     app.config.from_object(Config)
 
     app.register_blueprint(routes.Routes)
@@ -119,5 +119,14 @@ def get_app():
 
 if __name__ == '__main__':
     app = get_app()
+
+
+    @app.route('/')
+    @app.route('/admin')
+    @app.route('/login')
+    @app.route('/request')
+    def req():
+        return app.send_static_file('index.html')
+
     app.run(debug=True, port=8001, host='0.0.0.0')
 
