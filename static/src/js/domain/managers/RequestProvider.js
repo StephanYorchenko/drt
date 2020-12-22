@@ -6,7 +6,7 @@ export class RequestProvider {
     }
 
     getRequests() {
-        const data = this.api.get("/api/request")
+        const data = this.api.get("/api/request") || []
         return data.requests
     }
 
@@ -27,7 +27,11 @@ export class RequestProvider {
     }
 
     checkHostess(){
-        return this.loginManager.isHostess() !== false;
+        console.log("------")
+        let a = this.loginManager.isHostess()
+        console.log(a)
+        console.log("#########")
+        return a !== false;
     }
 
     sendNew(data){

@@ -9,9 +9,7 @@ export class AdminProvider{
     }
 
     deleteUser(username){
-        let data = new FormData()
-        data.append('username', username)
-        this.api.delete('/api/user', data)
+        this.api.delete('/api/user', {username: username})
         if (this.page != null)
             this.page.update(this.getUserList())
     }

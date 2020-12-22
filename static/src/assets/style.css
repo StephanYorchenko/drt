@@ -4,12 +4,15 @@
     margin-left: 15%;
 }
 
+#basic-navbar-nav{
+    margin-right: 5%;
+}
+
 .anForm{
     max-width: 70%;
     margin-top: 10px;
     margin-left: 15%;
 }
-
 
 .table{
     width: 70%;

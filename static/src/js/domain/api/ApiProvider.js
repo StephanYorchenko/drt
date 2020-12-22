@@ -11,6 +11,7 @@ export class Api{
         let xmlHTTP = this.createRequest()
         xmlHTTP.open('GET', request, false)
         xmlHTTP.send()
+        console.log(xmlHTTP)
         return (xmlHTTP.status === 200 ) ? JSON.parse(xmlHTTP.responseText) : false
     }
 

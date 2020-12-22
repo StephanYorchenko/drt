@@ -34,6 +34,7 @@ export class NavBar extends Component {
                     <Nav className="mr-auto">
                         <Nav.Link href="/" className="text-white">Главная</Nav.Link>
                         <Nav.Link href="/request" className="text-white">Заявки</Nav.Link>
+                        <Nav.Link href="/request_table" className="text-white">Бронировние</Nav.Link>
                         {this.state.loginManager.isAdmin() && <Nav.Link href="/admin" className="text-white">Администрирование</Nav.Link>}
                     </Nav>
                     <Nav>

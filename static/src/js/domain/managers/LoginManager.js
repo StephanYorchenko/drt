@@ -67,4 +67,8 @@ export class LoginManager{
         this.user = this.userFactory.make(name, role)
         return this.user
     }
+
+    getUserName(){
+        return this.api.getCookie("name")
+    }
 }

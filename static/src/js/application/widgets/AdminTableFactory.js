@@ -52,7 +52,7 @@ class AdminTable extends React.Component{
     render(){
         const userCreate = (event) => this.provider.createUser(event)
         return (
-            <div className="anForm">
+            <div>
                 <table className="table">
                     <thead>
                         { this.state.fields.map((object) => <th scope="col">{object}</th>)}

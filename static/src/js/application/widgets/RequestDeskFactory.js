@@ -11,6 +11,7 @@ export class RequestDeskFactory {
     }
 
     *makeRequests(data, provider){
+        data = data || []
         for (let r of data){
             yield <this.requestFactory id={r.id} topic={r.topic} comment={r.comment} user={r.user} date={r.date} provider={provider}/>
         }

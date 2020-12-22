@@ -16,7 +16,6 @@ import {NavBar} from "./application/widgets/NavBar"
 import {RequestPage} from "./application/pages/RequestPage";
 
 import React from "react";
-import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 import axios from 'axios'
@@ -30,6 +29,8 @@ import {RequestFactory} from "./application/widgets/RequestFactory";
 import {RequestProvider} from "./domain/managers/RequestProvider";
 import {RequestDeskFactory} from "./application/widgets/RequestDeskFactory";
 
+import {TablesPage} from "./application/pages/TablesPage";
+import {TablesProvider} from "./domain/managers/TablesProvider";
 
 
 export function register_container() {
@@ -59,12 +60,14 @@ export function register_container() {
         announcementProvider: awilix.asClass(AnnouncementProvider),
         requestProvider: awilix.asClass(RequestProvider),
         adminProvider: awilix.asClass(AdminProvider),
+        tablesProvider: awilix.asClass(TablesProvider),
 
         //pages
         mainPageView: awilix.asValue(AnnouncementDeskPage),
         loginPage: awilix.asFunction((authFormFactory) => authFormFactory.makeWidget().render()),
         adminPage: awilix.asFunction((adminFactory) => () => adminFactory.makeWidget().generateHTML()),
         requestPage: awilix.asValue(RequestPage),
+        tableRequestPage: awilix.asValue(TablesPage),
 
         //managers
         loginManager: awilix.asClass(LoginManager),
@@ -96,9 +99,7 @@ export function register_container() {
         privateRouteFactory: awilix.asClass(PrivateRouteFactory),
 
         // application
-        app: awilix.asClass(App).singleton(),
-        start: awilix.asFunction((app) =>
-              ReactDOM.render(<app.Render/>, document.getElementById('root'))),
+        app: awilix.asClass(App)
     })
     return container
 }
