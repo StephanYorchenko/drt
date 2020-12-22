@@ -30,7 +30,7 @@ export class App{
                         <this.privateRoute path='/request' exact={true} component={(props) => <this.requestPage requestProvider={() => this.reqProvider}/>}/>
                         <this.adminRoute path='/admin' exact={true} component={this.adminPage}/>
                         <this.loginRoute path="/login" exact={true} component={this.loginPage}/>
-                        <this.privateRoute path="/request_table" exact={true} component={(props) => <this.tableRequestPage tablesProvider={() => this.tablesProvider}/>}/>
+                        <this.privateRoute path="/table_request" exact={true} component={(props) => <this.tableRequestPage tablesProvider={() => this.tablesProvider}/>}/>
                     </div>
                 </this.router>
             </div>

@@ -184,6 +184,7 @@ if __name__ == '__main__':
     @app.route('/admin')
     @app.route('/login')
     @app.route('/request')
+    @app.route('/table_request')
     def req():
         return app.send_static_file('index.html')
 
