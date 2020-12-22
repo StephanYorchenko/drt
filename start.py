@@ -176,17 +176,15 @@ def get_app():
     return app
 
 
-if __name__ == '__main__':
-    app = get_app()
+app = get_app()
 
 
-    @app.route('/')
-    @app.route('/admin')
-    @app.route('/login')
-    @app.route('/request')
-    @app.route('/table_request')
-    def req():
-        return app.send_static_file('index.html')
+@app.route('/')
+@app.route('/admin')
+@app.route('/login')
+@app.route('/request')
+@app.route('/table_request')
+def req():
+    return app.send_static_file('index.html')
 
-
-    app.run(debug=True, port=8001, host='0.0.0.0')
+app.run(debug=True, port=8001, host='0.0.0.0')
