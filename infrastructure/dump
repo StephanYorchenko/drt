@@ -32,18 +32,18 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"name"	TEXT,
 	"user_hash"	TEXT,
-	"role"	TEXT,
+	"role"	INTEGER,
 	"password"	TEXT
 );
-INSERT INTO user VALUES(1,'asd','7XlZiaMzqVfzr5zWFcpIusFWD5jU874p_jkFIU9whmIr2Jm-DA','ADMIN','fcea920f7412b5da7be0cf42b8c93759');
-INSERT INTO user VALUES(2,'lololozhkin','QnXaQHvFpEJtweuYBamBJjBQWhvW5Y5bP3xc64pjTQaeQI9bOw','ADMIN','a8f5f167f44f4964e6c998dee827110c');
-INSERT INTO user VALUES(3,'StephanYorchenko','OLLrCkZ2Nf6hatoi1qPAdnR-bInb_0E2MN2DDwpME60t4p3Jbg','EMPLOYEE','a865a7e0ddbf35fa6f6a232e0893bea4');
-INSERT INTO user VALUES(4,'kek',NULL,'ADMIN','lol');
-INSERT INTO user VALUES(5,'kekF',NULL,'ADMIN','lol');
-INSERT INTO user VALUES(6,'kekFkk',NULL,'ADMIN','lol');
-INSERT INTO user VALUES(7,'aaaaddd',NULL,'ADMIN','lol');
-INSERT INTO user VALUES(8,'aaaadddddd',NULL,'ADMIN','lol');
-INSERT INTO user VALUES(9,'aidar','DMxNmvftO32qcidjWRjGaJdBsMsyHCoLM25DOD-std577urQ9w','EMPLOYEE','fcea920f7412b5da7be0cf42b8c93759');
+INSERT INTO user VALUES(1,'asd','7XlZiaMzqVfzr5zWFcpIusFWD5jU874p_jkFIU9whmIr2Jm-DA',1,'fcea920f7412b5da7be0cf42b8c93759');
+INSERT INTO user VALUES(2,'lololozhkin','QnXaQHvFpEJtweuYBamBJjBQWhvW5Y5bP3xc64pjTQaeQI9bOw',1,'a8f5f167f44f4964e6c998dee827110c');
+INSERT INTO user VALUES(3,'StephanYorchenko','OLLrCkZ2Nf6hatoi1qPAdnR-bInb_0E2MN2DDwpME60t4p3Jbg',2,'a865a7e0ddbf35fa6f6a232e0893bea4');
+INSERT INTO user VALUES(4,'kek',NULL,1,'lol');
+INSERT INTO user VALUES(5,'kekF',NULL,1,'lol');
+INSERT INTO user VALUES(6,'kekFkk',NULL,1,'lol');
+INSERT INTO user VALUES(7,'aaaaddd',NULL,1,'lol');
+INSERT INTO user VALUES(8,'aaaadddddd',NULL,1,'lol');
+INSERT INTO user VALUES(9,'aidar','DMxNmvftO32qcidjWRjGaJdBsMsyHCoLM25DOD-std577urQ9w',2,'fcea920f7412b5da7be0cf42b8c93759');
 CREATE TABLE IF NOT EXISTS "request" (
 	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"date"	TEXT,
