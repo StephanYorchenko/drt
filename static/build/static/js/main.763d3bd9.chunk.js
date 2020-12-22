@@ -238,9 +238,9 @@ var react_dom = __webpack_require__(35);
 var react_dom_default = /*#__PURE__*/__webpack_require__.n(react_dom);
 
 // CONCATENATED MODULE: ./src/index.js
-var src_container=register_container();console.log('here');var app=src_container.resolve('app');console.log(app);react_dom_default.a.render(/*#__PURE__*/Object(jsx_runtime["jsx"])(app.Render,{}),document.getElementById('root'));
+var src_container=register_container();var app=src_container.resolve('app');react_dom_default.a.render(/*#__PURE__*/Object(jsx_runtime["jsx"])(app.Render,{}),document.getElementById('root'));
 
 /***/ })
 
 },[[334,1,2]]]);
-//# sourceMappingURL=main.731b640c.chunk.js.map
+//# sourceMappingURL=main.763d3bd9.chunk.js.map
