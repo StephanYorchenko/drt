@@ -6,7 +6,11 @@ class RequestFilter:
     pass
 
 
-class Filter(AnnouncementFilter, RequestFilter):
+class TableRequestFilter:
+    pass
+
+
+class Filter(AnnouncementFilter, RequestFilter, TableRequestFilter):
     def __init__(self, func):
         self.func = func
 
