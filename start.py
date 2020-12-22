@@ -3,6 +3,7 @@ from datetime import datetime
 from di_container.container import Container, Instantiation
 from flask import Flask
 from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
 
 from ui import (
@@ -62,16 +63,11 @@ def get_app():
     engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
     session = sessionmaker(bind=engine, autocommit=True)()
 
-    conn_container = Container('dbconn')
-    conn_container.register_value(session) \
-        .to_type(Session)
-    conn_container.register_type(DBConn, Instantiation.Singleton) \
-        .to_type(DBConn)
-
-    dbconn = conn_container.resolve_type(DBConn)
-
     container = Container('app')
+    container.register_value(engine).to_type(Engine)
+    container.register_value(session).to_type(Session)
 
+    container.register_type(DBConn).to_type(DBConn)
     # for user
     container.register_value(RecordTransformer(
         lambda record: User(record.id, record.name, record.password,
@@ -98,7 +94,7 @@ def get_app():
             str(datetime.now().date())))).to_type(AnnouncementJsonTransformer)
     container.register_value(Filter(lambda x: True)) \
         .to_type(AnnouncementFilter)
-    container.register_value(DBAnnouncement(dbconn, engine)) \
+    container.register_type(DBAnnouncement) \
         .to_type(DBAnnouncement)
     container.register_type(AnnouncementDesk, Instantiation.Singleton). \
         to_type(AnnouncementDesk) \
@@ -122,7 +118,7 @@ def get_app():
         .to_type(RequestJsonTransformer)
     container.register_value(Filter(lambda record: not record.approved)) \
         .to_type(RequestFilter)
-    container.register_value(DBRequest(dbconn, engine)).to_type(DBRequest)
+    container.register_type(DBRequest).to_type(DBRequest)
     container.register_type(RequestDesk, Instantiation.Singleton). \
         to_type(RequestDesk) \
         .with_params(name='requests')
@@ -142,7 +138,7 @@ def get_app():
         .to_type(TableRequestJsonTransformer)
     container.register_value(Filter(lambda x: True)) \
         .to_type(TableRequestFilter)
-    container.register_value(DBTableRequest(dbconn, engine))\
+    container.register_type(DBTableRequest)\
         .to_type(DBTableRequest)
     container.register_type(TableRequestDesk, Instantiation.Singleton) \
         .to_type(TableRequestDesk).with_params(name='table_requests')
@@ -151,7 +147,7 @@ def get_app():
 
     container.register_value(7).to_name('entry_count')
 
-    container.register_value(DBUser(dbconn, engine)) \
+    container.register_type(DBUser) \
         .to_type(DBUser)
 
     container.register_type(UserManager, Instantiation.Singleton) \

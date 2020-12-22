@@ -6,10 +6,15 @@ from sqlalchemy.orm import Session
 
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
-from infrastructure.db_records.request_record import RequestRecord
+from typing import TYPE_CHECKING
 
 
-class DBTableRequest(Base):
+if TYPE_CHECKING:
+    from infrastructure.db_records.table_request_record import \
+        TableRequestRecord
+
+
+class _DBTableRequest(Base):
     # noinspection SpellCheckingInspection
     __tablename__ = 'table_request'
 
@@ -24,14 +29,14 @@ class DBTableRequest(Base):
 
     def get(self):
         with self.dbconn as session:
-            new_table_requests = session.query(DBTableRequest).all()
+            new_table_requests = session.query(_DBTableRequest).all()
 
         return new_table_requests
         # return list(map(RequestRecord.from_db_type, requests))
 
-    def add(self, record):
+    def add(self, record: 'TableRequestRecord'):
         session = Session(self.engine)
-        new_table_request = DBTableRequest(self.dbconn, self.engine)
+        new_table_request = _DBTableRequest(self.dbconn, self.engine)
 
         new_table_request.number = record.number
         new_table_request.username = record.username
@@ -40,3 +45,14 @@ class DBTableRequest(Base):
         session.add(new_table_request)
         session.commit()
         session.close()
+
+
+class DBTableRequest:
+    def __init__(self, dbconn: DBConn, engine: Engine):
+        self.db_table_request = _DBTableRequest(dbconn, engine)
+
+    def get(self):
+        return self.db_table_request.get()
+
+    def add(self, record: 'TableRequestRecord'):
+        self.db_table_request.add(record)

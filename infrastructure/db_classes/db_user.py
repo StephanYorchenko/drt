@@ -8,7 +8,7 @@ from infrastructure.db_records.user_record import UserRecord
 # from ..database_manager.dblink import db_engine
 
 
-class DBUser(UserMixin, Base):
+class _DBUser(UserMixin, Base):
     # noinspection SpellCheckingInspection
     __tablename__ = 'user'
 
@@ -28,27 +28,27 @@ class DBUser(UserMixin, Base):
 
     def update_user_hash(self, i_username: str, new_hash) -> None:
         with self.dbconn as session:
-            user = session.query(DBUser).filter_by(name=i_username)
-            user.update({DBUser.user_hash: new_hash})
+            user = session.query(_DBUser).filter_by(name=i_username)
+            user.update({_DBUser.user_hash: new_hash})
 
     def update_username(self, user_id: int, new_username):
         with self.dbconn as session:
-            user = session.query(DBUser).filter_by(id=user_id)
-            user.update({DBUser.name: new_username})
+            user = session.query(_DBUser).filter_by(id=user_id)
+            user.update({_DBUser.name: new_username})
 
     def update_password(self, user_id: int, new_password: str):
         with self.dbconn as session:
-            user = session.query(DBUser).filter_by(id=user_id)
-            user.update({DBUser.password: new_password})
+            user = session.query(_DBUser).filter_by(id=user_id)
+            user.update({_DBUser.password: new_password})
 
     def update_role(self, user_id: int, new_role: int):
         with self.dbconn as session:
-            user = session.query(DBUser).filter_by(id=user_id)
-            user.update({DBUser.role: new_role})
+            user = session.query(_DBUser).filter_by(id=user_id)
+            user.update({_DBUser.role: new_role})
 
     def get_db_user(self, **kwargs):
         with self.dbconn as session:
-            user = session.query(DBUser).filter_by(**kwargs).first()
+            user = session.query(_DBUser).filter_by(**kwargs).first()
 
         return user
 
@@ -57,7 +57,7 @@ class DBUser(UserMixin, Base):
 
     def add_user(self, **kwargs):
         session = Session(self.engine)
-        new_user = DBUser(self.dbconn, self.engine)
+        new_user = _DBUser(self.dbconn, self.engine)
 
         new_user.name = kwargs['name']
         new_user.password = kwargs['password']
@@ -69,7 +69,7 @@ class DBUser(UserMixin, Base):
 
     def get_all(self):
         with self.dbconn as session:
-            users = session.query(DBUser).all()
+            users = session.query(_DBUser).all()
 
         return [UserRecord.from_db_type(user) for user in users]
 
@@ -80,3 +80,38 @@ class DBUser(UserMixin, Base):
         session.delete(user)
         session.commit()
         session.close()
+
+
+class DBUser:
+    def __init__(self, dbconn: DBConn, engine: Engine):
+        self.db_user = _DBUser(dbconn, engine)
+
+    def check_user(self, i_username: str, i_hash: str) -> bool:
+        return self.db_user.check_user(i_username, i_hash)
+
+    def update_user_hash(self, i_username: str, new_hash) -> None:
+        return self.db_user.update_user_hash(i_username, new_hash)
+
+    def update_username(self, user_id: int, new_username):
+        return self.db_user.update_username(user_id, new_username)
+
+    def update_password(self, user_id: int, new_password: str):
+        return self.db_user.update_password(user_id, new_password)
+
+    def update_role(self, user_id: int, new_role: int):
+        return self.db_user.update_role(user_id, new_role)
+
+    def get_db_user(self, **kwargs):
+        return self.db_user.get_db_user(**kwargs)
+
+    def get_user(self, **kwargs):
+        return self.db_user.get_user(**kwargs)
+
+    def add_user(self, **kwargs):
+        return self.db_user.add_user(**kwargs)
+
+    def get_all(self):
+        return self.db_user.get_all()
+
+    def delete_user(self, **kwargs):
+        return self.db_user.delete_user(**kwargs)

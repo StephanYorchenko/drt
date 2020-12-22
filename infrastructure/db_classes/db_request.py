@@ -9,7 +9,7 @@ from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.request_record import RequestRecord
 
 
-class DBRequest(Base):
+class _DBRequest(Base):
     # noinspection SpellCheckingInspection
     __tablename__ = 'request'
 
@@ -26,18 +26,18 @@ class DBRequest(Base):
 
     def get(self):
         with self.dbconn as session:
-            requests = session.query(DBRequest).all()
+            requests = session.query(_DBRequest).all()
 
         return list(map(RequestRecord.from_db_type, requests))
 
     def change_approval(self, request_id: int, approved: bool):
         with self.dbconn as session:
-            user = session.query(DBRequest).filter_by(id=request_id)
-            user.update({DBRequest.approved: approved})
+            user = session.query(_DBRequest).filter_by(id=request_id)
+            user.update({_DBRequest.approved: approved})
 
     def add(self, record: RequestRecord):
         session = Session(self.engine)
-        new_request = DBRequest(self.dbconn, self.engine)
+        new_request = _DBRequest(self.dbconn, self.engine)
 
         new_request.approved = record.approved
         new_request.topic = record.topic
@@ -48,3 +48,17 @@ class DBRequest(Base):
         session.add(new_request)
         session.commit()
         session.close()
+
+
+class DBRequest:
+    def __init__(self, dbconn: DBConn, engine: Engine):
+        self.db_request = _DBRequest(dbconn, engine)
+
+    def get(self):
+        return self.db_request.get()
+
+    def change_approval(self, request_id: int, approved: bool):
+        return self.db_request.change_approval(request_id, approved)
+
+    def add(self, record: RequestRecord):
+        self.db_request.add(record)

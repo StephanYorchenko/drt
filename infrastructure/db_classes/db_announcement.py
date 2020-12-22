@@ -9,7 +9,7 @@ from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.announcement_record import AnnouncementRecord
 
 
-class DBAnnouncement(Base):
+class _DBAnnouncement(Base):
     # noinspection SpellCheckingInspection
     __tablename__ = 'announcement'
 
@@ -24,14 +24,14 @@ class DBAnnouncement(Base):
 
     def get(self):
         with self.dbconn as session:
-            announcements = session.query(DBAnnouncement).all()
+            announcements = session.query(_DBAnnouncement).all()
 
         return [AnnouncementRecord.from_db_type(announcement)
                 for announcement in announcements]
 
     def add(self, record: AnnouncementRecord):
         session = Session(self.engine)
-        new_announcement = DBAnnouncement(self.dbconn, self.engine)
+        new_announcement = _DBAnnouncement(self.dbconn, self.engine)
 
         new_announcement.text = record.text
         new_announcement.title = record.title
@@ -40,3 +40,14 @@ class DBAnnouncement(Base):
         session.add(new_announcement)
         session.commit()
         session.close()
+
+
+class DBAnnouncement:
+    def __init__(self, dbconn: DBConn, engine: Engine):
+        self.db_anouncement = _DBAnnouncement(dbconn, engine)
+
+    def get(self):
+        return self.db_anouncement.get()
+
+    def add(self, record: AnnouncementRecord):
+        return self.db_anouncement.add(record)
