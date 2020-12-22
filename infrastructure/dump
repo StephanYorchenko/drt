@@ -41,7 +41,7 @@ INSERT INTO user VALUES(3,'StephanYorchenko','OLLrCkZ2Nf6hatoi1qPAdnR-bInb_0E2MN
 INSERT INTO user VALUES(4,'kek',NULL,1,'lol');
 INSERT INTO user VALUES(5,'kekF',NULL,1,'lol');
 INSERT INTO user VALUES(6,'kekFkk',NULL,1,'lol');
-INSERT INTO user VALUES(7,'aaaaddd',NULL,'1,'lol');
+INSERT INTO user VALUES(7,'aaaaddd',NULL,1,'lol');
 INSERT INTO user VALUES(8,'aaaadddddd',NULL,1,'lol');
 INSERT INTO user VALUES(9,'aidar','DMxNmvftO32qcidjWRjGaJdBsMsyHCoLM25DOD-std577urQ9w',2,'fcea920f7412b5da7be0cf42b8c93759');
 CREATE TABLE IF NOT EXISTS "request" (
