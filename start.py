@@ -2,23 +2,6 @@ from datetime import datetime
 
 from di_container.container import Container, Instantiation
 from flask import Flask
-from sqlalchemy import create_engine
-from sqlalchemy.engine import Engine
-from sqlalchemy.orm import sessionmaker, Session
-
-from ui import (
-    AnnouncementDesk,
-    RequestDesk,
-    RouteManager,
-    Authentication,
-    AnnouncementJsonTransformer,
-    RequestJsonTransformer,
-    JsonTransformer,
-    TableRequestJsonTransformer,
-    TableRequestDesk
-
-)
-from ui.routes.user_controller import UserController
 
 from application import (
     AnnouncementProvider,
@@ -35,7 +18,6 @@ from application import (
     TableRequestFilter,
     UserManager
 )
-
 from domain import (
     Announcement,
     Request,
@@ -43,7 +25,6 @@ from domain import (
     Role,
     TableRequest
 )
-
 from infrastructure import (
     DBUser,
     DBAnnouncement,
@@ -56,9 +37,21 @@ from infrastructure import (
     EngineWrapper,
     SessionWrapper
 )
-
 from infrastructure.config import Config
 from infrastructure.database_manager.dblink import DBConn
+from ui import (
+    AnnouncementDesk,
+    RequestDesk,
+    RouteManager,
+    Authentication,
+    AnnouncementJsonTransformer,
+    RequestJsonTransformer,
+    JsonTransformer,
+    TableRequestJsonTransformer,
+    TableRequestDesk
+
+)
+from ui.routes.user_controller import UserController
 
 
 def get_app():
