@@ -5,6 +5,7 @@ from sqlalchemy.engine import Engine
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.user_record import UserRecord
+from infrastructure.engine_wrapper import EngineWrapper
 # from ..database_manager.dblink import db_engine
 
 
@@ -83,8 +84,8 @@ class _DBUser(UserMixin, Base):
 
 
 class DBUser:
-    def __init__(self, dbconn: DBConn, engine: Engine):
-        self.db_user = _DBUser(dbconn, engine)
+    def __init__(self, dbconn: DBConn, engine: EngineWrapper):
+        self.db_user = _DBUser(dbconn, engine.engine)
 
     def check_user(self, i_username: str, i_hash: str) -> bool:
         return self.db_user.check_user(i_username, i_hash)

@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.announcement_record import AnnouncementRecord
+from infrastructure.engine_wrapper import EngineWrapper
 
 
 class _DBAnnouncement(Base):
@@ -43,8 +44,8 @@ class _DBAnnouncement(Base):
 
 
 class DBAnnouncement:
-    def __init__(self, dbconn: DBConn, engine: Engine):
-        self.db_anouncement = _DBAnnouncement(dbconn, engine)
+    def __init__(self, dbconn: DBConn, engine: EngineWrapper):
+        self.db_anouncement = _DBAnnouncement(dbconn, engine.engine)
 
     def get(self):
         return self.db_anouncement.get()

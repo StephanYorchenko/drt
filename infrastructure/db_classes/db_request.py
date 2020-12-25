@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
 from infrastructure.db_records.request_record import RequestRecord
+from infrastructure.engine_wrapper import EngineWrapper
 
 
 class _DBRequest(Base):
@@ -51,8 +52,8 @@ class _DBRequest(Base):
 
 
 class DBRequest:
-    def __init__(self, dbconn: DBConn, engine: Engine):
-        self.db_request = _DBRequest(dbconn, engine)
+    def __init__(self, dbconn: DBConn, engine: EngineWrapper):
+        self.db_request = _DBRequest(dbconn, engine.engine)
 
     def get(self):
         return self.db_request.get()

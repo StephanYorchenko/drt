@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from infrastructure import Base
 from infrastructure.database_manager.dblink import DBConn
+from infrastructure.engine_wrapper import EngineWrapper
 from typing import TYPE_CHECKING
 
 
@@ -48,8 +49,8 @@ class _DBTableRequest(Base):
 
 
 class DBTableRequest:
-    def __init__(self, dbconn: DBConn, engine: Engine):
-        self.db_table_request = _DBTableRequest(dbconn, engine)
+    def __init__(self, dbconn: DBConn, engine: EngineWrapper):
+        self.db_table_request = _DBTableRequest(dbconn, engine.engine)
 
     def get(self):
         return self.db_table_request.get()

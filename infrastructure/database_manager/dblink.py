@@ -1,11 +1,9 @@
-from sqlalchemy.orm import sessionmaker, Session
-from sqlalchemy import create_engine
-from ..config import Config
+from infrastructure.session_wrapper import SessionWrapper
 
 
 class DBConn:
-    def __init__(self, db: Session):
-        self.db = db
+    def __init__(self, db: SessionWrapper):
+        self.db = db.session
 
     def __enter__(self):
         return self.db

@@ -52,7 +52,9 @@ from infrastructure import (
     RequestRecord,
     UserRecord,
     DBTableRequest,
-    TableRequestRecord
+    TableRequestRecord,
+    EngineWrapper,
+    SessionWrapper
 )
 
 from infrastructure.config import Config
@@ -60,12 +62,9 @@ from infrastructure.database_manager.dblink import DBConn
 
 
 def get_app():
-    engine = create_engine(Config.SQLALCHEMY_DATABASE_URI)
-    session = sessionmaker(bind=engine, autocommit=True)()
-
     container = Container('app')
-    container.register_value(engine).to_type(Engine)
-    container.register_value(session).to_type(Session)
+    container.register_type(EngineWrapper).to_type(EngineWrapper)
+    container.register_type(SessionWrapper).to_type(SessionWrapper)
 
     container.register_type(DBConn).to_type(DBConn)
     # for user
