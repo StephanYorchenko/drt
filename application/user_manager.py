@@ -98,3 +98,4 @@ class UserManager:
     def get_all_users(self, caller_name: str) -> List[User]:
         self.check_rights(caller_name, Role.ADMIN)
         return list(map(self.transformer.from_record, self.db_user.get_all()))
+
