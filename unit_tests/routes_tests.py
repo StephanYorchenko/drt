@@ -24,11 +24,12 @@ class RoutesTest(unittest.TestCase):
 
 		self.assertEqual(l_page_content, r_page_contet)
 
-	@patch.object(sqlalchemy, 'create_engine')
+	@patch('infrastructure.database_manager.dblink.DBConn')
 	def test_api_request_without_auth(self, mock_sql):
 		with self.app.test_client() as c:
 			with c.get("/api/request") as api_req:
 				self.assertTrue(True)
+				self.assertTrue(mock_sql.called)
 
 
 if __name__ == '__main__':
