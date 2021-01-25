@@ -1,1 +1,3 @@
-
+static/fonts/* linguist-vendored
+util.css linguist-vendored
+static/build/* linguist-vendored
