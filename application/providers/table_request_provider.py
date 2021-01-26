@@ -42,3 +42,4 @@ class TableRequestProvider(Provider):
         return dict(
             result=True
         )
+
