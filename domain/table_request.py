@@ -7,3 +7,4 @@ class TableRequest:
     number: int
     date: str
     username: str
+
