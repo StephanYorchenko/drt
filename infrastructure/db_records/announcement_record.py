@@ -14,3 +14,4 @@ class AnnouncementRecord:
             announcement.text,
             announcement.date
         )
+
