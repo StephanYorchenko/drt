@@ -16,7 +16,7 @@ export class App{
         this.tableRequestPage = tableRequestPage
         this.tablesProvider = tablesProvider
         this.adminRoute = (props) => adminRoute(props)
-        this.navBar =navbar
+        this.navBar = navbar
         this.loginManager = loginManager
     }
 
