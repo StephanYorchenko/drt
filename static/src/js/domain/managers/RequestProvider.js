@@ -15,7 +15,6 @@ export class RequestProvider {
             flag = true
         let data = this.getRequests()
         let content = this.requestFactory.makeWidget(data, this).generateHTML()
-        console.log(content)
         if (flag)
             this.page.contentUpdate(this.requestFactory.makeWidget(data, this).generateHTML() )
         return content
@@ -27,11 +26,7 @@ export class RequestProvider {
     }
 
     checkHostess(){
-        console.log("------")
-        let a = this.loginManager.isHostess()
-        console.log(a)
-        console.log("#########")
-        return a !== false;
+        return this.loginManager.isHostess() !== false;
     }
 
     sendNew(data){
